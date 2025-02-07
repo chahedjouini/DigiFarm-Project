@@ -25,9 +25,8 @@ class Machine
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_achat = null;
-
-    #[ORM\Column(type: Types::STRING, enumType: EtatEquipement::class)]
-    private EtatEquipement $etat;
+    
+    
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $etat_pred = null;
@@ -35,8 +34,11 @@ class Machine
     /**
      * @var Collection<int, maintenance>
      */
-    #[ORM\OneToMany(targetEntity: maintenance::class, mappedBy: 'idMachine')]
+    #[ORM\OneToMany(targetEntity: Maintenance::class, mappedBy: 'idMachine')]
     private Collection $Maintenance;
+
+    #[ORM\Column(enumType: EtatEquipement::class)]
+    private ?EtatEquipement $etat = null;
 
     public function __construct()
     {
@@ -84,16 +86,7 @@ class Machine
 
         return $this;
     }
-    public function getEtat(): EtatEquipement
-    {
-        return $this->etat;
-    }
-
-    public function setEtat(EtatEquipement $etat): static
-    {
-        $this->etat = $etat;
-        return $this;
-    }
+    
 
     public function getEtatPred(): ?string
     {
@@ -115,7 +108,7 @@ class Machine
         return $this->Maintenance;
     }
 
-    public function addMaintenance(maintenance $maintenance): static
+    public function addMaintenance(Maintenance $maintenance): static
     {
         if (!$this->Maintenance->contains($maintenance)) {
             $this->Maintenance->add($maintenance);
@@ -125,7 +118,7 @@ class Machine
         return $this;
     }
 
-    public function removeMaintenance(maintenance $maintenance): static
+    public function removeMaintenance(Maintenance $maintenance): static
     {
         if ($this->Maintenance->removeElement($maintenance)) {
             // set the owning side to null (unless already changed)
@@ -133,6 +126,18 @@ class Machine
                 $maintenance->setIdMachine(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEtat(): ?EtatEquipement
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(EtatEquipement $etat): static
+    {
+        $this->etat = $etat;
 
         return $this;
     }

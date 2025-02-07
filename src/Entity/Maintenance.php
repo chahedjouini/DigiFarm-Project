@@ -36,9 +36,11 @@ class Maintenance
     private ?StatutMaintenance $Status = null;
 
     #[ORM\ManyToOne(inversedBy: 'Maintenance')]
+    #[ORM\JoinColumn(nullable: false)] 
     private ?Machine $idMachine = null;
 
     #[ORM\ManyToOne(inversedBy: 'Maintenance')]
+    #[ORM\JoinColumn(nullable: false)] 
     private ?Technicien $idTechnicien = null;
 
     public function getId(): ?int
