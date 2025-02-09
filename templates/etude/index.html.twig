@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etude index{% endblock %}
+
+{% block body %}
+    <h1>Etude index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Id_user</th>
+                <th>Type_etude</th>
+                <th>Date_r</th>
+                <th>Cout</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for etude in etudes %}
+            <tr>
+                <td>{{ etude.id }}</td>
+                <td>{{ etude.idUser }}</td>
+                <td>{{ etude.typeEtude }}</td>
+                <td>{{ etude.dateR ? etude.dateR|date('Y-m-d') : '' }}</td>
+                <td>{{ etude.cout }}</td>
+                <td>
+                    <a href="{{ path('app_etude_show', {'id': etude.id}) }}">show</a>
+                    <a href="{{ path('app_etude_edit', {'id': etude.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etude_new') }}">Create new</a>
+{% endblock %}
