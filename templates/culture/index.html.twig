@@ -1,45 +1,47 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_front.html.twig' %}
 
-{% block title %}Culture index{% endblock %}
+{% block title %}Culture Index{% endblock %}
 
 {% block body %}
-    <h1>Culture index</h1>
+    <h1>Culture Index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Surface</th>
-                <th>Date_plantation</th>
-                <th>Date_recolte</th>
-                <th>Region</th>
-                <th>Type_culture</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for culture in cultures %}
-            <tr>
-                <td>{{ culture.id }}</td>
-                <td>{{ culture.nom }}</td>
-                <td>{{ culture.surface }}</td>
-                <td>{{ culture.datePlantation ? culture.datePlantation|date('Y-m-d') : '' }}</td>
-                <td>{{ culture.dateRecolte ? culture.dateRecolte|date('Y-m-d') : '' }}</td>
-                <td>{{ culture.region }}</td>
-                <td>{{ culture.typeCulture }}</td>
-                <td>
-                    <a href="{{ path('app_culture_show', {'id': culture.id}) }}">show</a>
-                    <a href="{{ path('app_culture_edit', {'id': culture.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Surface</th>
+                    <th>Date Plantation</th>
+                    <th>Date Récolte</th>
+                    <th>Region</th>
+                    <th>Type Culture</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for culture in cultures %}
+                <tr>
+                    <td>{{ culture.id }}</td>
+                    <td>{{ culture.nom }}</td>
+                    <td>{{ culture.surface }}</td>
+                    <td>{{ culture.datePlantation ? culture.datePlantation|date('Y-m-d') : '' }}</td>
+                    <td>{{ culture.dateRecolte ? culture.dateRecolte|date('Y-m-d') : '' }}</td>
+                    <td>{{ culture.region }}</td>
+                    <td>{{ culture.typeCulture }}</td>
+                    <td>
+                        <a href="{{ path('app_culture_show', {'id': culture.id}) }}" class="button">Show</a>
+                        <a href="{{ path('app_culture_edit', {'id': culture.id}) }}" class="button">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('app_culture_new') }}">Create new</a>
+   <center> <a href="{{ path('app_culture_new') }}" class="button">Create New</a></center>
 {% endblock %}

@@ -1,7 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_front.html.twig' %}
 
-{% block title %}Expert index{% endblock %}
 
+{% block title %}expert index{% endblock %}
 {% block body %}
     <h1>Expert index</h1>
 
@@ -14,6 +14,7 @@
                 <th>Tel</th>
                 <th>Email</th>
                 <th>Zone</th>
+                <th>Dispo</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,18 +27,20 @@
                 <td>{{ expert.tel }}</td>
                 <td>{{ expert.email }}</td>
                 <td>{{ expert.zone }}</td>
+                <td>{{ expert.dispo.value }}</td>
                 <td>
-                    <a href="{{ path('app_expert_show', {'id': expert.id}) }}">show</a>
-                    <a href="{{ path('app_expert_edit', {'id': expert.id}) }}">edit</a>
-                </td>
+    <a href="{{ path('app_expert_show', {'id': expert.id}) }}" class="button">Show</a>
+    <a href="{{ path('app_expert_edit', {'id': expert.id}) }}" class="button">Edit</a>
+</td>
+
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="8">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_expert_new') }}">Create new</a>
+  <center>  <a href="{{ path('app_expert_new') }}"class="button">Create new</a> </center>
 {% endblock %}

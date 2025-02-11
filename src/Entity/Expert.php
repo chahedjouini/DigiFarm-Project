@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use App\Enum\Dispo;
 use App\Repository\ExpertRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -35,6 +35,9 @@ class Expert
      */
     #[ORM\OneToMany(targetEntity: Etude::class, mappedBy: 'expert')]
     private Collection $etudes;
+
+    #[ORM\Column(enumType: dispo::class)]
+    private ?dispo $dispo = null;
 
     public function __construct()
     {
@@ -132,6 +135,18 @@ class Expert
                 $etude->setExpert(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDispo(): ?dispo
+    {
+        return $this->dispo;
+    }
+
+    public function setDispo(dispo $dispo): static
+    {
+        $this->dispo = $dispo;
 
         return $this;
     }

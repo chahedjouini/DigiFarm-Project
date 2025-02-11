@@ -1,0 +1,93 @@
+/* Card Style */
+.card-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    padding: 30px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-container:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Table inside the card */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Remove extra spacing between table cells */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0; /* Light grey line between rows */
+}
+
+th {
+    font-weight: bold;
+    background-color: #f4f4f4;
+    color: #6d8c54; /* Primary color */
+}
+
+td {
+    background-color: #fafafa;
+}
+
+/* Table styling for even/odd rows */
+tbody tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1; /* Hover effect on rows */
+}
+
+/* Action buttons */
+a {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #334b35; /* Primary color */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+a:hover {
+    background-color: #6d8c54; /* Hover color */
+}
+
+/* Additional Link */
+a.button {
+    background-color: #f1cf69; /* A secondary color */
+    color: #334b35;
+}
+
+a.button:hover {
+    background-color: #e1b352; /* Hover effect */
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .card-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}
