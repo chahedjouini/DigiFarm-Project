@@ -1,11 +1,128 @@
-{% extends 'base.html.twig' %}
+{% extends 'front/base.html.twig' %}
 
 {% block title %}New Maintenance{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        .maintenance-new {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .maintenance-new h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        .maintenance-new .form-container {
+            margin-bottom: 20px;
+        }
+        .maintenance-new .form-group {
+            margin-bottom: 15px;
+        }
+        .maintenance-new .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        .maintenance-new .form-group input,
+        .maintenance-new .form-group select,
+        .maintenance-new .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .maintenance-new .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .maintenance-new .actions .btn {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 4px;
+        }
+        .maintenance-new .actions .btn-primary {
+            background-color: #007bff;
+        }
+        .maintenance-new .actions .btn-secondary {
+            background-color: #6c757d;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <h1>Create new Maintenance</h1>
+    <div class="maintenance-new">
+        <h1>Create new Maintenance</h1>
 
-    {{ include('maintenance/_form.html.twig') }}
+        <div class="form-container">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'form-horizontal'}}) }}
+                {{ form_errors(form) }}
 
-    <a href="{{ path('app_maintenance_index') }}">back to list</a>
+                <div class="form-group">
+                    {{ form_label(form.dateEntretien, "Maintenance Date") }}
+                    {{ form_widget(form.dateEntretien, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.dateEntretien) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.cout, "Cost") }}
+                    {{ form_widget(form.cout, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.cout) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.temperature, "Temperature") }}
+                    {{ form_widget(form.temperature, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.temperature) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.humidite, "Humidity") }}
+                    {{ form_widget(form.humidite, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.humidite) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.consoCarburant, "Fuel Consumption") }}
+                    {{ form_widget(form.consoCarburant, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.consoCarburant) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.consoEnergie, "Energy Consumption") }}
+                    {{ form_widget(form.consoEnergie, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.consoEnergie) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.status, "Status") }}
+                    {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.status) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.idMachine, "Machine") }}
+                    {{ form_widget(form.idMachine, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.idMachine) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.idTechnicien, "Technician") }}
+                    {{ form_widget(form.idTechnicien, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.idTechnicien) }}
+                </div>
+
+                <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="actions">
+            <a class="btn btn-secondary" href="{{ path('app_maintenance_index') }}">Back to list</a>
+        </div>
+    </div>
 {% endblock %}

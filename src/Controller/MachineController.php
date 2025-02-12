@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/machine')]
 final class MachineController extends AbstractController
@@ -71,7 +71,7 @@ final class MachineController extends AbstractController
     #[Route('/{id}', name: 'app_machine_delete', methods: ['POST'])]
     public function delete(Request $request, Machine $machine, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$machine->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$machine->getId(), $request->request->get('_token'))) {
             $entityManager->remove($machine);
             $entityManager->flush();
         }

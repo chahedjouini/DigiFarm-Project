@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Entity;
+
 use App\Enum\StatutMaintenance;
 use App\Repository\MaintenanceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaintenanceRepository::class)]
 class Maintenance
@@ -15,24 +17,41 @@ class Maintenance
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: 'The maintenance date cannot be empty.')]
+    #[Assert\LessThanOrEqual('today', message: 'The maintenance date cannot be in the future.')]
     private ?\DateTimeInterface $dateEntretien = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'The cost cannot be empty.')]
+    #[Assert\Positive(message: 'The cost must be a positive number.')]
     private ?float $cout = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Range(
+        min: -50,
+        max: 50,
+        notInRangeMessage: 'The temperature must be between {{ min }} and {{ max }} degrees Celsius.'
+    )]
     private ?int $temperature = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Range(
+        min: 0,
+        max: 100,
+        notInRangeMessage: 'The humidity must be between {{ min }} and {{ max }} percent.'
+    )]
     private ?int $humidite = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\PositiveOrZero(message: 'The fuel consumption must be zero or a positive number.')]
     private ?float $consoCarburant = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\PositiveOrZero(message: 'The energy consumption must be zero or a positive number.')]
     private ?float $consoEnergie = null;
 
     #[ORM\Column(enumType: StatutMaintenance::class)]
+    #[Assert\NotBlank(message: 'The status cannot be empty.')]
     private ?StatutMaintenance $Status = null;
 
     #[ORM\ManyToOne(inversedBy: 'Maintenance')]
@@ -42,6 +61,8 @@ class Maintenance
     #[ORM\ManyToOne(inversedBy: 'Maintenance')]
     #[ORM\JoinColumn(nullable: false)] 
     private ?Technicien $idTechnicien = null;
+
+   
 
     public function getId(): ?int
     {

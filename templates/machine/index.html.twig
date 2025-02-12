@@ -2,42 +2,90 @@
 
 {% block title %}Machine index{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        .machine-index {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .machine-index h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        .machine-index table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .machine-index th, .machine-index td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .machine-index th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .machine-index tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .machine-index .btn {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 4px;
+        }
+        .machine-index .btn-primary {
+            background-color: #007bff;
+        }
+        .machine-index .btn-secondary {
+            background-color: #6c757d;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <h1>Machine index</h1>
+    <div class="machine-index">
+        <h1>Machine index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Type</th>
-                <th>Date_achat</th>
-                <th>Etat</th>
-                <th>Etat_pred</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for machine in machines %}
-            <tr>
-                <td>{{ machine.id }}</td>
-                <td>{{ machine.nom }}</td>
-                <td>{{ machine.type }}</td>
-                <td>{{ machine.dateAchat ? machine.dateAchat|date('Y-m-d') : '' }}</td>
-                <td>{{ machine.etat.value }}</td>
-                <td>{{ machine.etatPred }}</td>
-                <td>
-                    <a href="{{ path('app_machine_show', {'id': machine.id}) }}">show</a>
-                    <a href="{{ path('app_machine_edit', {'id': machine.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>Date_achat</th>
+                    <th>Etat</th>
+                    <th>Etat_pred</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for machine in machines %}
+                <tr>
+                    <td>{{ machine.id }}</td>
+                    <td>{{ machine.nom }}</td>
+                    <td>{{ machine.type }}</td>
+                    <td>{{ machine.dateAchat ? machine.dateAchat|date('Y-m-d') : '' }}</td>
+                    <td>{{ machine.etat.value }}</td>
+                    <td>{{ machine.etatPred }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ path('app_machine_show', {'id': machine.id}) }}">show</a>
+                        <a class="btn btn-secondary" href="{{ path('app_machine_edit', {'id': machine.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_machine_new') }}">Create new</a>
+        <a class="btn btn-primary" href="{{ path('app_machine_new') }}">Create new</a>
+    </div>
 {% endblock %}

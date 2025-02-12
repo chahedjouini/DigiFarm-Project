@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Enum\EtatEquipement;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MachineRepository::class)]
 class Machine
@@ -18,26 +19,49 @@ class Machine
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The name cannot be empty.')]
+    #[Assert\Length(
+        max: 20,
+        maxMessage: 'The name cannot be longer than {{ limit }} characters.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[A-Z][a-zA-Z]*$/',
+        message: 'The name should start with an uppercase letter and contain only alphabetic characters.'
+    )]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The type cannot be empty.')]
+    #[Assert\Length(
+        max: 20,
+        maxMessage: 'The type cannot be longer than {{ limit }} characters.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[A-Z][a-zA-Z]*$/',
+        message: 'The type should start with an uppercase letter and contain only alphabetic characters.'
+    )]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: 'The purchase date cannot be empty.')]
+    #[Assert\LessThanOrEqual('today')]
     private ?\DateTimeInterface $date_achat = null;
-    
-    
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 25,
+        maxMessage: 'The previous condition cannot be longer than {{ limit }} characters.'
+    )]
     private ?string $etat_pred = null;
 
     /**
-     * @var Collection<int, maintenance>
+     * @var Collection<int, Maintenance>
      */
-    #[ORM\OneToMany(targetEntity: Maintenance::class, mappedBy: 'idMachine')]
+    #[ORM\OneToMany(targetEntity: Maintenance::class, mappedBy: 'idMachine', cascade: ['remove'])]
     private Collection $Maintenance;
 
     #[ORM\Column(enumType: EtatEquipement::class)]
+    #[Assert\NotBlank(message: 'The condition cannot be empty.')]
     private ?EtatEquipement $etat = null;
 
     public function __construct()
@@ -49,7 +73,6 @@ class Machine
     {
         return $this->id;
     }
-
 
     public function getNom(): ?string
     {
@@ -86,7 +109,6 @@ class Machine
 
         return $this;
     }
-    
 
     public function getEtatPred(): ?string
     {
@@ -101,7 +123,7 @@ class Machine
     }
 
     /**
-     * @return Collection<int, maintenance>
+     * @return Collection<int, Maintenance>
      */
     public function getMaintenance(): Collection
     {

@@ -1,4 +1,4 @@
-{% extends 'front/base.html.twig' %}
+{% extends 'back/base.html.twig' %}
 
 {% block title %}Edit Machine{% endblock %}
 
@@ -63,39 +63,27 @@
         <h1>Edit Machine</h1>
 
         <div class="form-container">
-            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'form-horizontal'}}) }}
-                {{ form_errors(form) }}
-
+            {{ form_start(form) }}
                 <div class="form-group">
-                    {{ form_label(form.nom, "Machine Name") }}
-                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.nom) }}
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom) }}
                 </div>
-
                 <div class="form-group">
-                    {{ form_label(form.type, "Machine Type") }}
-                    {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.type) }}
+                    {{ form_label(form.type) }}
+                    {{ form_widget(form.type) }}
                 </div>
-
                 <div class="form-group">
-                    {{ form_label(form.date_achat, "Purchase Date") }}
-                    {{ form_widget(form.date_achat, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.date_achat) }}
+                    {{ form_label(form.date_achat) }}
+                    {{ form_widget(form.date_achat) }}
                 </div>
-
                 <div class="form-group">
-                    {{ form_label(form.etat, "Condition") }}
-                    {{ form_widget(form.etat, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.etat) }}
+                    {{ form_label(form.etat) }}
+                    {{ form_widget(form.etat) }}
                 </div>
-
                 <div class="form-group">
-                    {{ form_label(form.etat_pred, "Previous Condition") }}
-                    {{ form_widget(form.etat_pred, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.etat_pred) }}
+                    {{ form_label(form.etat_pred) }}
+                    {{ form_widget(form.etat_pred) }}
                 </div>
-
                 <button class="btn btn-primary">{{ button_label|default('Update') }}</button>
             {{ form_end(form) }}
         </div>

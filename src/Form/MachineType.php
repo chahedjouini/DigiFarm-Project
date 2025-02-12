@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Enum\EtatEquipement;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class MachineType extends AbstractType
 {
@@ -16,8 +17,10 @@ class MachineType extends AbstractType
         $builder
             ->add('nom')
             ->add('type')
-            ->add('date_achat', null, [
+            ->add('date_achat', DateType::class, [
                 'widget' => 'single_text',
+                'input' => 'datetime', // Ensure this is set to 'datetime'
+                'format' => 'yyyy-MM-dd',
             ])
             ->add('etat', ChoiceType::class, [
                 'choices' => [
@@ -25,12 +28,10 @@ class MachineType extends AbstractType
                     'Inactif' => EtatEquipement::INACTIF,
                     'En Maintenance' => EtatEquipement::EN_MAINTENANCE,
                 ],
-                'expanded' => false, // true pour boutons radio
-                'multiple' => false, // true pour sélection multiple
+                'expanded' => false, // true for radio buttons
+                'multiple' => false, // true for multiple selection
             ])
-           
-            ->add('etat_pred')
-        ;
+            ->add('etat_pred');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
