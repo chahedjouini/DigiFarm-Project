@@ -22,6 +22,10 @@ class Technicien
         max: 50,
         maxMessage: 'The name cannot be longer than {{ limit }} characters.'
     )]
+    #[Assert\Regex(
+        pattern: '/^[A-Z][a-zA-Z]*$/',
+        message: 'The name should start with an uppercase letter and contain only alphabetic characters.'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -29,6 +33,10 @@ class Technicien
     #[Assert\Length(
         max: 50,
         maxMessage: 'The first name cannot be longer than {{ limit }} characters.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[A-Z][a-zA-Z]*$/',
+        message: 'The first name should start with an uppercase letter and contain only alphabetic characters.'
     )]
     private ?string $prenom = null;
 

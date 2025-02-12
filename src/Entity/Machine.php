@@ -44,7 +44,7 @@ class Machine
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message: 'The purchase date cannot be empty.')]
-    #[Assert\LessThanOrEqual('today')]
+    #[Assert\LessThanOrEqual('today', message: 'The purchase date cannot be in the future.')]
     private ?\DateTimeInterface $date_achat = null;
 
     #[ORM\Column(length: 255, nullable: true)]
