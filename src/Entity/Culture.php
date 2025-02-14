@@ -56,6 +56,7 @@ class Culture
     private ?float $besoins_eau = null;
 
     #[ORM\Column(enumType: BensoinsEngrais::class)]
+    #[Assert\NotBlank(message: 'Le prenom ne peut pas être vide.')]
     private ?BensoinsEngrais $besoins_engrais = null;
 
     #[ORM\Column]

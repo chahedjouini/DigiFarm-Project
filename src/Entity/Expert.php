@@ -46,6 +46,7 @@ class Expert
     private Collection $etudes;
 
     #[ORM\Column(enumType: dispo::class)]
+    #[Assert\NotBlank(message: 'Le prenom ne peut pas être vide.')]
     private ?dispo $dispo = null;
 
     public function __construct()

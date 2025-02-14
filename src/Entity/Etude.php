@@ -29,6 +29,7 @@ class Etude
 
 
     #[ORM\ManyToOne(inversedBy: 'etudes')]
+    #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull(message: 'La culture est obligatoire.')]
     private ?Culture $culture = null;
 

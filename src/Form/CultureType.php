@@ -29,11 +29,13 @@ class CultureType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date de plantation',
                 'required' => true,
+                'empty_data' => null,
             ])
             ->add('date_recolte', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date de récolte',
                 'required' => true,
+                'empty_data' => null,
             ])
             ->add('region', null, [
                 'label' => 'Région',

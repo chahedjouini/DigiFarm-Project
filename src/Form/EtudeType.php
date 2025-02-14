@@ -1,18 +1,20 @@
 <?php
-
 namespace App\Form;
 
 use App\Entity\Etude;
+use App\Entity\Culture;
+use App\Entity\Expert;
 use App\Enum\Climat;
 use App\Enum\TypeSol;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\CallbackTransformer;
 
 class EtudeType extends AbstractType
 {
@@ -22,14 +24,17 @@ class EtudeType extends AbstractType
             ->add('date_r', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date de l\'étude',
+                'empty_data' => null,
             ])
-            ->add('culture', null, [
+            ->add('culture', EntityType::class, [
+                'class' => Culture::class,
+                'choice_label' => 'id',  // Tu peux changer 'id' par un autre champ de l'entité Culture
                 'label' => 'Culture',
-                'required' => true,
             ])
-            ->add('expert', null, [
+            ->add('expert', EntityType::class, [
+                'class' => Expert::class,
+                'choice_label' => 'id',  // Tu peux changer 'id' par un autre champ de l'entité Expert
                 'label' => 'Expert',
-                'required' => true,
             ])
             ->add('climat', ChoiceType::class, [
                 'choices' => [
@@ -41,28 +46,6 @@ class EtudeType extends AbstractType
                 'placeholder' => 'Choisir le climat',
                 'required' => true,
             ])
-            // Add the data transformer for Climat enum
-            ->get('climat')
-            ->addModelTransformer(new class implements DataTransformerInterface {
-                public function transform($value)
-                {
-                    // Transform the Climat enum value to its string representation
-                    return $value ? $value->value : null;
-                }
-
-                public function reverseTransform($value): ?Climat
-                {
-                    // Reverse transform the string value back to Climat enum
-                    if ($value === Climat::SEC->value) {
-                        return Climat::SEC;
-                    } elseif ($value === Climat::HUMIDE->value) {
-                        return Climat::HUMIDE;
-                    } elseif ($value === Climat::TEMPERE->value) {
-                        return Climat::TEMPERE;
-                    }
-                    return null; // Return null if not a valid Climat value
-                }
-            })
             ->add('type_sol', ChoiceType::class, [
                 'choices' => [
                     'Argileux' => TypeSol::ARGILEUX->value,
@@ -73,28 +56,6 @@ class EtudeType extends AbstractType
                 'placeholder' => 'Choisir le type de sol',
                 'required' => true,
             ])
-            // Add the data transformer for TypeSol enum
-            ->get('type_sol')
-            ->addModelTransformer(new class implements DataTransformerInterface {
-                public function transform($value)
-                {
-                    // Transform the TypeSol enum value to its string representation
-                    return $value ? $value->value : null;
-                }
-
-                public function reverseTransform($value): ?TypeSol
-                {
-                    // Reverse transform the string value back to TypeSol enum
-                    if ($value === TypeSol::ARGILEUX->value) {
-                        return TypeSol::ARGILEUX;
-                    } elseif ($value === TypeSol::SABLEUX->value) {
-                        return TypeSol::SABLEUX;
-                    } elseif ($value === TypeSol::LIMONEUX->value) {
-                        return TypeSol::LIMONEUX;
-                    }
-                    return null; // Return null if not a valid TypeSol value
-                }
-            })
             ->add('irrigation', CheckboxType::class, [
                 'label' => 'Irrigation',
                 'required' => false,
@@ -123,12 +84,27 @@ class EtudeType extends AbstractType
                 'scale' => 2,
                 'required' => true,
             ]);
+
+        // Transformer pour `climat`
+        $builder->get('climat')
+            ->addModelTransformer(new CallbackTransformer(
+                fn ($climat) => $climat instanceof Climat ? $climat->value : null,
+                fn ($value) => is_string($value) || is_int($value) ? Climat::tryFrom($value) : null
+            ));
+
+        // Transformer pour `type_sol`
+        $builder->get('type_sol')
+            ->addModelTransformer(new CallbackTransformer(
+                fn ($typeSol) => $typeSol instanceof TypeSol ? $typeSol->value : null,
+                fn ($value) => is_string($value) || is_int($value) ? TypeSol::tryFrom($value) : null
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Etude::class,
+            'data_class' => Etude::class, // Associe le formulaire à l'entité Etude
+            'compound' => true, // Assure que le formulaire peut contenir plusieurs champs
         ]);
     }
 }
