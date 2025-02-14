@@ -1,0 +1,77 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    <div>
+        {{ form_label(form.nom, 'Nom de la culture') }}
+        {{ form_widget(form.nom) }}
+        {{ form_errors(form.nom) }}
+    </div>
+
+    <div>
+        {{ form_label(form.surface, 'Surface') }}
+        {{ form_widget(form.surface) }}
+        {{ form_errors(form.surface) }}
+    </div>
+
+    <div>
+        {{ form_label(form.date_plantation, 'Date de plantation') }}
+        {{ form_widget(form.date_plantation)}}
+        {{ form_errors(form.date_plantation) }}
+    </div>
+
+    <div>
+        {{ form_label(form.date_recolte, 'Date de récolte') }}
+        {{ form_widget(form.date_recolte)}}
+        {{ form_errors(form.date_recolte) }}
+    </div>
+
+    <div>
+        {{ form_label(form.region, 'Région') }}
+        {{ form_widget(form.region) }}
+        {{ form_errors(form.region) }}
+    </div>
+
+    <div>
+        {{ form_label(form.type_culture, 'Type de culture') }}
+        {{ form_widget(form.type_culture) }}
+        {{ form_errors(form.type_culture) }}
+    </div>
+
+    <div>
+        {{ form_label(form.densite_plantation, 'Densité de plantation (par hectar )') }}
+        {{ form_widget(form.densite_plantation) }}
+        {{ form_errors(form.densite_plantation) }}
+    </div>
+
+    <div>
+        {{ form_label(form.besoins_eau, 'Besoins en eau (m^3/hectar)') }}
+        {{ form_widget(form.besoins_eau) }}
+        {{ form_errors(form.besoins_eau) }}
+    </div>
+
+    <div>
+        {{ form_label(form.besoins_engrais, 'Besoins en engrais') }}
+        {{ form_widget(form.besoins_engrais) }}
+        {{ form_errors(form.besoins_engrais) }}
+    </div>
+
+    <div>
+        {{ form_label(form.rendement_moyen, 'Rendement moyen(tonnes/hectar)') }}
+        {{ form_widget(form.rendement_moyen) }}
+        {{ form_errors(form.rendement_moyen) }}
+    </div>
+
+    <div>
+        {{ form_label(form.cout_moyen, 'Coût moyen') }}
+        {{ form_widget(form.cout_moyen) }}
+        {{ form_errors(form.cout_moyen) }}
+    </div>
+
+    <div>
+        {{ form_label(form.id_user, 'ID utilisateur') }}
+        {{ form_widget(form.id_user) }}
+        {{ form_errors(form.id_user) }}
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <button type="submit" class="btn">{{ button_label|default('Save') }}</button>
+    </div>
+{{ form_end(form) }}

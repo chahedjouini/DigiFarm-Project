@@ -1,0 +1,73 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+<div>
+    {{ form_label(form.date_r, 'Date de récolte:') }}
+    {{ form_widget(form.date_r) }}
+    {{ form_errors(form.date_r) }}
+</div>
+
+<div>
+    {{ form_label(form.culture, 'Nom de la culture:') }}
+    {{ form_widget(form.culture) }}
+    {{ form_errors(form.culture) }}
+</div>
+
+<div>
+    {{ form_label(form.expert, "Nom de l'expert:") }}
+    {{ form_widget(form.expert) }}
+    {{ form_errors(form.expert) }}
+</div>
+
+<div>
+    {{ form_label(form.climat.value , 'Climat:') }}
+    {{ form_widget(form.climat) }}
+    {{ form_errors(form.climat) }}
+</div>
+
+<div>
+    {{ form_label(form.type_sol.value , 'Type du sol:') }}
+    {{ form_widget(form.type_sol) }}
+    {{ form_errors(form.type_sol) }}
+</div>
+
+<div>
+    {{ form_label(form.irrigation, 'Irrigation:') }}
+    {{ form_widget(form.irrigation) }}
+    {{ form_errors(form.irrigation) }}
+</div>
+
+<div>
+    {{ form_label(form.fertilisation, 'Fertilisation:') }}
+    {{ form_widget(form.fertilisation) }}
+    {{ form_errors(form.fertilisation) }}
+</div>
+
+<div>
+    {{ form_label(form.prix, 'Prix unitaire:') }}
+    {{ form_widget(form.prix) }}
+    {{ form_errors(form.prix) }}
+</div>
+
+<div>
+    {{ form_label(form.rendement, 'Rendement:') }}
+    {{ form_widget(form.rendement) }}
+    {{ form_errors(form.rendement) }}
+</div>
+
+<div>
+    {{ form_label(form.precipitations, 'Précipitations:') }}
+    {{ form_widget(form.precipitations) }}
+    {{ form_errors(form.precipitations) }}
+</div>
+
+<div>
+    {{ form_label(form.main_oeuvre, 'Main d\'œuvre:') }}
+    {{ form_widget(form.main_oeuvre) }}
+    {{ form_errors(form.main_oeuvre) }}
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <button type="submit" class="btn">{{ button_label|default('Save') }}</button>
+</div>
+
+{{ form_end(form) }}

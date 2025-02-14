@@ -6,7 +6,7 @@ use App\Repository\ExpertRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ExpertRepository::class)]
 class Expert
 {
@@ -16,24 +16,33 @@ class Expert
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le prenom ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le prenom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $prenom = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le numéro de téléphone ne peut pas être vide.')]
+    #[Assert\Regex(pattern: "/^\d{8}$/", message: 'Le numéro de téléphone doit être composé de 8 chiffres.')]
     private ?int $tel = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'L\'email ne peut pas être vide.')]
+    #[Assert\Email(message: 'L\'email doit être valide.')]
     private ?string $email = null;
 
     #[ORM\Column(length: 25)]
+    #[Assert\NotBlank(message: 'Le prenom ne peut pas être vide.')]
     private ?string $zone = null;
 
     /**
      * @var Collection<int, Etude>
      */
-    #[ORM\OneToMany(targetEntity: Etude::class, mappedBy: 'expert')]
+    #[ORM\OneToMany(targetEntity: Etude::class, mappedBy: 'expert' , cascade: ['remove'])]
     private Collection $etudes;
 
     #[ORM\Column(enumType: dispo::class)]
@@ -144,7 +153,7 @@ class Expert
         return $this->dispo;
     }
 
-    public function setDispo(dispo $dispo): static
+    public function setDispo(dispo $dispo): self
     {
         $this->dispo = $dispo;
 

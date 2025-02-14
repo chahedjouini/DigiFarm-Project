@@ -48,33 +48,28 @@ tbody tr:hover {
     background-color: #f1f1f1; /* Hover effect on rows */
 }
 
-/* Action buttons */
-a {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-top: 20px;
-    background-color: #334b35; /* Primary color */
-    color: #fff;
+/* Button styles */
+button, a.button {
+    background-color: var(--agriox-primary); /* Primary color */
+    color: #fff; /* White text */
+    font-size: 12px; /* Smaller font size */
+    font-weight: 500;
+    padding: 6px 12px; /* Reduced padding */
+    text-align: center;
     text-decoration: none;
-    border-radius: 5px;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    margin-right: 10px;
+    display: inline-block;
+    border: none;
+    border-radius: 4px; /* Slightly rounded corners */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
 }
 
-a:hover {
-    background-color: #6d8c54; /* Hover color */
+/* Button hover effect */
+button:hover, a.button:hover {
+    background-color: var(--agriox-secondary); /* Secondary color on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
-/* Additional Link */
-a.button {
-    background-color: #f1cf69; /* A secondary color */
-    color: #334b35;
-}
-
-a.button:hover {
-    background-color: #e1b352; /* Hover effect */
-}
 
 /* Responsive styling */
 @media (max-width: 768px) {

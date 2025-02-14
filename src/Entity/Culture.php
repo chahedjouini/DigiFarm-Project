@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Entity;
-
+use App\Enum\BensoinsEngrais;
 use App\Repository\CultureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: CultureRepository::class)]
 class Culture
 {
@@ -17,28 +17,58 @@ class Culture
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
     #[ORM\Column]
+    #[Assert\Positive(message: 'La surface doit être un nombre positif.')]
     private ?float $surface = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: 'La date de plantation ne peut pas être vide.')]
     private ?\DateTimeInterface $date_plantation = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: 'La date de récolte ne peut pas être vide.')]
     private ?\DateTimeInterface $date_recolte = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'region ne peut pas être vide.')]
     private ?string $region = null;
 
     #[ORM\Column(length: 25)]
+    #[Assert\NotBlank(message: 'ne peut pas être vide.')]
     private ?string $type_culture = null;
 
     /**
      * @var Collection<int, Etude>
      */
-    #[ORM\OneToMany(targetEntity: Etude::class, mappedBy: 'culture')]
+    #[ORM\OneToMany(targetEntity: Etude::class, mappedBy: 'culture', cascade: ['remove'])]
     private Collection $etudes;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(message: 'La densité de plantation doit être un nombre positif.')]
+    private ?float $densite_plantation = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(message: 'Les besoins en eau doivent être un nombre positif.')]
+    private ?float $besoins_eau = null;
+
+    #[ORM\Column(enumType: BensoinsEngrais::class)]
+    private ?BensoinsEngrais $besoins_engrais = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le rendement moyen doit être un nombre positif.')]
+    private ?float $rendement_moyen = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le coût moyen doit être un nombre positif.')]
+    private ?float $cout_moyen = null;
+
+    #[ORM\Column]
+    #[Assert\NotNull(message: 'L\'ID utilisateur ne peut pas être vide.')]
+    private ?int $id_user = null;
 
     public function __construct()
     {
@@ -150,6 +180,78 @@ class Culture
                 $etude->setCulture(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDensitePlantation(): ?float
+    {
+        return $this->densite_plantation;
+    }
+
+    public function setDensitePlantation(float $densite_plantation): static
+    {
+        $this->densite_plantation = $densite_plantation;
+
+        return $this;
+    }
+
+    public function getBesoinsEau(): ?float
+    {
+        return $this->besoins_eau;
+    }
+
+    public function setBesoinsEau(float $besoins_eau): static
+    {
+        $this->besoins_eau = $besoins_eau;
+
+        return $this;
+    }
+
+    public function getBesoinsEngrais(): ?BensoinsEngrais
+    {
+        return $this->besoins_engrais;
+    }
+
+    public function setBesoinsEngrais(BensoinsEngrais $besoins_engrais): static
+    {
+        $this->besoins_engrais = $besoins_engrais;
+
+        return $this;
+    }
+
+    public function getRendementMoyen(): ?float
+    {
+        return $this->rendement_moyen;
+    }
+
+    public function setRendementMoyen(float $rendement_moyen): static
+    {
+        $this->rendement_moyen = $rendement_moyen;
+
+        return $this;
+    }
+
+    public function getCoutMoyen(): ?float
+    {
+        return $this->cout_moyen;
+    }
+
+    public function setCoutMoyen(float $cout_moyen): static
+    {
+        $this->cout_moyen = $cout_moyen;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?int
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(int $id_user): static
+    {
+        $this->id_user = $id_user;
 
         return $this;
     }

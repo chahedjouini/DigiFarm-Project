@@ -1,28 +1,117 @@
 <?php
-
 namespace App\Form;
 
 use App\Entity\Culture;
+use App\Enum\BensoinsEngrais;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\DataTransformerInterface;
 
 class CultureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('surface')
-            ->add('date_plantation', null, [
-                'widget' => 'single_text',
+            ->add('nom', null, [
+                'label' => 'Nom',
+                'required' => true,
             ])
-            ->add('date_recolte', null, [
-                'widget' => 'single_text',
+            ->add('surface', NumberType::class, [
+                'label' => 'Surface',
+                'scale' => 2,
+                'required' => true,
             ])
-            ->add('region')
-            ->add('type_culture')
-        ;
+            ->add('date_plantation', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date de plantation',
+                'required' => true,
+            ])
+            ->add('date_recolte', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date de récolte',
+                'required' => true,
+            ])
+            ->add('region', null, [
+                'label' => 'Région',
+                'required' => true,
+            ])
+            ->add('type_culture', null, [
+                'label' => 'Type de culture',
+                'required' => true,
+            ])
+            ->add('densite_plantation', NumberType::class, [
+                'label' => 'Densité de plantation',
+                'scale' => 2,
+                'required' => true,
+            ])
+            ->add('besoins_eau', NumberType::class, [
+                'label' => 'Besoins en eau',
+                'scale' => 2,
+                'required' => true,
+            ])
+            ->add('besoins_engrais', ChoiceType::class, [
+                'choices' => [
+                    'Azote' => BensoinsEngrais::AZOTE->value,
+                    'Phosphore' => BensoinsEngrais::PHOSPHORE->value,
+                    'Potassium' => BensoinsEngrais::POTASSIUM->value,
+                    'NPK' => BensoinsEngrais::NPK->value,
+                    'Compost' => BensoinsEngrais::COMPOST->value,
+                    'Fumier' => BensoinsEngrais::FUMIER->value,
+                    'Urée' => BensoinsEngrais::UREE->value,
+                ],
+                'label' => 'Besoins en engrais',
+                'placeholder' => 'Choisir les besoins en engrais',
+                'required' => true,
+    'empty_data' => BensoinsEngrais::AZOTE->value
+            ])
+            ->add('rendement_moyen', NumberType::class, [
+                'label' => 'Rendement moyen',
+                'scale' => 2,
+                'required' => true,
+            ])
+            ->add('cout_moyen', NumberType::class, [
+                'label' => 'Coût moyen',
+                'scale' => 2,
+                'required' => true,
+            ])
+            ->add('id_user', NumberType::class, [
+                'label' => 'ID utilisateur',
+                'required' => true,
+            ]);
+
+        // Apply the data transformer for 'besoins_engrais' field
+        $builder->get('besoins_engrais')->addModelTransformer(new class implements DataTransformerInterface {
+            public function transform($value)
+            {
+                // Transform the BensoinsEngrais enum value to its string representation
+                return $value ? $value->value : null;
+            }
+
+            public function reverseTransform($value): ?BensoinsEngrais
+            {
+                // Reverse transform the string value back to BensoinsEngrais enum
+                if ($value === BensoinsEngrais::AZOTE->value) {
+                    return BensoinsEngrais::AZOTE;
+                } elseif ($value === BensoinsEngrais::PHOSPHORE->value) {
+                    return BensoinsEngrais::PHOSPHORE;
+                } elseif ($value === BensoinsEngrais::POTASSIUM->value) {
+                    return BensoinsEngrais::POTASSIUM;
+                } elseif ($value === BensoinsEngrais::NPK->value) {
+                    return BensoinsEngrais::NPK;
+                } elseif ($value === BensoinsEngrais::COMPOST->value) {
+                    return BensoinsEngrais::COMPOST;
+                } elseif ($value === BensoinsEngrais::FUMIER->value) {
+                    return BensoinsEngrais::FUMIER;
+                } elseif ($value === BensoinsEngrais::UREE->value) {
+                    return BensoinsEngrais::UREE;
+                }
+                return null; // Return null if not a valid BensoinsEngrais value
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
