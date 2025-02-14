@@ -140,7 +140,6 @@ class Expert
     public function removeEtude(Etude $etude): static
     {
         if ($this->etudes->removeElement($etude)) {
-            // set the owning side to null (unless already changed)
             if ($etude->getExpert() === $this) {
                 $etude->setExpert(null);
             }

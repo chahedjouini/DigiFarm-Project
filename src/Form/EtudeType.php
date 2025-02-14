@@ -28,12 +28,12 @@ class EtudeType extends AbstractType
             ])
             ->add('culture', EntityType::class, [
                 'class' => Culture::class,
-                'choice_label' => 'id',  // Tu peux changer 'id' par un autre champ de l'entité Culture
+                'choice_label' => 'nom',  
                 'label' => 'Culture',
             ])
             ->add('expert', EntityType::class, [
                 'class' => Expert::class,
-                'choice_label' => 'id',  // Tu peux changer 'id' par un autre champ de l'entité Expert
+                'choice_label' => 'nom',  
                 'label' => 'Expert',
             ])
             ->add('climat', ChoiceType::class, [
@@ -85,14 +85,14 @@ class EtudeType extends AbstractType
                 'required' => true,
             ]);
 
-        // Transformer pour `climat`
+       
         $builder->get('climat')
             ->addModelTransformer(new CallbackTransformer(
                 fn ($climat) => $climat instanceof Climat ? $climat->value : null,
                 fn ($value) => is_string($value) || is_int($value) ? Climat::tryFrom($value) : null
             ));
 
-        // Transformer pour `type_sol`
+        
         $builder->get('type_sol')
             ->addModelTransformer(new CallbackTransformer(
                 fn ($typeSol) => $typeSol instanceof TypeSol ? $typeSol->value : null,
@@ -103,8 +103,8 @@ class EtudeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Etude::class, // Associe le formulaire à l'entité Etude
-            'compound' => true, // Assure que le formulaire peut contenir plusieurs champs
+            'data_class' => Etude::class, 
+            'compound' => true, 
         ]);
     }
 }

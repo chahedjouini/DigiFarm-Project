@@ -85,17 +85,17 @@ class CultureType extends AbstractType
                 'required' => true,
             ]);
 
-        // Apply the data transformer for 'besoins_engrais' field
+       
         $builder->get('besoins_engrais')->addModelTransformer(new class implements DataTransformerInterface {
             public function transform($value)
             {
-                // Transform the BensoinsEngrais enum value to its string representation
+                
                 return $value ? $value->value : null;
             }
 
             public function reverseTransform($value): ?BensoinsEngrais
             {
-                // Reverse transform the string value back to BensoinsEngrais enum
+               
                 if ($value === BensoinsEngrais::AZOTE->value) {
                     return BensoinsEngrais::AZOTE;
                 } elseif ($value === BensoinsEngrais::PHOSPHORE->value) {
@@ -111,7 +111,7 @@ class CultureType extends AbstractType
                 } elseif ($value === BensoinsEngrais::UREE->value) {
                     return BensoinsEngrais::UREE;
                 }
-                return null; // Return null if not a valid BensoinsEngrais value
+                return null; 
             }
         });
     }

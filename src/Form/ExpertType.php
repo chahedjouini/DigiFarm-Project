@@ -28,24 +28,24 @@ class ExpertType extends AbstractType
                 'placeholder' => 'Choisir la disponibilité',
                 'required' => true,
             ])
-            // Add the data transformer to handle the conversion
+            
             ->get('dispo')
             ->addModelTransformer(new class implements DataTransformerInterface {
                 public function transform($value)
                 {
-                    // Transform the Dispo enum value to its string representation
+                    
                     return $value ? $value->value : null;
                 }
 
                 public function reverseTransform($value): ?Dispo
                 {
-                    // Reverse transform the string value back to Dispo enum
+                    
                     if ($value === Dispo::DISPONIBLE->value) {
                         return Dispo::DISPONIBLE;
                     } elseif ($value === Dispo::NON_DISPONIBLE->value) {
                         return Dispo::NON_DISPONIBLE;
                     }
-                    return null; // Return null if not a valid Dispo value
+                    return null; 
                 }
             });
     }
