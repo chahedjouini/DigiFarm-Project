@@ -48,11 +48,13 @@ class Culture
     private Collection $etudes;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'La densité de plantation doit être un nombre positif.')]
+    #[Assert\NotBlank(message: 'La densité de plantation ne peut pas être vide.')]
+    #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $densite_plantation = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Les besoins en eau doivent être un nombre positif.')]
+    #[Assert\NotBlank(message: 'Les besoins en eau ne peut pas être vide.')]
+    #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $besoins_eau = null;
 
     #[ORM\Column(enumType: BensoinsEngrais::class)]
@@ -60,15 +62,18 @@ class Culture
     private ?BensoinsEngrais $besoins_engrais = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le rendement moyen doit être un nombre positif.')]
+    #[Assert\NotBlank(message: 'Le rendement ne peut pas être vide')]
+    #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $rendement_moyen = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le coût moyen doit être un nombre positif.')]
+    #[Assert\NotBlank(message: 'Le coût moyen ne peut pas être vide.')]
+    #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $cout_moyen = null;
 
     #[ORM\Column]
     #[Assert\NotNull(message: 'L\'ID utilisateur ne peut pas être vide.')]
+    #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?int $id_user = null;
 
     public function __construct()

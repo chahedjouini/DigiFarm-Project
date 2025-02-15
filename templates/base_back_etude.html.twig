@@ -21,20 +21,8 @@
             <!-- Layout styles -->
             <link rel="stylesheet" href="{{ asset('assets/backOffice/css/style.css') }}">
             <!-- End layout styles -->
-            {% if app.request.attributes.get('_route') == 'app_expert_show' %}
-    <link rel="stylesheet" href="{{ asset('assets/backOffice/css/show.css') }}">
-{% endif %}
- <!-- Additional CSS for plugins -->
-    <link rel="stylesheet" href="{{ asset('assets/backOffice/css/style.css') }}">
-    {% if app.request.attributes.get('_route') matches '/show/' %}
-        <link rel="stylesheet" href="{{ asset('assets/backOffice/css/show.css') }}">
-    {% endif %}
-    {% if app.request.attributes.get('_route') matches '/new/' %}
-        <link rel="stylesheet" href="{{ asset('assets/backOffice/css/form.css') }}">
-    {% endif %}
-    {% if app.request.attributes.get('_route') matches '/edit/' %}
-        <link rel="stylesheet" href="{{ asset('assets/backOffice/css/form.css') }}">
-    {% endif %}
+         
+  
         {% endblock %}
 
 
@@ -46,8 +34,7 @@
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="index.html"><img src="{{ asset('assets/backOffice/newimg/logo-white.png') }}" alt="logo"/></a>
-                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="{{ asset('assets/backOffice/newimg/logo-white.png') }}" alt="logo" /></a>
+               
                 </div>
                 <ul class="nav">
                 <li class="nav-item profile">
@@ -58,8 +45,8 @@
                         <span class="count bg-success"></span>
                         </div>
                         <div class="profile-name">
-                        <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
-                        <span>Gold Member</span>
+                        <h5 class="mb-0 font-weight-normal">ADMIN</h5>
+                        <span>Gsuper admin</span>
                         </div>
                     </div>
                     <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -171,20 +158,28 @@
                 </li>
                 <!--Evenements-->
 
-                <!--Jobs-->
+                
+                   <!--Etudes-->
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" data-toggle="collapse" href="#event-menu" aria-expanded="false" aria-controls="event-menu">
                     <!--NEW icon-->
                     <span class="menu-icon">
-                        <i class="mdi mdi-clipboard-account"></i>
+                        <i class="mdi mdi-presentation-play"></i>
                     </span>
                     <!--NEW icon-->
                     <span class="menu-title">Etudes</span>
                     <i class="menu-arrow"></i>
                     </a>
-                  
+                    <!--NEW elements-->
+                    <div class="collapse" id="event-menu">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_expert_index', {'context': app.request.get('context')}) }}">Expert</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_etude_index', {'context': app.request.get('context')})  }}">Etudes</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_culture_index', {'context': app.request.get('context')})  }}">Culture</a></li>
+                    </ul>
+                    </div>
+                    <!--NEW elements-->
                 </li>
-               
                 
                 
                 <li class="nav-item menu-items">
@@ -229,47 +224,7 @@
                     </li>
                     </ul>
                     <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown d-none d-lg-block">
-                        <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
-                        <h6 class="p-3 mb-0">Projects</h6>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-file-outline text-primary"></i>
-                            </div>
-                            </div>
-                            <div class="preview-item-content">
-                            <p class="preview-subject ellipsis mb-1">Software Development</p>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-web text-info"></i>
-                            </div>
-                            </div>
-                            <div class="preview-item-content">
-                            <p class="preview-subject ellipsis mb-1">UI Development</p>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-layers text-danger"></i>
-                            </div>
-                            </div>
-                            <div class="preview-item-content">
-                            <p class="preview-subject ellipsis mb-1">Software Testing</p>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <p class="p-3 mb-0 text-center">See all projects</p>
-                        </div>
-                    </li>
+                   
                     <li class="nav-item nav-settings d-none d-lg-block">
                         <a class="nav-link" href="#">
                         <i class="mdi mdi-view-grid"></i>
@@ -367,7 +322,7 @@
                         <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                         <div class="navbar-profile">
                             <img class="img-xs rounded-circle" src="{{ asset('assets/backOffice/images/faces/face15.jpg') }}" alt="">
-                            <p class="mb-0 d-none d-sm-block navbar-profile-name">Henry Klein</p>
+                            <p class="mb-0 d-none d-sm-block navbar-profile-name">ADMIN</p>
                             <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                         </div>
                         </a>
@@ -405,6 +360,10 @@
                     </button>
                 </div>
                 </nav>
+
+
+
+<br><br><br><br><br><br><br>
 
         {% block body %}
         

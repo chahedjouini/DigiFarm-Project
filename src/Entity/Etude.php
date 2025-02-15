@@ -65,11 +65,13 @@ class Etude
     #[ORM\Column]
     #[Assert\NotBlank(message: 'Les précipitations sont obligatoires.')]
     #[Assert\Type("numeric", message: 'Les précipitations doivent être un nombre valide.')]
+    #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $precipitations = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'La main d\'œuvre est obligatoire.')]
     #[Assert\Type("numeric", message: 'La main d\'œuvre doit être un nombre valide.')]
+    #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $main_oeuvre = null;
 
 

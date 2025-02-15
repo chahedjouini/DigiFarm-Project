@@ -1,52 +1,67 @@
 {% extends 'base_back_etude.html.twig' %}
 
-{% block title %}Etude index{% endblock %}
+{% block title %}Etude Index{% endblock %}
 
 {% block body %}
-    <h1>Etude index</h1>
+<div class="container mt-4">
+    <div class="container mt-4 pt-5">
+    <h1 class="text-center text-primary mb-4">Études</h1>
+    <div class="card shadow-lg p-4">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date_r</th>
-                <th>Climat</th>
-                <th>Type_sol</th>
-                <th>Irrigation</th>
-                <th>Fertilisation</th>
-                <th>Prix</th>
-                <th>Rendement</th>
-                <th>Precipitations</th>
-                <th>Main_oeuvre</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for etude in etudes %}
-            <tr>
-                <td>{{ etude.id }}</td>
-                <td>{{ etude.dateR ? etude.dateR|date('Y-m-d') : '' }}</td>
-                <td>{{ etude.climat.value  }}</td>
-                <td>{{ etude.typeSol.value  }}</td>
-                <td>{{ etude.irrigation ? 'Yes' : 'No' }}</td>
-                <td>{{ etude.fertilisation ? 'Yes' : 'No' }}</td>
-                <td>{{ etude.prix }}</td>
-                <td>{{ etude.rendement }}</td>
-                <td>{{ etude.precipitations }}</td>
-                <td>{{ etude.mainOeuvre }}</td>
-                <td>
-            <a href="{{ path('app_etude_show', {'context': app.request.get('context'), 'id': etude.id}) }}" class="button">Show</a>
-<a href="{{ path('app_etude_edit', {'context': app.request.get('context'), 'id': etude.id}) }}" class="button">Edit</a>
-<a href="{{ path('app_etude_new', {'context': app.request.get('context')}) }}" class="button">Create new</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="card shadow-lg p-4">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Date de Réalisation</th>
+                        <th>Climat</th>
+                        <th>Type de Sol</th>
+                        <th>Irrigation</th>
+                        <th>Fertilisation</th>
+                        <th>Prix (€)</th>
+                        <th>Rendement (tonnes)</th>
+                        <th>Précipitations (mm)</th>
+                        <th>Main d'Œuvre</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for etude in etudes %}
+                    <tr>
+                        <td>{{ etude.id }}</td>
+                        <td>{{ etude.dateR ? etude.dateR|date('Y-m-d') : 'Non définie' }}</td>
+                        <td>{{ etude.climat.value }}</td>
+                        <td>{{ etude.typeSol.value }}</td>
+                        <td>{{ etude.irrigation ? 'Oui' : 'Non' }}</td>
+                        <td>{{ etude.fertilisation ? 'Oui' : 'Non' }}</td>
+                        <td>{{ etude.prix }} €</td>
+                        <td>{{ etude.rendement }} tonnes</td>
+                        <td>{{ etude.precipitations }} mm</td>
+                        <td>{{ etude.mainOeuvre }}</td>
+                        <td>
+                            <a href="{{ path('app_etude_show', {'context': app.request.get('context'), 'id': etude.id}) }}" class="btn btn-info btn-sm">
+                                Show
+                            </a>
+                            <a href="{{ path('app_etude_edit', {'context': app.request.get('context'), 'id': etude.id}) }}" class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="11" class="text-center">Aucune étude trouvée</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-  <center>   <a href="{{ path('app_etude_new', {'context': app.request.get('context')}) }}" class="button">Create new</a> </center> 
+    <div class="text-center mt-4">
+        <a href="{{ path('app_etude_new', {'context': app.request.get('context')}) }}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Créer une nouvelle étude
+        </a>
+    </div>
+</div>
 {% endblock %}

@@ -5,8 +5,9 @@
 {% block title %}expert {% endblock %}
 
 {% block body %}
-    <h1>Create new Expert</h1>
-
+ <div class="container mt-4 pt-5">
+    <h1 class="text-center text-primary mb-4">Expert</h1>
+    <div class="card shadow-lg p-4">
     {{ include('backOfficeEtude/expert/_form.html.twig') }}
 
    <center>  <a href="{{ path('app_expert_index',{'context': app.request.get('context')}) }}"  class="button">back to list</a> </center>
