@@ -3,71 +3,89 @@
 {% block title %}Machine index{% endblock %}
 
 {% block stylesheets %}
+    {# Include Google Fonts for improved typography #}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Apply the 'Roboto' font to the body */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
         .machine-index {
             margin-top: 20px;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color:hsl(51, 64.10%, 69.40%); /* Light beige background */
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px #eb9719;
         }
+
         .machine-index h1 {
             margin-bottom: 20px;
             font-size: 24px;
-            color: #333;
+            color:#7fa526; /* Deep green color */
+            font-family: 'Lora', serif;
         }
+
         .machine-index table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
+
         .machine-index th, .machine-index td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
         }
+
         .machine-index th {
-            background-color: #4CAF50;
-            color: white;
+            background-color:hsl(46, 64.80%, 54.30%); /* Soft green background */
+            color: #fff;
+            font-family: 'Lora', serif;
         }
+
         .machine-index tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color:rgb(194, 203, 188); /* Light green background for even rows */
         }
+
         .machine-index .btn {
             padding: 10px 20px;
             text-decoration: none;
             color: #fff;
             border-radius: 4px;
+            font-family: 'Roboto', sans-serif;
         }
+
         .machine-index .btn-primary {
-            background-color: #007bff;
+            background-color:hsl(122, 26.90%, 42.40%); /* Green button */
         }
+
         .machine-index .btn-secondary {
-            background-color: #6c757d;
+            background-color:hsl(120, 18.50%, 51.40%); /* Blue button */
         }
     </style>
 {% endblock %}
 
 {% block body %}
     <div class="machine-index">
-        <h1>Machine index</h1>
+        <h1></h1>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Nom</th>
+                   
+                    <th>Name</th>
                     <th>Type</th>
-                    <th>Date_achat</th>
-                    <th>Etat</th>
-                    <th>Etat_pred</th>
-                    <th>actions</th>
+                    <th>Purchase Date</th>
+                    <th>Condition</th>
+                    <th>Predicted Condition</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
             {% for machine in machines %}
                 <tr>
-                    <td>{{ machine.id }}</td>
+                    
                     <td>{{ machine.nom }}</td>
                     <td>{{ machine.type }}</td>
                     <td>{{ machine.dateAchat ? machine.dateAchat|date('Y-m-d') : '' }}</td>

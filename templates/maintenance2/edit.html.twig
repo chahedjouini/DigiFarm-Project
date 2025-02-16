@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Maintenance</h1>
 
-    {{ include('maintenance/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('maintenance2/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_maintenance_index') }}">back to list</a>
+    <a href="{{ path('app_maintenance2_index') }}">back to list</a>
 
-    {{ include('maintenance/_delete_form.html.twig') }}
+    {{ include('maintenance2/_delete_form.html.twig') }}
 {% endblock %}

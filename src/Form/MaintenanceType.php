@@ -42,7 +42,7 @@ class MaintenanceType extends AbstractType
             ])
             ->add('idTechnicien', EntityType::class, [
                 'class' => Technicien::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
         ;
     }

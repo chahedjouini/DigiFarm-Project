@@ -29,8 +29,9 @@
                 <td>{{ technicien.telephone }}</td>
                 <td>{{ technicien.localisation }}</td>
                 <td>
-                    <a href="{{ path('app_technicien_show', {'id': technicien.id}) }}">show</a>
-                    <a href="{{ path('app_technicien_edit', {'id': technicien.id}) }}">edit</a>
+                    <a href="{{ path('app_technicien2_show', {'id': technicien.id}) }}">show</a>
+                    <a href="{{ path('app_technicien2_edit', {'id': technicien.id}) }}">edit</a>
+                    <a href="{{ path('app_technicien2_delete', {'id': technicien.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +42,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_technicien_new') }}">Create new</a>
+    <a href="{{ path('app_technicien2_new') }}">Create new</a>
 {% endblock %}

@@ -3,18 +3,25 @@
 {% block title %}Edit Maintenance{% endblock %}
 
 {% block stylesheets %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #e5dcbf;
+        }
         .maintenance-edit {
             margin-top: 20px;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px #eca71b;
         }
         .maintenance-edit h1 {
             margin-bottom: 20px;
             font-size: 24px;
-            color: #333;
+            color:hsl(122, 65.00%, 26.90%); /* Green color for farming theme */
+            font-family: 'Lora', serif;
+            text-shadow: 1px 1px 2px hsla(131, 44.70%, 18.40%, 0.98);
         }
         .maintenance-edit .form-container {
             margin-bottom: 20px;
@@ -26,7 +33,7 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #555;
+            color:hsl(122, 65.70%, 20.60%); /* Green color for farming theme */
         }
         .maintenance-edit .form-group input,
         .maintenance-edit .form-group select,
@@ -35,25 +42,47 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .maintenance-edit .form-group input:focus,
+        .maintenance-edit .form-group select:focus,
+        .maintenance-edit .form-group textarea:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
         }
         .maintenance-edit .actions {
             display: flex;
             gap: 10px;
+            margin-top: 20px;
         }
-        .maintenance-edit .actions .btn {
+        .maintenance-edit .btn {
             padding: 10px 20px;
             text-decoration: none;
             color: #fff;
             border-radius: 4px;
+            font-size: 16px;
+            display: inline-block;
+            text-align: center;
+            width: 150px; /* Ensure all buttons have the same width */
+            transition: background-color 0.3s ease;
         }
-        .maintenance-edit .actions .btn-primary {
-            background-color: #007bff;
+        .maintenance-edit .btn-primary {
+            background-color: #4CAF50; /* Green button for primary actions */
         }
-        .maintenance-edit .actions .btn-secondary {
-            background-color: #6c757d;
+        .maintenance-edit .btn-primary:hover {
+            background-color: #388E3C;
         }
-        .maintenance-edit .actions .btn-danger {
-            background-color: #dc3545;
+        .maintenance-edit .btn-secondary {
+            background-color: #8BC34A; /* Lighter green button for secondary actions */
+        }
+        .maintenance-edit .btn-secondary:hover {
+            background-color: #7CB342;
+        }
+        .maintenance-edit .btn-danger {
+            background-color: #f44336; /* Red button for delete actions */
+        }
+        .maintenance-edit .btn-danger:hover {
+            background-color: #e53935;
         }
     </style>
 {% endblock %}

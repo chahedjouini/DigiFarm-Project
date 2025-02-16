@@ -31,8 +31,8 @@
                 <td>{{ maintenance.consoEnergie }}</td>
                 <td>{{ maintenance.Status.value }}</td>
                 <td>
-                    <a href="{{ path('app_maintenance_show', {'id': maintenance.id}) }}">show</a>
-                    <a href="{{ path('app_maintenance_edit', {'id': maintenance.id}) }}">edit</a>
+                    <a href="{{ path('app_maintenance2_show', {'id': maintenance.id}) }}">show</a>
+                    <a href="{{ path('app_maintenance2_edit', {'id': maintenance.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -43,5 +43,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_maintenance_new') }}">Create new</a>
+    <a href="{{ path('app_maintenance2_new') }}">Create new</a>
 {% endblock %}

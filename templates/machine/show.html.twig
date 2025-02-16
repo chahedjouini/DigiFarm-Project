@@ -4,17 +4,20 @@
 
 {% block stylesheets %}
     <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
         .machine-details {
             margin-top: 20px;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color:hsla(50, 89.00%, 64.30%, 0.93); /* Light background color */
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px  #dea50a;
         }
         .machine-details h1 {
             margin-bottom: 20px;
             font-size: 24px;
-            color: #333;
+            color: #4CAF50; /* Green color for farming theme */
         }
         .machine-details table {
             width: 100%;
@@ -25,32 +28,43 @@
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
+             margin-bottom: 20px;
+            font-size: 24px;
+            color:hsl(122, 52.60%, 22.40%);
         }
         .machine-details th {
-            background-color: #4CAF50;
+            background-color:hsl(122, 16.90%, 45.30%); /* Green background for headers */
             color: white;
+             margin-bottom: 20px;
+            font-size: 24px;
+            color:hsl(54, 45.00%, 58.60%);
         }
-        .machine-details tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+        
         .machine-details .btn {
             padding: 10px 20px;
             text-decoration: none;
             color: #fff;
             border-radius: 4px;
+            font-size: 16px;
+            display: inline-block;
+            text-align: center;
+            width: 150px; /* Ensure all buttons have the same width */
         }
         .machine-details .btn-primary {
-            background-color: #007bff;
+            background-color: #18891b; /* Green button for primary actions */
         }
         .machine-details .btn-secondary {
-            background-color: #6c757d;
+            background-color: #8BC34A; /* Lighter green button for secondary actions */
+        }
+        .machine-details .btn-danger {
+            background-color:#126e37; /* Red button for delete actions */
         }
     </style>
 {% endblock %}
 
 {% block body %}
     <div class="machine-details">
-        <h1>Machine Details</h1>
+        <h1></h1>
 
         <table class="table table-striped">
             <tbody>

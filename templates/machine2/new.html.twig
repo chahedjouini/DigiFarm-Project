@@ -1,4 +1,4 @@
-{% extends 'back/base.html.twig' %}
+
 
 {% block title %}New Machine{% endblock %}
 
@@ -43,11 +43,11 @@
         <h1>Create new Machine</h1>
 
         <div class="form-container">
-            {{ include('machine/_form.html.twig') }}
+            {{ include('machine2/_form.html.twig') }}
         </div>
 
         <div class="actions">
-            <a class="btn btn-secondary" href="{{ path('app_machine_index') }}">Back to list</a>
+            <a class="btn btn-secondary" href="{{ path('app_machine2_index') }}">Back to list</a>
         </div>
     </div>
 {% endblock %}
