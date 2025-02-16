@@ -13,12 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class TechnicienController extends AbstractController
 {
-    #[Route('/technicien/front_machine', name: 'front_machine_page')]
-    public function index2(): Response
-    {
-        return $this->render('front.html.twig');
-    }
-
+   
     #[Route('/technicien', name: 'app_technicien_index', methods: ['GET'])]
     public function index(TechnicienRepository $technicienRepository): Response
     {

@@ -13,7 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 final class MachineController extends AbstractController
-{
+{    #[Route('/machine/front_machine', name: 'front_machine_page')]
+    public function index2(): Response
+    {
+        return $this->render('frontMachine.html.twig');
+    }
+    #[Route('/machine/contact_machine', name: 'contact_machine_page')]
+    public function index3(): Response
+    {
+        return $this->render('contact.html.twig');
+    }
+
+
     #[Route('/machine/', name: 'app_machine_index', methods: ['GET'])]
     public function index(MachineRepository $machineRepository): Response
     {
