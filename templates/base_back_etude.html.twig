@@ -173,25 +173,40 @@
                     <!--NEW elements-->
                     <div class="collapse" id="event-menu">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_expert_index', {'context': app.request.get('context')}) }}">Expert</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_etude_index', {'context': app.request.get('context')})  }}">Etudes</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_culture_index', {'context': app.request.get('context')})  }}">Culture</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_expert_index', {'context': app.request.get('context') ?: 'back'}) }}">Expert</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_etude_index', {'context': app.request.get('context') ?: 'back'}) }}">Etudes</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_culture_index', {'context': app.request.get('context') ?: 'back'}) }}">Culture</a></li>
                     </ul>
                     </div>
                     <!--NEW elements-->
                 </li>
+                 
+                    
                 
-                
+               
+    <!--formation-->
                 <li class="nav-item menu-items">
-                    <a class="nav-link"  href="pages/forms/basic_elements.html">
+                    <a class="nav-link" data-toggle="collapse" href="#formation-menu" aria-expanded="false" aria-controls="formation-menu">
+                    <!--NEW icon-->
                     <span class="menu-icon">
-                        <i class="mdi mdi-laptop"></i>
+                        <i class="mdi mdi-lead-pencil"></i>
                     </span>
+                    <!--NEW icon-->
                     <span class="menu-title">Machine</span>
                     <i class="menu-arrow"></i>
                     </a>
-                  
+                    <!--NEW elements-->
+                    <div class="collapse" id="formation-menu">
+                    <ul class="nav flex-column sub-menu">
+                           <li class="nav-item"> <a class="nav-link" href="{{ path('app_machine2_index') }}">Machine</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_maintenance2_index') }}">Maintenance</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_technicien2_index') }}">Technicien</a></li>
+                    </ul>
+                    </div>
+                    <!--NEW elements-->
                 </li>
+                <!--formation-->
+
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="pages/forms/basic_elements.html">
                     <span class="menu-icon">

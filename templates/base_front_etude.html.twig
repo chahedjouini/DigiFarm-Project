@@ -31,15 +31,23 @@
 {% if app.request.attributes.get('_route') == 'app_culture_show' %}
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 {% endif %}
+{% if app.request.attributes.get('_route') == 'app_technicien_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_maintenance_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_machine_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
 
-
-{% if app.request.attributes.get('_route') == 'app_expert_new' %}
+{% if app.request.attributes.get('_route') == 'app_technicien_new' %}
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
-{% if app.request.attributes.get('_route') == 'app_culture_new' %}
+{% if app.request.attributes.get('_route') == 'app_maintenance_new' %}
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
-{% if app.request.attributes.get('_route') == 'app_etude_new' %}
+{% if app.request.attributes.get('_route') == 'app_machine_new' %}
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
 
@@ -54,6 +62,16 @@
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
 
+
+{% if app.request.attributes.get('_route') == 'app_technicien_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_machine_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_maintenance_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
 
     <link rel="stylesheet" href="{{ asset('assets/vendors/animate/custom-animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/css/all.min.css') }}">
@@ -181,7 +199,7 @@
 													<li><a href="{{ path('allservices_page') }}">All Services</a></li>
 													<li><a href="agriculture-products.html">Agriculture Products</a>
 													</li>
-													<li><a href="fresh-vegetable.html">Agriculture Machines</a></li>
+													<li><a href="{{ path('front_machine_page') }}">Agriculture Machines</a></li>
 													<li><a href="{{ path('front_page') }}">Agriculture Etudes</a></li>
 													<li><a href="dairy-products.html"> Follow up Animals </a></li>
 												</ul>

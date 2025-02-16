@@ -1,0 +1,54 @@
+{% extends 'base_front_etude.html.twig' %}
+
+{% block title %}New Technicien{% endblock %}
+
+
+
+{% block body %}
+    <div class="technicien-new">
+        <h1>Create New Technicien</h1>
+
+        <div class="form-container">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'form-horizontal'}}) }}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.name, "Name") }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.name) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.prenom, "First Name") }}
+                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.prenom) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.specialite, "Specialty") }}
+                    {{ form_widget(form.specialite, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.specialite) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.email, "Email") }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.telephone, "Telephone") }}
+                    {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.telephone) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.localisation, "Location") }}
+                    {{ form_widget(form.localisation, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.localisation) }}
+                </div>
+
+              <center>  <button class="btn btn-primary">{{ button_label|default('Save') }}</button> </center>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="actions">
+      <center>      <a class="button" href="{{ path('app_technicien_index') }}">Back to list</a> </center> 
+        </div>
+    </div>
+{% endblock %}
