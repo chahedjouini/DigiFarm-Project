@@ -39,9 +39,11 @@ class Etude
     private ?Expert $expert = null;
 
     #[ORM\Column(enumType: Climat::class)]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
     private ?Climat $climat = null;
 
     #[ORM\Column(enumType: TypeSol::class)]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
     private ?TypeSol $type_sol = null;
 
     #[ORM\Column]
@@ -51,26 +53,26 @@ class Etude
     private ?bool $fertilisation = false;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le prix est obligatoire.')]
-    #[Assert\Type("numeric", message: 'Le prix doit être un nombre valide.')]
-    #[Assert\Positive(message: 'Le prix doit être un nombre positif.')]
+    #[Assert\NotBlank(message: 'obligatoire')]
+    #[Assert\Type("numeric", message: 'doit être un nombre valide')]
+    #[Assert\Positive(message: 'Le prix doit être un nombre positif')]
     private ?float $prix = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le rendement est obligatoire.')]
-    #[Assert\Type("numeric", message: 'Le rendement doit être un nombre valide.')]
-    #[Assert\Positive(message: 'Le rendement doit être un nombre positif.')]
+    #[Assert\NotBlank(message: ' est obligatoire')]
+    #[Assert\Type("numeric", message: 'doit être un nombre valide')]
+    #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $rendement = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Les précipitations sont obligatoires.')]
-    #[Assert\Type("numeric", message: 'Les précipitations doivent être un nombre valide.')]
+    #[Assert\NotBlank(message: 'obligatoires')]
+    #[Assert\Type("numeric", message: ' doivent être un nombre valide')]
     #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $precipitations = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'La main d\'œuvre est obligatoire.')]
-    #[Assert\Type("numeric", message: 'La main d\'œuvre doit être un nombre valide.')]
+    #[Assert\NotBlank(message: ' obligatoire')]
+    #[Assert\Type("numeric", message: ' doit être un nombre valide')]
     #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $main_oeuvre = null;
 

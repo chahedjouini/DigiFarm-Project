@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Expert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Enum\Dispo;
 
 /**
  * @extends ServiceEntityRepository<Expert>
@@ -16,6 +17,12 @@ class ExpertRepository extends ServiceEntityRepository
         parent::__construct($registry, Expert::class);
     }
 
+    public function findAvailableExperts()
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.dispo = :disponible')
+            ->setParameter('disponible', Dispo::DISPONIBLE->value);
+    }
     //    /**
     //     * @return Expert[] Returns an array of Expert objects
     //     */

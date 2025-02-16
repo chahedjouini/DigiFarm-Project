@@ -16,27 +16,27 @@ class Expert
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide.')]
-    #[Assert\Length(max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
+    #[Assert\Length(max: 255, maxMessage: ' ne peut pas dépasser {{ limit }} caractères')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le prenom ne peut pas être vide.')]
-    #[Assert\Length(max: 255, maxMessage: 'Le prenom ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
+    #[Assert\Length(max: 255, maxMessage: 'ne peut pas dépasser {{ limit }} caractères')]
     private ?string $prenom = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le numéro de téléphone ne peut pas être vide.')]
-    #[Assert\Regex(pattern: "/^\d{8}$/", message: 'Le numéro de téléphone doit être composé de 8 chiffres.')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
+    #[Assert\Regex(pattern: "/^\d{8}$/", message: 'doit être composé de 8 chiffres')]
     private ?int $tel = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'L\'email ne peut pas être vide.')]
-    #[Assert\Email(message: 'L\'email doit être valide.')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
+    #[Assert\Email(message: ' doit être valide.')]
     private ?string $email = null;
 
     #[ORM\Column(length: 25)]
-    #[Assert\NotBlank(message: 'Le prenom ne peut pas être vide.')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
     private ?string $zone = null;
 
     /**
@@ -46,7 +46,7 @@ class Expert
     private Collection $etudes;
 
     #[ORM\Column(enumType: dispo::class)]
-    #[Assert\NotBlank(message: 'Le prenom ne peut pas être vide.')]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
     private ?dispo $dispo = null;
 
     public function __construct()

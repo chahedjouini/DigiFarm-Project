@@ -13,17 +13,35 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ExpertController extends AbstractController
 {
-    
+   
+
     #[Route('/front', name: 'front_page')]
     public function index2(): Response
     {
 return $this->render('frontOfficeEtude/frontetude.html.twig');
     }
-
+    #[Route('/front/home', name: 'home_page')]
+    public function home(): Response
+    {
+return $this->render('frontOfficeEtude/home.html.twig');
+    }
     #[Route('/front/contact', name: 'contact_page')]
     public function contact(): Response
     {
        return $this->render('frontOfficeEtude/contact.html.twig');
+    }
+
+    #[Route('/front/aboutus', name: 'aboutus_page')]
+    public function aboutus(): Response
+    {
+       return $this->render('frontOfficeEtude/about.html.twig');
+    }
+
+
+    #[Route('/front/allservices', name: 'allservices_page')]
+    public function allservices(): Response
+    {
+       return $this->render('frontOfficeEtude/allservices.html.twig');
     }
 
     // Route for /expert/{context} (front or back)

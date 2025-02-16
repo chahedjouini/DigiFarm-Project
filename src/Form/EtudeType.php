@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\CallbackTransformer;
-
+use Doctrine\ORM\EntityRepository ;
 class EtudeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -35,6 +35,9 @@ class EtudeType extends AbstractType
                 'class' => Expert::class,
                 'choice_label' => 'nom',  
                 'label' => 'Expert',
+                'query_builder' => function(EntityRepository $er) {
+        return $er->findAvailableExperts();
+    },
             ])
             ->add('climat', ChoiceType::class, [
                 'choices' => [

@@ -17,28 +17,29 @@ class Culture
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide.')]
-    #[Assert\Length(max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
+    #[Assert\Length(max: 255, maxMessage: 'ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
     #[ORM\Column]
-    #[Assert\Positive(message: 'La surface doit être un nombre positif.')]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
+    #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $surface = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotBlank(message: 'La date de plantation ne peut pas être vide.')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
     private ?\DateTimeInterface $date_plantation = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotBlank(message: 'La date de récolte ne peut pas être vide.')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
     private ?\DateTimeInterface $date_recolte = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'region ne peut pas être vide.')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
     private ?string $region = null;
 
     #[ORM\Column(length: 25)]
-    #[Assert\NotBlank(message: 'ne peut pas être vide.')]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
     private ?string $type_culture = null;
 
     /**
@@ -48,31 +49,31 @@ class Culture
     private Collection $etudes;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'La densité de plantation ne peut pas être vide.')]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
     #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $densite_plantation = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Les besoins en eau ne peut pas être vide.')]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
     #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $besoins_eau = null;
 
     #[ORM\Column(enumType: BensoinsEngrais::class)]
-    #[Assert\NotBlank(message: 'Le prenom ne peut pas être vide.')]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
     private ?BensoinsEngrais $besoins_engrais = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le rendement ne peut pas être vide')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
     #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $rendement_moyen = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le coût moyen ne peut pas être vide.')]
+    #[Assert\NotBlank(message: 'ne peut pas être vide')]
     #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $cout_moyen = null;
 
     #[ORM\Column]
-    #[Assert\NotNull(message: 'L\'ID utilisateur ne peut pas être vide.')]
+    #[Assert\NotNull(message: 'ne peut pas être vide')]
     #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?int $id_user = null;
 

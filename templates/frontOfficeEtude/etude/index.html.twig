@@ -1,10 +1,10 @@
 {% extends 'base_front_etude.html.twig' %}
 
 
-{% block title %}Etude index{% endblock %}
+{% block title %}Etude {% endblock %}
 
 {% block body %}
-    <h1>Etude index</h1>
+    <h1>Liste des Etudes lancées</h1>
 
     <table class="table">
         <thead>
@@ -49,5 +49,10 @@
         </tbody>
     </table>
 
-  <center>   <a href="{{ path('app_etude_new',{'context': app.request.get('context')}) }}" class="button">Create new</a> </center> 
+  <center>   <a href="{{ path('app_etude_new',{'context': app.request.get('context')}) }}" class="button">Lancer une nouvelle Etude</a> </center> 
+    <br>
+     <center>  <a  href="{{ path('front_page') }}"  class="button">Back</a> </center>
+       <br>
+         <center>  <a href="{{ path('app_expert_index',{'context': app.request.get('context')}) }}" class="button">Consulter la liste des Experts</a>  </center>
+
 {% endblock %}

@@ -1,10 +1,10 @@
 {% extends 'base_front_etude.html.twig' %}
 
 
-{% block title %}Culture index{% endblock %}
+{% block title %}Culture {% endblock %}
 
 {% block body %}
-    <h1>Culture index</h1>
+    <h1>Liste des Cultures</h1>
 
     <table class="table">
         <thead>
@@ -53,5 +53,8 @@
     </table>
 
 
-  <center>    <a href="{{ path('app_culture_new',{'context': app.request.get('context')}) }}" class="button">Create new</a>  </center> 
+  <center>    <a href="{{ path('app_culture_new',{'context': app.request.get('context')}) }}" class="button">Ajouter une nouvelle culture</a>  </center> 
+  <br>
+     <center>  <a  href="{{ path('front_page') }}"  class="button">Back</a> </center>
+
 {% endblock %}
