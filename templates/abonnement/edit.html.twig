@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Abonnement{% endblock %}
+
+{% block body %}
+    <h1>Edit Abonnement</h1>
+
+    <!-- Formulaire d'édition de l'abonnement -->
+    {{ include('abonnement/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <!-- Bouton de retour centré -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ path('app_abonnement_index')}}" class="button">Back to list</a>
+    </div>
+
+    <!-- Formulaire de suppression -->
+    <div style="text-align: center; margin-top: 20px;">
+        {{ include('abonnement/_delete_form.html.twig') }}
+    </div>
+{% endblock %}
