@@ -1,0 +1,40 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %} Suivi index {% endblock %}
+
+{% block body %}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'container p-4'}}) }}
+    
+    <div class="form-group">
+        {{ form_label(form.temperature) }}
+        {{ form_widget(form.temperature, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.temperature) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.rythme_cardiaque) }}
+        {{ form_widget(form.rythme_cardiaque, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.rythme_cardiaque) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.etat) }}
+        {{ form_widget(form.etat, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.etat) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.veterinaire) }}
+        {{ form_widget(form.veterinaire, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.veterinaire) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.id_client) }}
+        {{ form_widget(form.id_client, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.id_client) }}
+    </div>
+
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(form) }}
+{% endblock %}

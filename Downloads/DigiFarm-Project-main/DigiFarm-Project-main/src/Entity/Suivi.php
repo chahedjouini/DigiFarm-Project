@@ -1,0 +1,123 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\SuiviRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Entity(repositoryClass: SuiviRepository::class)]
+class Suivi
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\OneToOne(targetEntity: Animal::class, inversedBy: "suivi", cascade: ["persist", "remove"])]
+    #[ORM\JoinColumn(name: "id_animal", referencedColumnName: "id", onDelete: "CASCADE")]
+    #[Assert\NotNull(message: "L'animal est obligatoire.")]
+    private ?Animal $animal = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: "La température ne peut pas être vide.")]
+    #[Assert\Range(
+        min: 30,
+        max: 45,
+        notInRangeMessage: "La température doit être comprise entre 30°C et 45°C."
+    )]
+    private ?float $temperature = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: "Le rythme cardiaque ne peut pas être vide.")]
+    #[Assert\Positive(message: "Le rythme cardiaque doit être un nombre positif.")]
+    private ?float $rythme_cardiaque = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "L'état de l'animal est obligatoire.")]
+    #[Assert\Choice(choices: ["Bon", "Moyen", "Critique"], message: "L'état doit être 'Bon', 'Moyen' ou 'Critique'.")]
+    private ?string $etat = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le vétérinaire est obligatoire.")]
+    #[Assert\Length(min: 3, minMessage: "Le nom du vétérinaire doit contenir au moins 3 caractères.")]
+    private ?string $veterinaire = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: "L'ID du client est obligatoire.")]
+    #[Assert\Positive(message: "L'ID du client doit être un nombre positif.")]
+    private ?int $id_client = null;
+
+    // Getters et setters pour chaque propriété
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getAnimal(): ?Animal
+    {
+        return $this->animal;
+    }
+
+    public function setAnimal(?Animal $animal): self
+    {
+        $this->animal = $animal;
+        return $this;
+    }
+
+    public function getTemperature(): ?float
+    {
+        return $this->temperature;
+    }
+
+    public function setTemperature(?float $temperature): self
+    {
+        $this->temperature = $temperature;
+        return $this;
+    }
+
+    public function getRythmeCardiaque(): ?float
+    {
+        return $this->rythme_cardiaque;
+    }
+
+    public function setRythmeCardiaque(?float $rythme_cardiaque): self
+    {
+        $this->rythme_cardiaque = $rythme_cardiaque;
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+        return $this;
+    }
+
+    public function getVeterinaire(): ?string
+    {
+        return $this->veterinaire;
+    }
+
+    public function setVeterinaire(string $veterinaire): self
+    {
+        $this->veterinaire = $veterinaire;
+        return $this;
+    }
+
+    public function getIdClient(): ?int
+    {
+        return $this->id_client;
+    }
+
+    public function setIdClient(int $id_client): self
+    {
+        $this->id_client = $id_client;
+        return $this;
+    }
+}

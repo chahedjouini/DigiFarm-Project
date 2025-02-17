@@ -1,0 +1,45 @@
+{% extends 'basefront.html.twig' %}
+{% block title %}Animal index{% endblock %}
+
+
+{% block body %}
+    <h1>Suivi index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Id_animal</th>
+                <th>Temperature</th>
+                <th>Rythme_cardiaque</th>
+                <th>Etat</th>
+                <th>Veterinaire</th>
+                <th>Id_client</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for suivi in suivis %}
+            <tr>
+                <td>{{ suivi.id }}</td>
+                <td>{{ suivi.idAnimal }}</td>
+                <td>{{ suivi.temperature }}</td>
+                <td>{{ suivi.rythmeCardiaque }}</td>
+                <td>{{ suivi.etat }}</td>
+                <td>{{ suivi.veterinaire }}</td>
+                <td>{{ suivi.idClient }}</td>
+                <td>
+                    <a href="{{ path('app_suivi_show', {'id': suivi.id}) }}">show</a>
+                    <a href="{{ path('app_suivi_edit', {'id': suivi.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_suivi_new') }}">Create new</a>
+{% endblock %}
