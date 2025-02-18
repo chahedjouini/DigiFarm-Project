@@ -1,56 +1,43 @@
-{% extends 'basefront.html.twig' %}
+<!DOCTYPE html>
 
-{% block title %}Animal index{% endblock %}
+<title>Animal index</title>
 
 {% block body %}
-    <div class="container mt-4">
-        <h1 class="mb-4">Animal index</h1>
+    <h1>Animal index</h1>
 
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Id</th>
-                        <th>Nom</th>
-                        <th>Type</th>
-                        <th>Age</th>
-                        <th>Poids</th>
-                        <th>Race</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for animal in animals %}
-                    <tr>
-                        <td>{{ animal.id }}</td>
-                        <td>{{ animal.nom }}</td>
-                        <td>{{ animal.type }}</td>
-                        <td>{{ animal.age }}</td>
-                        <td>{{ animal.poids }}</td>
-                        <td>{{ animal.race }}</td>
-                        <td>
-                            <a href="{{ path('app_animal_show', {'id': animal.id}) }}" class="btn btn-info btn-sm">Show</a>
-                            <a href="{{ path('app_animal_edit', {'id': animal.id}) }}" class="btn btn-warning btn-sm">Edit</a>
-                            {# Uncomment the block below to add a delete button later #}
-                            {# 
-                            <form method="post" action="{{ path('app_animal_delete', {'id': animal.id}) }}" style="display:inline;">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ animal.id) }}">
-                                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                            </form>
-                            #}
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="7" class="text-center text-muted">
-                            <i class="fas fa-exclamation-circle"></i> No records found
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>Age</th>
+                <th>Poids</th>
+                <th>Race</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for animal in animals %}
+            <tr>
+                <td>{{ animal.id }}</td>
+                <td>{{ animal.nom }}</td>
+                <td>{{ animal.type }}</td>
+                <td>{{ animal.age }}</td>
+                <td>{{ animal.poids }}</td>
+                <td>{{ animal.race }}</td>
+                <td>
+                    <a href="{{ path('app_animal_show', {'id': animal.id}) }}">show</a>
+                    <a href="{{ path('app_animal_edit', {'id': animal.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-        <a href="{{ path('app_animal_new') }}" class="btn btn-success">Create new</a>
-    </div>
+    <a href="{{ path('app_animal_new') }}">Create new</a>
 {% endblock %}

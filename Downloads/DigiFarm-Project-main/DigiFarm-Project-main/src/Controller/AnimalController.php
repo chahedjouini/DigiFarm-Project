@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Animal;
-use App\Form\AnimalType;
+use App\Form\Animal1Type;
 use App\Repository\AnimalRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/animal')]
 final class AnimalController extends AbstractController
 {
-    #[Route('/', name: 'app_animal_index', methods: ['GET'])]
+    #[Route(name: 'app_animal_index', methods: ['GET'])]
     public function index(AnimalRepository $animalRepository): Response
     {
         return $this->render('animal/index.html.twig', [
@@ -26,19 +26,39 @@ final class AnimalController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $animal = new Animal();
-        $form = $this->createForm(AnimalType::class, $animal);
+        $form = $this->createForm(Animal1Type::class, $animal);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($animal);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_animal_index');
+            return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('animal/new.html.twig', [
             'animal' => $animal,
-            'form' => $form->createView(),
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/new2', name: 'app_animal_new2', methods: ['GET', 'POST'])]
+    public function new2(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $animal = new Animal();
+        $form = $this->createForm(Animal1Type::class, $animal);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($animal);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('animal/new2.html.twig', [
+            'animal' => $animal,
+            'form' => $form,
         ]);
     }
 
@@ -53,28 +73,29 @@ final class AnimalController extends AbstractController
     #[Route('/{id}/edit', name: 'app_animal_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(AnimalType::class, $animal);
+        $form = $this->createForm(Animal1Type::class, $animal);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            return $this->redirectToRoute('app_animal_index');
+
+            return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('animal/edit.html.twig', [
             'animal' => $animal,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_animal_delete', methods: ['POST'])]
     public function delete(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$animal->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$animal->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($animal);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_animal_index');
+        return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
     }
 }

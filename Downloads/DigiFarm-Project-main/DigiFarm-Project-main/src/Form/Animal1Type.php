@@ -9,18 +9,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SuiviType extends AbstractType
+class Animal1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('temperature')
-            ->add('rythme_cardiaque')
-            ->add('etat')
-            ->add('veterinaire')
-            ->add('id_client')
-            ->add('animal', EntityType::class, [
-                'class' => Animal::class,
+            ->add('nom')
+            ->add('type')
+            ->add('age')
+            ->add('poids')
+            ->add('race')
+            ->add('suivi', EntityType::class, [
+                'class' => Suivi::class,
                 'choice_label' => 'id',
             ])
         ;
@@ -29,7 +29,7 @@ class SuiviType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Suivi::class,
+            'data_class' => Animal::class,
         ]);
     }
 }

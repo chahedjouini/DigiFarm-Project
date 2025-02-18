@@ -1,5 +1,4 @@
 <?php
-// src/Controller/SuiviController.php
 
 namespace App\Controller;
 
@@ -10,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/suivi')]
 final class SuiviController extends AbstractController
@@ -39,7 +38,7 @@ final class SuiviController extends AbstractController
 
         return $this->render('suivi/new.html.twig', [
             'suivi' => $suivi,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -65,15 +64,14 @@ final class SuiviController extends AbstractController
 
         return $this->render('suivi/edit.html.twig', [
             'suivi' => $suivi,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_suivi_delete', methods: ['POST'])]
     public function delete(Request $request, Suivi $suivi, EntityManagerInterface $entityManager): Response
     {
-        // Corrected CSRF token validation method
-        if ($this->isCsrfTokenValid('delete'.$suivi->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$suivi->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($suivi);
             $entityManager->flush();
         }
