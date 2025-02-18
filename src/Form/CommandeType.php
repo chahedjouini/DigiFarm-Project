@@ -50,7 +50,7 @@ class CommandeType extends AbstractType
             ])
             ->add('montantTotal', NumberType::class, [
                 'label' => 'Montant Total',
-                'disabled' => true, // Toujours désactivé (calculé dynamiquement)
+                'disabled' => $disabled, 
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('dateCommande', DateType::class, [
