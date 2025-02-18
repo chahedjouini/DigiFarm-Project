@@ -3,65 +3,133 @@
 {% block title %}New Machine{% endblock %}
 
 {% block stylesheets %}
-    {# Include Google Fonts for improved typography #}
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Apply the 'Roboto' font to the body */
+        /* General Styles */
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #e9f5e9; /* Light green background */
+            color: #333;
         }
 
-        .machine-index {
-            margin-top: 20px;
-            padding: 20px;
-            background-color:hsl(36, 30.50%, 62.70%); /* Light beige background */
-            border-radius: 8px;
-            box-shadow: 0 0 10px hsla(23, 68.90%, 47.80%, 0.75);
+        .machine-new {
+            margin: 40px auto;
+            padding: 30px;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .machine-index h1 {
+        .machine-new h1 {
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50; /* Dark blue for headings */
+            text-align: center;
+        }
+
+        /* Form Container */
+        .machine-new .form-container {
+            margin-bottom: 25px;
+        }
+
+        .machine-new .form-group {
             margin-bottom: 20px;
-            font-size: 24px;
-            color:hsl(145, 36.30%, 82.20%); /* Deep green color */
-            font-family: 'Lora', serif;
         }
 
-        .machine-index table {
+        .machine-new .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #27ae60; /* Green for labels */
+        }
+
+        .machine-new .form-group input,
+        .machine-new .form-group select,
+        .machine-new .form-group textarea {
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .machine-index th, .machine-index td {
             padding: 12px;
             border: 1px solid #ddd;
-            text-align: left;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
         }
 
-        .machine-index th {
-            background-color: #a8d5ba; /* Soft green background */
-            color: #fff;
-            font-family: 'Lora', serif;
+        .machine-new .form-group input:focus,
+        .machine-new .form-group select:focus,
+        .machine-new .form-group textarea:focus {
+            border-color: #27ae60; /* Green border on focus */
+            outline: none;
         }
 
-        .machine-index tr:nth-child(even) {
-            background-color: #e9f1e3; /* Light green background for even rows */
+        /* Buttons */
+        .machine-new .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end; /* Align buttons to the right */
+            margin-top: 25px;
         }
 
-        .machine-index .btn {
-            padding: 10px 20px;
+        .machine-new .btn {
+            padding: 12px 25px;
             text-decoration: none;
             color: #fff;
-            border-radius: 4px;
-            font-family: 'Roboto', sans-serif;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 160px; /* Consistent button width */
         }
 
-        .machine-index .btn-primary {
-            background-color: #4CAF50; /* Green button */
+        .machine-new .btn:hover {
+            transform: translateY(-2px);
         }
 
-        .machine-index .btn-secondary {
-            background-color:hsl(120, 22.70%, 59.40%); /* Blue button */
+        .machine-new .btn-primary {
+            background-color: #27ae60; /* Green for primary actions */
+        }
+
+        .machine-new .btn-primary:hover {
+            background-color: #219653; /* Darker green on hover */
+        }
+
+        .machine-new .btn-secondary {
+            background-color: #95a5a6; /* Gray for secondary actions */
+        }
+
+        .machine-new .btn-secondary:hover {
+            background-color: #7f8c8d; /* Darker gray on hover */
+        }
+
+        .machine-new .btn-danger {
+            background-color: #e74c3c; /* Red for delete actions */
+        }
+
+        .machine-new .btn-danger:hover {
+            background-color: #c0392b; /* Darker red on hover */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .machine-new {
+                padding: 20px;
+            }
+
+            .machine-new h1 {
+                font-size: 24px;
+            }
+
+            .machine-new .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .machine-new .actions {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 {% endblock %}

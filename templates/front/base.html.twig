@@ -55,6 +55,8 @@
 {% endif %}
 
 
+    <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/animate/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/animate/custom-animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/jarallax/jarallax.css') }}">
@@ -69,6 +71,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/owl-carousel/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/owl-carousel/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/twentytwenty/twentytwenty.css') }}">
+
 
     <!-- Template Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/agriox.css') }}">
@@ -349,6 +352,33 @@
 			</div>
 		</section>
 		<!--Main Slider End-->
+		<!--About One Start-->
+		<section class="about-one">
+			<div class="about-one__bg wow slideInRight" data-wow-delay="100ms" data-wow-duration="2500ms">
+				<img class="float-bob-y" src="{{asset('assets/images/backgrounds/about-v1-bg.png')}}" alt="">
+			</div>
+			<div class="container">
+				<div class="row">
+					<!--Start About One Left-->
+					<div class="col-xl-6">
+						<div class="about-one__left">
+							<div class="about-one__left-img">
+								<div class="about-one__left-img-inner">
+									<img src="{{asset('assets/images/about/about-v1-img1.jpg')}}" alt="">
+								</div>
+							</div>
+							<div class="about-one__left-overlay wow slideInLeft" data-wow-delay="100ms" data-wow-duration="1500ms">
+								<div class="icon">
+									<span class="icon-investment"></span>
+								</div>
+								<div class="title">
+									
+									<h2>Let's manage our equipments</h2>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--End About One Left-->
 <body>
 		<!-- style switcher -->
 		{% block stylesheets %}{% endblock %}

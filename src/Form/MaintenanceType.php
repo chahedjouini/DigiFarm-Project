@@ -20,6 +20,8 @@ class MaintenanceType extends AbstractType
         $builder
             ->add('dateEntretien', null, [
                 'widget' => 'single_text',
+                'required' => true, // Ensure the field is required
+                'empty_data' => null, 
             ])
             ->add('cout')
             ->add('temperature')

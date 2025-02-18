@@ -4,60 +4,121 @@
 
 {% block stylesheets %}
     <style>
+       <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #e9f5e9; /* Light green background */
+            color: #333;
         }
+
+
         .machine-details {
-            margin-top: 20px;
-            padding: 20px;
-            background-color:hsla(50, 89.00%, 64.30%, 0.93); /* Light background color */
-            border-radius: 8px;
-            box-shadow: 0 0 10px  #dea50a;
+            margin: 40px auto;
+            padding: 30px;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+
         .machine-details h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #4CAF50; /* Green color for farming theme */
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50; /* Dark blue for headings */
+            text-align: center;
         }
+
+        /* Table Styles */
         .machine-details table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
+
         .machine-details th, .machine-details td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
-             margin-bottom: 20px;
-            font-size: 24px;
-            color:hsl(122, 52.60%, 22.40%);
-        }
-        .machine-details th {
-            background-color:hsl(122, 16.90%, 45.30%); /* Green background for headers */
-            color: white;
-             margin-bottom: 20px;
-            font-size: 24px;
-            color:hsl(54, 45.00%, 58.60%);
-        }
-        
-        .machine-details .btn {
-            padding: 10px 20px;
-            text-decoration: none;
-            color: #fff;
-            border-radius: 4px;
             font-size: 16px;
-            display: inline-block;
+            color: #333;
+        }
+
+        .machine-details th {
+            background-color:  #e0f7e0; /* Green background for headers */
+            color:black;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .machine-details .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end; /* Align buttons to the right */
+            margin-top: 25px;
+        }
+
+        .machine-details .btn {
+            padding: 12px 25px;
+            text-decoration: none;
+            color: black;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
             text-align: center;
-            width: 150px; /* Ensure all buttons have the same width */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 160px; /* Consistent button width */
         }
+
+        .machine-details .btn:hover {
+            transform: translateY(-2px);
+        }
+
         .machine-details .btn-primary {
-            background-color: #18891b; /* Green button for primary actions */
+            background-color: #27ae60; /* Green for primary actions */
         }
+
+        .machine-details .btn-primary:hover {
+            background-color: #219653; /* Darker green on hover */
+        }
+
         .machine-details .btn-secondary {
-            background-color: #8BC34A; /* Lighter green button for secondary actions */
+            background-color: #95a5a6; /* Gray for secondary actions */
         }
+
+        .machine-details .btn-secondary:hover {
+            background-color: #7f8c8d; /* Darker gray on hover */
+        }
+
         .machine-details .btn-danger {
-            background-color:#126e37; /* Red button for delete actions */
+            background-color: #e74c3c; /* Red for delete actions */
+        }
+
+        .machine-details .btn-danger:hover {
+            background-color: #c0392b; /* Darker red on hover */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .machine-details {
+                padding: 20px;
+            }
+
+            .machine-details h1 {
+                font-size: 24px;
+            }
+
+            .machine-details .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .machine-details .actions {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 {% endblock %}

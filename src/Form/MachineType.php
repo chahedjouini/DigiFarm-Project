@@ -18,9 +18,9 @@ class MachineType extends AbstractType
             ->add('nom')
             ->add('type')
             ->add('date_achat', DateType::class, [
-                'widget' => 'single_text',
-                'input' => 'datetime', // Ensure this is set to 'datetime'
-                'format' => 'yyyy-MM-dd',
+                'widget' => 'single_text', // Use a single text input for the date
+                'required' => true, // Ensure the field is required
+                'empty_data' => null, // Ensure empty data is treated as null
             ])
             ->add('etat', ChoiceType::class, [
                 'choices' => [

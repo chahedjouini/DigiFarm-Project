@@ -3,86 +3,137 @@
 {% block title %}Maintenance Index{% endblock %}
 
 {% block stylesheets %}
+    {# Include Google Fonts for improved typography #}
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* General Styles */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #e9f5e9; /* Light green background */
+            color: #333;
         }
+
         .maintenance-index {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+            padding: 30px;
+            max-width: 1200px;
+            background-color: #ffffff; /* White background for the table container */
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+
         .maintenance-index h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: hsl(122, 16.00%, 39.20%); /* Green color for farming theme */
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50; /* Dark blue for headings */
+            text-align: center;
             font-family: 'Lora', serif;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
-        .maintenance-index .table {
+
+        /* Table Styles */
+        .maintenance-index table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow to the table */
-            border-radius: 8px; /* Add rounded corners to the table */
-            overflow: hidden; /* Ensure rounded corners are visible */
+            margin-bottom: 25px;
         }
-        .maintenance-index .table th, .maintenance-index .table td {
+
+        .maintenance-index th, .maintenance-index td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
         }
-        .maintenance-index .table th {
-            background-color: #8BC34A; /* Green background for headers */
-            color: white;
+
+        .maintenance-index th {
+            background-color: #FFD700; /* Yellow for table headers */
+            color: #333; /* Dark text for contrast */
+            font-family: 'Lora', serif;
+            font-weight: 700;
         }
-        .maintenance-index .table tr:nth-child(even) {
-            background-color: #f2f2f2;
+
+        .maintenance-index tr:nth-child(even) {
+            background-color: #f8f8f8; /* Light gray for even rows */
         }
-        .maintenance-index .actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+
+        .maintenance-index tr:hover {
+            background-color: #e0f7e0; /* Light green hover effect */
         }
-        .maintenance-index .actions .btn {
+
+        /* Buttons */
+        .maintenance-index .btn {
             padding: 10px 20px;
             text-decoration: none;
-            color: #fff;
-            border-radius: 4px;
-            font-size: 16px;
-            display: inline-block;
+            color: #333; /* Dark text for contrast */
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
             text-align: center;
-            width: 150px; /* Ensure all buttons have the same width */
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            margin: 5px;
         }
-        .maintenance-index .actions .btn-primary {
-            background-color: #4CAF50; /* Green button for primary actions */
+
+        .maintenance-index .btn:hover {
+            transform: translateY(-2px);
         }
-        .maintenance-index .actions .btn-primary:hover {
-            background-color: #388E3C;
+
+        .maintenance-index .btn-primary {
+            background-color: #FFD700; /* Yellow for primary actions */
         }
-        .maintenance-index .actions .btn-secondary {
-            background-color: #8BC34A; /* Lighter green button for secondary actions */
+
+        .maintenance-index .btn-primary:hover {
+            background-color: hsl(133, 89.00%, 17.80%); /* Darker yellow on hover */
         }
-        .maintenance-index .actions .btn-secondary:hover {
-            background-color: #7CB342;
+
+        .maintenance-index .btn-secondary {
+            background-color: #95a5a6; /* Gray for secondary actions */
         }
-        .maintenance-index .actions .btn-danger {
-            background-color: #f44336; /* Red button for delete actions */
+
+        .maintenance-index .btn-secondary:hover {
+            background-color: #7f8c8d; /* Darker gray on hover */
         }
-        .maintenance-index .actions .btn-danger:hover {
-            background-color: #e53935;
+
+        .maintenance-index .btn-danger {
+            background-color: #e0f7e0; /* Red for delete actions */
+        }
+
+        .maintenance-index .btn-danger:hover {
+            background-color: #e0f7e0; /* Darker red on hover */
+        }
+
+        /* Labels */
+        .maintenance-index .form-group label {
+            color: #FFD700; /* Yellow for labels */
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .maintenance-index {
+                padding: 20px;
+            }
+
+            .maintenance-index h1 {
+                font-size: 24px;
+            }
+
+            .maintenance-index table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .maintenance-index .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
         }
     </style>
 {% endblock %}
 
 {% block body %}
     <div class="maintenance-index">
-        <h1>Maintenance Index</h1>
+        <h1>Maintenance List</h1>
 
         <table class="table table-striped">
             <thead>

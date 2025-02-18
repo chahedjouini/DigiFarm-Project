@@ -17,41 +17,54 @@ class Maintenance
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotBlank(message: 'The maintenance date cannot be empty.')]
+    #[Assert\NotNull(message: 'The purchase date cannot be empty.')]
     #[Assert\LessThanOrEqual('today', message: 'The maintenance date cannot be in the future.')]
     private ?\DateTimeInterface $dateEntretien = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'The cost cannot be empty.')]
     #[Assert\Positive(message: 'The cost must be a positive number.')]
+    #[Assert\Range(
+        max: 1000000,
+        maxMessage: 'The cost cannot exceed {{ max }}.'
+    )]
     private ?float $cout = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\Range(
         min: -50,
         max: 50,
-        notInRangeMessage: 'The temperature must be between {{ min }} and {{ max }} degrees Celsius.'
+        notInRangeMessage: 'The temperature must be between {{ min }}°C and {{ max }}°C.'
     )]
     private ?int $temperature = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\Range(
-        min: 0,
-        max: 100,
-        notInRangeMessage: 'The humidity must be between {{ min }} and {{ max }} percent.'
+    min: 0,
+    max: 100,
+    notInRangeMessage: 'The humidity must be between {{ min }}% and {{ max }}%.'
     )]
     private ?int $humidite = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\PositiveOrZero(message: 'The fuel consumption must be zero or a positive number.')]
+    #[Assert\Range(
+    max: 1000,
+    maxMessage: 'The fuel consumption cannot exceed {{ max }} liters.'
+    )]
     private ?float $consoCarburant = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\PositiveOrZero(message: 'The energy consumption must be zero or a positive number.')]
+    #[Assert\Range(
+    max: 10000,
+    maxMessage: 'The energy consumption cannot exceed {{ max }} kWh.'
+    )]
     private ?float $consoEnergie = null;
 
     #[ORM\Column(enumType: StatutMaintenance::class)]
     #[Assert\NotBlank(message: 'The status cannot be empty.')]
+    #[Assert\Type(type: StatutMaintenance::class, message: 'The status must be a valid maintenance status.')]
     private ?StatutMaintenance $Status = null;
 
     #[ORM\ManyToOne(inversedBy: 'Maintenance')]

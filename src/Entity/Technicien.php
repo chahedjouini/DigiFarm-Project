@@ -65,21 +65,28 @@ class Technicien
         max: 8,
         exactMessage: 'The telephone number must be exactly {{ limit }} digits long.'
     )]
+    #[Assert\Regex(
+        pattern: '/^\d{8}$/',
+        message: 'The telephone number must contain exactly 8 digits.'
+    )]
     private ?int $telephone = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'The location cannot be empty.')]
+    #[Assert\NotBlank(message: 'Please enter a location.')]
     #[Assert\Length(
         max: 100,
         maxMessage: 'The location cannot be longer than {{ limit }} characters.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9\s\',.-]*$/',
+        message: 'The location can only contain letters, numbers, spaces, commas, periods, or hyphens.'
     )]
     private ?string $localisation = null;
 
     /**
      * @var Collection<int, Maintenance>
      */
-    #[ORM\OneToMany(targetEntity: Maintenance::class, mappedBy: 'idTechnicien')]
-    private Collection $Maintenance;
+    #[ORM\OneToMany(targetEntity: Maintenance::class, mappedBy: 'idTechnicien', cascade: ['remove'])]
 
 
     public function __construct()
