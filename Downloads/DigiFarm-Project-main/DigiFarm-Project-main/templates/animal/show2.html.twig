@@ -1,4 +1,6 @@
-{% extends 'basefront.html.twig' %}
+{% extends 'baseback.html.twig' %}
+
+<title>Animal</title>
 
 {% block body %}
     <h1>Animal</h1>
@@ -34,6 +36,7 @@
 
     <a href="{{ path('app_animal_index') }}">back to list</a>
 
+    <a href="{{ path('app_animal_edit', {'id': animal.id}) }}">edit</a>
 
     {{ include('animal/_delete_form.html.twig') }}
 {% endblock %}

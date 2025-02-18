@@ -1,5 +1,6 @@
-{% extends 'basefront.html.twig' %}
+{% extends 'baseback.html.twig' %}
 
+<title>Animal index</title>
 
 {% block body %}
     <h1>Animal index</h1>
@@ -27,7 +28,7 @@
                 <td>{{ animal.race }}</td>
                 <td>
                     <a href="{{ path('app_animal_show', {'id': animal.id}) }}">show</a>
-                  
+                    <a href="{{ path('app_animal_edit', {'id': animal.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

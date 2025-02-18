@@ -42,25 +42,7 @@ final class AnimalController extends AbstractController
         ]);
     }
 
-    #[Route('/new2', name: 'app_animal_new2', methods: ['GET', 'POST'])]
-    public function new2(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $animal = new Animal();
-        $form = $this->createForm(Animal1Type::class, $animal);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($animal);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('animal/new2.html.twig', [
-            'animal' => $animal,
-            'form' => $form,
-        ]);
-    }
+    
 
     #[Route('/{id}', name: 'app_animal_show', methods: ['GET'])]
     public function show(Animal $animal): Response
