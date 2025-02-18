@@ -138,7 +138,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    
                     <th>Date Entretien</th>
                     <th>Cost</th>
                     <th>Temperature</th>
@@ -152,7 +152,7 @@
             <tbody>
             {% for maintenance in maintenances %}
                 <tr>
-                    <td>{{ maintenance.id }}</td>
+                    
                     <td>{{ maintenance.dateEntretien ? maintenance.dateEntretien|date('Y-m-d') : '' }}</td>
                     <td>{{ maintenance.cout }}</td>
                     <td>{{ maintenance.temperature }}</td>

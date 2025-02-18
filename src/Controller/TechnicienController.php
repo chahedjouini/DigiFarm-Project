@@ -71,14 +71,13 @@ final class TechnicienController extends AbstractController
     #[Route('/technicien/{id}', name: 'app_technicien_delete', methods: ['POST'])]
     public function delete(Request $request, Technicien $technicien, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $technicien->getId(), $request->getPayload()->getString('_token'))) {
+        
             $entityManager->remove($technicien);
             $entityManager->flush();
-        }
 
         return $this->redirectToRoute('app_technicien_index', [], Response::HTTP_SEE_OTHER);
     }
-
+   
     // 🔹 Technicien 2 (avec noms de routes corrigés)
 
     #[Route('/technicien2', name: 'app_technicien2_index', methods: ['GET'])]
@@ -145,4 +144,5 @@ final class TechnicienController extends AbstractController
 
         return $this->redirectToRoute('app_technicien2_delete', [], Response::HTTP_SEE_OTHER);
     }
+   
 }

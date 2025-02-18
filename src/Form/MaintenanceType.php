@@ -30,22 +30,21 @@ class MaintenanceType extends AbstractType
             ->add('consoEnergie')
             ->add('status', ChoiceType::class, [
                 'choices' => [
-                    'En attente' => StatutMaintenance::EN_ATTENTE,
-                    'En cours' => StatutMaintenance::EN_COURS,
-                    'Terminée' => StatutMaintenance::TERMINEE,
-                ],
+                    'En attente' => StatutMaintenance::EN_ATTENTE,// attente de disponibilité de technicien
+                    'En cours' => StatutMaintenance::EN_COURS,// en cours de maintenance par un technicien
+                    'Terminée' => StatutMaintenance::TERMINEE,//le technicien a terminé la maintenance
+                ],//
                 'expanded' => false, // true si tu veux des boutons radio
                 'multiple' => false, // true pour une sélection multiple
                 'choice_label' => fn ($choice) => $choice->value, // Affiche la valeur de l'énumération
             ])
             ->add('idMachine', EntityType::class, [
                 'class' => Machine::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
             ->add('idTechnicien', EntityType::class, [
                 'class' => Technicien::class,
-                'choice_label' => 'name',
-            ])
+            ]);
         ;
     }
 

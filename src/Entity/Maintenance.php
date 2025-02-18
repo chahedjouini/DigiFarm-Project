@@ -71,9 +71,10 @@ class Maintenance
     #[ORM\JoinColumn(nullable: false)] 
     private ?Machine $idMachine = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Maintenance')]
-    #[ORM\JoinColumn(nullable: false)] 
-    private ?Technicien $idTechnicien = null;
+    // src/Entity/Maintenance.php
+#[ORM\ManyToOne(targetEntity: Technicien::class, inversedBy: 'maintenances')]
+#[ORM\JoinColumn(name: 'id_technicien_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+private ?Technicien $idTechnicien = null;
 
    
 
