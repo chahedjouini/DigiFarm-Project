@@ -1,0 +1,60 @@
+{% extends 'base_front_etude.html.twig' %}
+
+
+{% block title %}Culture {% endblock %}
+
+{% block body %}
+    <h1>Liste des Cultures</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+           
+                <th>Nom</th>
+                <th>Surface</th>
+                <th>Date_plantation</th>
+                <th>Date_recolte</th>
+                <th>Region</th>
+                <th>Type_culture</th>
+                <th>Densite_plantation</th>
+                <th>Besoins_eau</th>
+                <th>Besoins_engrais</th>
+                <th>Rendement_moyen</th>
+                <th>Cout_moyen</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for culture in cultures %}
+            <tr>
+               
+                <td>{{ culture.nom }}</td>
+                <td>{{ culture.surface }}</td>
+                <td>{{ culture.datePlantation ? culture.datePlantation|date('Y-m-d') : '' }}</td>
+                <td>{{ culture.dateRecolte ? culture.dateRecolte|date('Y-m-d') : '' }}</td>
+                <td>{{ culture.region }}</td>
+                <td>{{ culture.typeCulture }}</td>
+                <td>{{ culture.densitePlantation }}</td>
+                <td>{{ culture.besoinsEau }}</td>
+                <td>{{ culture.besoinsEngrais.value  }}</td>
+                <td>{{ culture.rendementMoyen }}</td>
+                <td>{{ culture.coutMoyen }}</td>
+                <td>
+                    <a href="{{ path('app_culture_show', {'context': app.request.get('context'),'id': culture.id}) }}" class="button">show</a>
+                    <a href="{{ path('app_culture_edit', {'context': app.request.get('context'),'id': culture.id}) }}" class="button">edit</a>
+  {{ include('frontOfficeEtude/culture/_delete_form.html.twig') }}                 </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+  <center>    <a href="{{ path('app_culture_new',{'context': app.request.get('context')}) }}" class="button">Ajouter une nouvelle culture</a>  </center> 
+  <br>
+     <center>  <a  href="{{ path('front_page') }}"  class="button">Back</a> </center>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base_front_etude.html.twig' %}
+
+
+{% block title %}Etude {% endblock %}
+
+{% block body %}
+    <h1>Liste des Etudes lancées</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date_r</th>
+                <th>Climat</th>
+                <th>Type_sol</th>
+                <th>Irrigation</th>
+                <th>Fertilisation</th>
+                <th>Prix</th>
+                <th>Rendement</th>
+                <th>Precipitations</th>
+                <th>Main_oeuvre</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for etude in etudes %}
+            <tr>
+                <td>{{ etude.id }}</td>
+                <td>{{ etude.dateR ? etude.dateR|date('Y-m-d') : '' }}</td>
+                <td>{{ etude.climat.value  }}</td>
+                <td>{{ etude.typeSol.value  }}</td>
+                <td>{{ etude.irrigation ? 'Yes' : 'No' }}</td>
+                <td>{{ etude.fertilisation ? 'Yes' : 'No' }}</td>
+                <td>{{ etude.prix }}</td>
+                <td>{{ etude.rendement }}</td>
+                <td>{{ etude.precipitations }}</td>
+                <td>{{ etude.mainOeuvre }}</td>
+                <td>
+                    <a href="{{ path('app_etude_show', {'context': app.request.get('context'),'id': etude.id}) }}" class="button" >show</a>
+                    <a href="{{ path('app_etude_edit', {'context': app.request.get('context'),'id': etude.id}) }}" class="button" >edit</a>
+                    {{ include('frontOfficeEtude/etude/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+  <center>   <a href="{{ path('app_etude_new',{'context': app.request.get('context')}) }}" class="button">Lancer une nouvelle Etude</a> </center> 
+    <br>
+     <center>  <a  href="{{ path('front_page') }}"  class="button">Back</a> </center>
+       <br>
+         <center>  <a href="{{ path('app_expert_index',{'context': app.request.get('context')}) }}" class="button">Consulter la liste des Experts</a>  </center>
+
+{% endblock %}

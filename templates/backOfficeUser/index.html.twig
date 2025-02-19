@@ -1,0 +1,61 @@
+{% extends 'base_back_etude.html.twig' %}
+
+{% block body %}
+    <!-- Title above the table -->
+    <div class="table-title">
+        <h2>List of Users</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>AdresseMail</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.Nom }}</td>
+                        <td>{{ user.Prenom }}</td>
+                        <td>{{ user.AdresseMail }}</td>
+                        <td>{{ user.Password }}</td>
+                        <td>{{ user.Role.value }}</td>
+                        <td class="actions">
+                            <!-- Show Button -->
+                            <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-show">Show</a>
+
+                            <!-- Edit Button -->
+                            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-edit">Edit</a>
+
+                            <!-- Delete Button with form -->
+                            <form method="post" action="{{ path('app_user_delete', {'id': user.id}) }}" 
+                                  onsubmit="return confirm('Are you sure you want to delete this user?');" 
+                                  style="display:inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="new-user-container">
+        <a href="{{ path('app_user_new') }}" class="btn btn-primary">Create New</a>
+    </div>
+
+    
+{% endblock %}

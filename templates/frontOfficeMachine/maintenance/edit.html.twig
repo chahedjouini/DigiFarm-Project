@@ -1,0 +1,79 @@
+{% extends 'base_front_etude.html.twig' %}
+
+{% block title %}Edit Maintenance{% endblock %}
+
+
+
+{% block body %}
+    <div class="maintenance-edit">
+        <h1>Edit Maintenance</h1>
+
+        <div class="form-container">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'form-horizontal'}}) }}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.dateEntretien, "Maintenance Date") }}
+                    {{ form_widget(form.dateEntretien, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.dateEntretien) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.cout, "Cost") }}
+                    {{ form_widget(form.cout, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.cout) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.temperature, "Temperature") }}
+                    {{ form_widget(form.temperature, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.temperature) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.humidite, "Humidity") }}
+                    {{ form_widget(form.humidite, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.humidite) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.consoCarburant, "Fuel Consumption") }}
+                    {{ form_widget(form.consoCarburant, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.consoCarburant) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.consoEnergie, "Energy Consumption") }}
+                    {{ form_widget(form.consoEnergie, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.consoEnergie) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.status, "Status") }}
+                    {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.status) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.idMachine, "Machine") }}
+                    {{ form_widget(form.idMachine, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.idMachine) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.idTechnicien, "Technician") }}
+                    {{ form_widget(form.idTechnicien, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.idTechnicien) }}
+                </div>
+
+          <center>      <button class="btn btn-primary">{{ button_label|default('Update') }}</button> </center> 
+            {{ form_end(form) }}
+        </div>
+<center> 
+        <div class="actions">
+          <a class="button" href="{{ path('app_maintenance_index') }}">Back to list</a>
+            {{ include('frontOfficeMachine/maintenance/_delete_form.html.twig') }}
+        </div>
+        </center>
+    </div>
+{% endblock %}

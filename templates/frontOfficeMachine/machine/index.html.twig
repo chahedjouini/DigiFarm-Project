@@ -1,0 +1,46 @@
+{% extends 'base_front_etude.html.twig' %}
+
+{% block title %}Machine index{% endblock %}
+
+
+{% block body %}
+    <div class="machine-index">
+        <h1></h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                   
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Purchase Date</th>
+                    <th>Condition</th>
+                    <th>Predicted Condition</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for machine in machines %}
+                <tr>
+                    
+                    <td>{{ machine.nom }}</td>
+                    <td>{{ machine.type }}</td>
+                    <td>{{ machine.dateAchat ? machine.dateAchat|date('Y-m-d') : '' }}</td>
+                    <td>{{ machine.etat.value }}</td>
+                    <td>{{ machine.etatPred }}</td>
+                    <td>
+                        <a class="button" href="{{ path('app_machine_show', {'id': machine.id}) }}">show</a>
+                        <a class="button" href="{{ path('app_machine_edit', {'id': machine.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+     <center>    <a class="button" href="{{ path('app_machine_new') }}">Create new</a></center> 
+    </div>
+{% endblock %}

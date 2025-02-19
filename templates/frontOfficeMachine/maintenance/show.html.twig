@@ -1,0 +1,55 @@
+{% extends 'base_front_etude.html.twig' %}
+
+{% block title %}Maintenance{% endblock %}
+
+
+
+{% block body %}
+    <div class="maintenance-details">
+        <h1>Maintenance</h1>
+
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ maintenance.id }}</td>
+                </tr>
+                <tr>
+                    <th>Date Entretien</th>
+                    <td>{{ maintenance.dateEntretien ? maintenance.dateEntretien|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Cost</th>
+                    <td>{{ maintenance.cout }}</td>
+                </tr>
+                <tr>
+                    <th>Temperature</th>
+                    <td>{{ maintenance.temperature }}</td>
+                </tr>
+                <tr>
+                    <th>Humidity</th>
+                    <td>{{ maintenance.humidite }}</td>
+                </tr>
+                <tr>
+                    <th>Fuel Consumption</th>
+                    <td>{{ maintenance.consoCarburant }}</td>
+                </tr>
+                <tr>
+                    <th>Energy Consumption</th>
+                    <td>{{ maintenance.consoEnergie }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ maintenance.status.value }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="actions">
+          <center>  <a class="button" href="{{ path('app_maintenance_index') }}">Back to list</a></center>
+         <center>    <a class="button" href="{{ path('app_maintenance_edit', {'id': maintenance.id}) }}">Edit</a></center>
+           <center>  <a class="btn btn-danger" href="{{ path('app_maintenance_delete', {'id': maintenance.id}) }}" 
+               onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></center>
+        </div>
+    </div>
+{% endblock %}

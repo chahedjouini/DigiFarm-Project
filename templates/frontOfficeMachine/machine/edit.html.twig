@@ -1,0 +1,54 @@
+{% extends 'base_front_etude.html.twig' %}
+
+{% block title %}Edit Machine{% endblock %}
+
+
+
+{% block body %}
+    <div class="machine-edit">
+        <h1></h1>
+
+        <div class="form-container">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'form-horizontal'}}) }}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.nom, "Machine Name") }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.type, "Machine Type") }}
+                    {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.type) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.date_achat, "Purchase Date") }}
+                    {{ form_widget(form.date_achat, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.date_achat) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.etat, "Condition") }}
+                    {{ form_widget(form.etat, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.etat) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.etat_pred, "Previous Condition") }}
+                    {{ form_widget(form.etat_pred, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.etat_pred) }}
+                </div>
+
+           <center>      <button class="btn btn-primary">{{ button_label|default('Save') }}</button></center> 
+            {{ form_end(form) }}
+        </div>
+
+        <div class="actions">
+         <center>    <a class="btn btn-secondary" href="{{ path('app_machine_index') }}">Back to list</a></center> 
+        <center>    {{ include('frontOfficeMachine/machine/_delete_form.html.twig', { 'machine': machine }) }}</center> 
+        </div>
+    </div>
+{% endblock %}

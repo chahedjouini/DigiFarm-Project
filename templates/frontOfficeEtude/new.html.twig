@@ -1,0 +1,21 @@
+{% extends 'base_user.html.twig' %}
+
+{% block body %}
+    <div class="form-box">
+        <div class="form">
+            <h1 class="title">S'inscrire</h1>
+            <p class="subtitle">Créez un compte avec votre adresse mail gratuitement.</p>
+
+            <!-- Form content -->
+            {{ include('user/_form.html.twig') }}
+        </div>
+
+        <!-- Back to list -->
+        <div class="form-section">
+            <a href="{{ path('app_user_index') }}">Back to list</a>
+        </div>
+    </div>
+    
+{% endblock %}
+
+
