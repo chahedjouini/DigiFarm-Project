@@ -22,6 +22,14 @@ final class SuiviController extends AbstractController
         ]);
     }
 
+    #[Route('/front',name: 'app_suivi_index2', methods: ['GET'])]
+    public function index2(SuiviRepository $suiviRepository): Response
+    {
+        return $this->render('suivi/index2.html.twig', [
+            'suivis' => $suiviRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'app_suivi_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -33,7 +41,7 @@ final class SuiviController extends AbstractController
             $entityManager->persist($suivi);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_suivi_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_suivi_index2', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('suivi/new.html.twig', [
@@ -49,6 +57,14 @@ final class SuiviController extends AbstractController
             'suivi' => $suivi,
         ]);
     }
+    #[Route('/{id}/back', name: 'app_suivi_show2', methods: ['GET'])]
+    public function show2(Suivi $suivi): Response
+    {
+        return $this->render('suivi/show2.html.twig', [
+            'suivi' => $suivi,
+        ]);
+    }
+
 
     #[Route('/{id}/edit', name: 'app_suivi_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Suivi $suivi, EntityManagerInterface $entityManager): Response
@@ -59,7 +75,7 @@ final class SuiviController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_suivi_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_suivi_index2', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('suivi/edit.html.twig', [
@@ -76,6 +92,6 @@ final class SuiviController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_suivi_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_suivi_index2', [], Response::HTTP_SEE_OTHER);
     }
 }

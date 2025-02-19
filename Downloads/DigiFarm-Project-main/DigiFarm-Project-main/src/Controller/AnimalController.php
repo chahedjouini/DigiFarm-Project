@@ -22,6 +22,14 @@ final class AnimalController extends AbstractController
         ]);
     }
 
+    #[Route('/back',name: 'app_animal_index2', methods: ['GET'])]
+    public function index2(AnimalRepository $animalRepository): Response
+    {
+        return $this->render('animal/index2.html.twig', [
+            'animals' => $animalRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'app_animal_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -33,7 +41,7 @@ final class AnimalController extends AbstractController
             $entityManager->persist($animal);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_animal_index2', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('animal/new.html.twig', [
@@ -47,11 +55,18 @@ final class AnimalController extends AbstractController
     #[Route('/{id}', name: 'app_animal_show', methods: ['GET'])]
     public function show(Animal $animal): Response
     {
-        return $this->render('animal/show.html.twig', [
+        return $this->render('animal/show2.html.twig', [
             'animal' => $animal,
         ]);
     }
 
+    #[Route('/{id}', name: 'app_animal_show2', methods: ['GET'])]
+    public function show2(Animal $animal): Response
+    {
+        return $this->render('animal/show.html.twig', [
+            'animal' => $animal,
+        ]);
+    }
     #[Route('/{id}/edit', name: 'app_animal_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response
     {
@@ -61,7 +76,7 @@ final class AnimalController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_animal_index2', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('animal/edit.html.twig', [

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Animal;
 use App\Entity\Suivi;
+use App\Entity\Veterinaire;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,12 +18,16 @@ class SuiviType extends AbstractType
             ->add('temperature')
             ->add('rythme_cardiaque')
             ->add('etat')
-            ->add('veterinaire')
             ->add('id_client')
             ->add('animal', EntityType::class, [
                 'class' => Animal::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
+            ->add('veterinaire', EntityType::class, [
+                'class' => Veterinaire::class,
+                'choice_label' => 'nom',
+            ])
+            
         ;
     }
 

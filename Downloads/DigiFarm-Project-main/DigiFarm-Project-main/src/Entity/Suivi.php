@@ -38,17 +38,15 @@ class Suivi
     #[Assert\Choice(choices: ["Bon", "Moyen", "Critique"], message: "L'état doit être 'Bon', 'Moyen' ou 'Critique'.")]
     private ?string $etat = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Le vétérinaire est obligatoire.")]
-    #[Assert\Length(min: 3, minMessage: "Le nom du vétérinaire doit contenir au moins 3 caractères.")]
-    private ?string $veterinaire = null;
-
     #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(message: "L'ID du client est obligatoire.")]
     #[Assert\Positive(message: "L'ID du client doit être un nombre positif.")]
     private ?int $id_client = null;
 
-    // Getters et setters pour chaque propriété
+    #[ORM\ManyToOne(targetEntity: Veterinaire::class, inversedBy: 'suivis')]
+    #[ORM\JoinColumn(name: "veterinaire_id", referencedColumnName: "id", nullable: false)]
+    private ?Veterinaire $veterinaire = null; // Keep it singular
+    // Getters and Setters
 
     public function getId(): ?int
     {
@@ -99,17 +97,6 @@ class Suivi
         return $this;
     }
 
-    public function getVeterinaire(): ?string
-    {
-        return $this->veterinaire;
-    }
-
-    public function setVeterinaire(string $veterinaire): self
-    {
-        $this->veterinaire = $veterinaire;
-        return $this;
-    }
-
     public function getIdClient(): ?int
     {
         return $this->id_client;
@@ -120,4 +107,18 @@ class Suivi
         $this->id_client = $id_client;
         return $this;
     }
+
+    
+    // Fix getter and setter names
+    public function getVeterinaire(): ?Veterinaire
+    {
+        return $this->veterinaire;
+    }
+    
+    public function setVeterinaire(?Veterinaire $veterinaire): self
+    {
+        $this->veterinaire = $veterinaire;
+        return $this;
+    }
+    
 }
