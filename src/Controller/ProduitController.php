@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
+
 
 #[Route('/produit')]
 final class ProduitController extends AbstractController
@@ -23,24 +26,44 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $produit = new Produit();
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+{
+    $produit = new Produit();
+    $form = $this->createForm(ProduitType::class, $produit);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($produit);
-            $entityManager->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+        $file = $form->get('imageFile')->getData();
+        
+        if ($file) {
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+            try {
+                $file->move(
+                    $this->getParameter('uploads_directory'), // Défini dans config/services.yaml
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                throw new \Exception("Erreur lors de l'upload du fichier");
+            }
+
+            $produit->setImage($newFilename);
         }
 
-        return $this->render('produit/new.html.twig', [
-            'produit' => $produit,
-            'form' => $form,
-        ]);
+        $entityManager->persist($produit);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->render('produit/new.html.twig', [
+        'produit' => $produit,
+        'form' => $form,
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response
@@ -50,24 +73,45 @@ final class ProduitController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/{id}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('imageFile')->getData();
+            
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+    
+                try {
+                    $file->move(
+                        $this->getParameter('uploads_directory'), // Défini dans config/services.yaml
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    throw new \Exception("Erreur lors de l'upload du fichier");
+                }
+    
+                $produit->setImage($newFilename);
+            }
+    
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->render('produit/edit.html.twig', [
             'produit' => $produit,
             'form' => $form,
         ]);
     }
-
+    
     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
@@ -78,6 +122,7 @@ final class ProduitController extends AbstractController
 
         return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
 
 

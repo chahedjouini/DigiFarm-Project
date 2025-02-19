@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProduitType extends AbstractType
 {
@@ -35,6 +37,18 @@ class ProduitType extends AbstractType
             ])
             ->add('stock', NumberType::class, [
                 'label' => 'Stock'
+            ])
+            ->add('imageFile', FileType::class, [
+                'label' => 'Image du produit',
+                'mapped' => false, // Important : car ce champ n'existe pas dans l'entité
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                        'mimeTypesMessage' => 'Veuillez uploader une image valide (JPG, PNG, WEBP).',
+                    ]),
+                ],
             ]);
     }
 

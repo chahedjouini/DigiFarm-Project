@@ -54,8 +54,9 @@ class Produit
     private ?float $stock = null;
 
     
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
+
     public function getId(): ?int
     {
         return $this->id;

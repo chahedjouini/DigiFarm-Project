@@ -384,14 +384,20 @@
         <div class="row">
             {% for produit in produits %}
                 <div class="col-md-6 col-lg-4">
+				
                     <div class="shop-one__item">
                         <div class="shop-one__content text-center">
+				 		{% if produit.image %}
+                         <img src="{{ asset('uploads/' ~ produit.image) }}" alt="{{ produit.nom }}" class="img-fluid mb-2" style="width: 100%; height: 200px; object-fit: cover;">
+                         {% else %}
+                        <img src="{{ asset('assets/images/no-image.png') }}" alt="Image non disponible" class="img-fluid mb-2" style="width: 100%; height: 200px; object-fit: cover;">
+                        {% endif %}
+						
                             <h3 class="shop-one__title">
                                 <a href="{{ path('app_produit_show', {'id': produit.id}) }}">{{ produit.nom }}</a>
                             </h3>
                             <p class="shop-one__reference">Référence: {{ produit.reference }}</p>
                             <p class="shop-one__description">{{ produit.description }}</p>
-							
                         </div>
                     </div>
                 </div>
