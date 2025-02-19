@@ -17,7 +17,11 @@ class Produit
 
     // #[ORM\Column(enumType: EnumTypeProduit::class)] 
     // private ?EnumTypeProduit $type = null;
+    // #[ORM\ManyToOne(targetEntity: Commande::class, inversedBy: 'produits')]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?Commande $commande = null;
 
+    
     #[ORM\Column(length: 20)]  
     #[Assert\NotBlank(message: "Le type de produit est requis.")]
     #[Assert\Choice(choices: ['Achat', 'Vente'], message: "Le type doit être 'Achat' ou 'Vente'.")]
@@ -40,31 +44,23 @@ class Produit
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: "Le prix unitaire est obligatoire.")]
+    #[Assert\Positive(message: "Le prix unitaire doit être un nombre positif.")]
+    private ?float $prix = null;
+
+    #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(message: "Le stock est obligatoire.")]
     #[Assert\PositiveOrZero(message: "Le stock ne peut pas être négatif.")]
     private ?float $stock = null;
 
+    
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $image = null;
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    // public function getType(): ?EnumTypeProduit
-    // {
-    //     return $this->type;
-    // }
-
-    // public function setType(?EnumTypeProduit $type): static
-    // {
-    //     $this->type = $type;
-    //      return $this;
-    //  }
-
-    //  public function setType(EnumTypeProduit|string|null $type): static
-    //  {
-    //     $this->type = is_string($type) ? EnumTypeProduit::from($type) : $type;
-    //     return $this;
-    //  }
 
     public function getType(): ?string
     {
@@ -99,6 +95,16 @@ class Produit
         $this->nom = $nom;
         return $this;
     }
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(?float $prix): static
+    {
+        $this->prix = $prix;
+        return $this;
+    }
 
     public function getDescription(): ?string
     {
@@ -120,5 +126,15 @@ class Produit
     {
         $this->stock = $stock;
         return $this;
+    }
+    public function getImage(): ?string
+    {
+    return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+    $this->image = $image;
+    return $this;
     }
 }

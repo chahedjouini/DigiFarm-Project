@@ -19,6 +19,12 @@
 </div>
 
 <div class="mb-3">
+    {{ form_label(form.prix , "prix", {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.prix, {'attr': {'class': 'text-danger'}}) }}
+</div>
+
+<div class="mb-3">
     {{ form_label(form.description , "Description", {'label_attr': {'class': 'form-label'}}) }}
     {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
     {{ form_errors(form.description, {'attr': {'class': 'text-danger'}}) }}
@@ -29,6 +35,8 @@
     {{ form_widget(form.stock, {'attr': {'class': 'form-control'}}) }}
     {{ form_errors(form.stock, {'attr': {'class': 'text-danger'}}) }}
 </div>
+
+
 
 <div class="text-center mt-3">
     <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>

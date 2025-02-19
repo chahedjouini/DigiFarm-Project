@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-// use App\Enum\EnumStatutCommande;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
@@ -16,14 +17,13 @@ class Commande
     #[ORM\Column]
     private ?int $id = null;
 
-    // #[ORM\Column(enumType: EnumStatutCommande::class)]
-    // private ?EnumStatutCommande $statut = null;
+    // #[ORM\OneToMany(targetEntity: CommandeProduit::class, mappedBy: 'commande', cascade: ['persist', 'remove'])]
+    // private Collection $commandeProduits;
 
     #[ORM\Column(length: 100)]  
     #[Assert\NotBlank(message: "Le type de commande est requis.")]
     #[Assert\Choice(choices: ['Achat', 'Vente'], message: "Le type doit être 'Achat' ou 'Vente'.")]
     private ?string $type = null;
-
 
     #[ORM\Column(length: 100)]  
     #[Assert\NotBlank(message: "Le statut de la commande est requis.")]
@@ -33,7 +33,7 @@ class Commande
     #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(message: "La quantité est obligatoire.")]
     #[Assert\Positive(message: "La quantité doit être un nombre positif.")]
-    private ?float $quantite = null; // Sans accent
+    private ?float $quantite = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(message: "Le prix unitaire est obligatoire.")]
@@ -49,6 +49,11 @@ class Commande
     #[Assert\NotBlank(message: "La date de commande est requise.")]
     #[Assert\LessThanOrEqual('today', message: "La date de commande ne peut pas être dans le futur.")]
     private ?\DateTimeInterface $dateCommande = null;
+
+    public function __construct()
+    {
+        $this->commandeProduits = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -66,7 +71,7 @@ class Commande
         return $this;
     }
 
-    public function getQuantite(): ?float // Sans accent
+    public function getQuantite(): ?float
     {
         return $this->quantite;
     }
@@ -110,18 +115,7 @@ class Commande
         return $this;
     }
 
-//     public function getStatut(): ?EnumStatutCommande
-//     {
-//         return $this->statut;
-//     }
-
-//     public function setStatut(?EnumStatutCommande $statut): static
-//     {
-//         $this->statut = $statut;
-//         return $this;
-//     }
-
-public function getStatut(): ?string
+    public function getStatut(): ?string
     {
         return $this->statut;
     }
@@ -132,5 +126,32 @@ public function getStatut(): ?string
         return $this;
     }
 
-   
- }
+    /**
+     * @return Collection<int, CommandeProduit>
+     */
+    public function getCommandeProduits(): Collection
+    {
+        return $this->commandeProduits;
+    }
+
+    public function addCommandeProduit(CommandeProduit $commandeProduit): static
+    {
+        if (!$this->commandeProduits->contains($commandeProduit)) {
+            $this->commandeProduits[] = $commandeProduit;
+            $commandeProduit->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandeProduit(CommandeProduit $commandeProduit): static
+    {
+        if ($this->commandeProduits->removeElement($commandeProduit)) {
+            if ($commandeProduit->getCommande() === $this) {
+                $commandeProduit->setCommande(null);
+            }
+        }
+
+        return $this;
+    }
+}

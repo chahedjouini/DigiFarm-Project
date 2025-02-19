@@ -27,6 +27,9 @@ class ProduitType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom'
             ])
+            ->add('prix', NumberType::class, [
+                'label' => 'Prix'
+            ])
             ->add('description', TextType::class, [
                 'label' => 'Description'
             ])
