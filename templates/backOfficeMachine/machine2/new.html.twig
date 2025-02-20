@@ -1,0 +1,20 @@
+
+{% extends 'base_back_etude.html.twig' %}
+
+{% block title %}New Machine{% endblock %}
+
+
+
+{% block body %}
+    <div class="machine-new">
+        <h1>Create new Machine</h1>
+
+        <div class="form-container">
+            {{ include('backOfficeMachine/machine2/_form.html.twig') }}
+        </div>
+
+        <div class="actions">
+            <a class="btn btn-secondary" href="{{ path('app_machine2_index') }}">Back to list</a>
+        </div>
+    </div>
+{% endblock %}

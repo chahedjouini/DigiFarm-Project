@@ -25,25 +25,68 @@
 {% if app.request.attributes.get('_route') == 'app_expert_show' %}
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 {% endif %}
+{% if app.request.attributes.get('_route') == 'app_veterinaire_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
 {% if app.request.attributes.get('_route') == 'app_etude_show' %}
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 {% endif %}
 {% if app.request.attributes.get('_route') == 'app_culture_show' %}
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 {% endif %}
+{% if app.request.attributes.get('_route') == 'app_animal_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_suivi_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
 
+{% if app.request.attributes.get('_route') == 'app_abonnement_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_facture_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
 
-{% if app.request.attributes.get('_route') == 'app_expert_new' %}
+{% if app.request.attributes.get('_route') == 'app_technicien_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_maintenance_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_machine_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_abonnement_new' %}
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
-{% if app.request.attributes.get('_route') == 'app_culture_new' %}
+{% if app.request.attributes.get('_route') == 'app_facture_new' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_technicien_new' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_maintenance_new' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_machine_new' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_expert_new' %}
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
 {% if app.request.attributes.get('_route') == 'app_etude_new' %}
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
-
-
+{% if app.request.attributes.get('_route') == 'app_culture_new' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_suivi_new' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_animal_new' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
 {% if app.request.attributes.get('_route') == 'app_expert_edit' %}
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
@@ -54,7 +97,27 @@
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
 
-
+{% if app.request.attributes.get('_route') == 'app_animal_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_suivi_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_technicien_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_machine_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_maintenance_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_abonnement_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_facture_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
     <link rel="stylesheet" href="{{ asset('assets/vendors/animate/custom-animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/jarallax/jarallax.css') }}">
@@ -181,18 +244,18 @@
 													<li><a href="{{ path('allservices_page') }}">All Services</a></li>
 													<li><a href="agriculture-products.html">Agriculture Products</a>
 													</li>
-													<li><a href="fresh-vegetable.html">Agriculture Machines</a></li>
+													<li><a href="{{ path('front_machine_page') }}">Agriculture Machines</a></li>
 													<li><a href="{{ path('front_page') }}">Agriculture Etudes</a></li>
-													<li><a href="dairy-products.html"> Follow up Animals </a></li>
+													<li><a href="{{ path('front_animal_page') }}"> Follow up Animals </a></li>
 												</ul>
 											</li>
 										
 											<li class="dropdown">
 												<a href="shop.html">Abonnements</a>
 												<ul>
-													<li><a href="shop.html">Renew</a></li>
-													<li><a href="product-details.html">Desactivate</a></li>
-													<li><a href="cart.html">Make On Hold</a></li>
+													<li><a href="{{ path('contact_page') }}">Renew</a></li>
+													<li><a href="{{ path('app_facture_new', {'abonnementId': 7}) }}">Get Facutre</a></li>
+													<li><a href="{{ path('app_abonnement_show', {'id': 7}) }}">Show Membership Details</a></li>
 												</ul>
 											</li>
 											

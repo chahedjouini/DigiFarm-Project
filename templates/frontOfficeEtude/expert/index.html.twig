@@ -1,14 +1,13 @@
 {% extends 'base_front_etude.html.twig' %}
 
 
-{% block title %}expert index{% endblock %}
+{% block title %}List Expert{% endblock %}
 {% block body %}
     <h1>Expert index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Tel</th>
@@ -21,7 +20,7 @@
         <tbody>
         {% for expert in experts %}
             <tr>
-                <td>{{ expert.id }}</td>
+              
                 <td>{{ expert.nom }}</td>
                 <td>{{ expert.prenom }}</td>
                 <td>{{ expert.tel }}</td>
@@ -30,20 +29,17 @@
                 <td>{{ expert.dispo.value }}</td>
                 <td>
     <a href="{{ path('app_expert_show', {'context': app.request.get('context'),'id': expert.id}) }}" class="button">Show</a>
-    <a href="{{ path('app_expert_edit', {'context': app.request.get('context'),'id': expert.id}) }}" class="button">Edit</a>
-    {{ include('frontOfficeEtude/expert/_delete_form.html.twig') }} 
 </td>
 
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">no Experts found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-  <center>  <a href="{{ path('app_expert_new' ,{'context': app.request.get('context')}) }}"class="button">Create new</a> </center>
 <br>
-       <center>  <a href="{{ path('app_etude_index' ,{'context': app.request.get('context')}) }}"class="button">back to Etude</a> </center>
+       <center>  <a href="{{ path('app_etude_index' ,{'context': app.request.get('context')}) }}"class="button">Back to Etude</a> </center>
 
 {% endblock %}

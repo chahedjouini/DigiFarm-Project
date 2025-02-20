@@ -1,0 +1,50 @@
+{% extends 'base_front_etude.html.twig' %}
+
+{% block title %}Technicien{% endblock %}
+
+
+
+{% block body %}
+    <div class="technicien-details">
+        <h1>Technicien</h1>
+
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ technicien.id }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ technicien.name }}</td>
+                </tr>
+                <tr>
+                    <th>Prenom</th>
+                    <td>{{ technicien.prenom }}</td>
+                </tr>
+                <tr>
+                    <th>Specialite</th>
+                    <td>{{ technicien.specialite }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ technicien.email }}</td>
+                </tr>
+                <tr>
+                    <th>Telephone</th>
+                    <td>{{ technicien.telephone }}</td>
+                </tr>
+                <tr>
+                    <th>Localisation</th>
+                    <td>{{ technicien.localisation }}</td>
+                </tr>
+            </tbody>
+        </table>
+<center>
+        <div class="actions">
+            <a class="button" href="{{ path('app_technicien_index') }}">Back to list</a>
+        </div>
+        </center>
+
+    </div>
+{% endblock %}

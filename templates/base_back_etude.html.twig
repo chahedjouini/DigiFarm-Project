@@ -115,16 +115,28 @@
 
                 <!--gallerie-->
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" data-toggle="collapse" href="#gallerie-menu" aria-expanded="false" aria-controls="gallerie-menu">
                     <!--NEW icon-->
                     <span class="menu-icon">
                         <i class="mdi mdi-book-open-page-variant"></i>
                     </span>
                     <!--NEW icon-->
-                    <span class="menu-title">Abonnement</span>
+                    <span class="menu-title">Farm's Animals</span>
                     <i class="menu-arrow"></i>
                     </a>
-                    </li>
+                    <!--NEW elements-->
+                    <div class="collapse" id="gallerie-menu">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_animal2_index') }}">Animals</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_suivi2_index') }}">Suivis</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_veterinaire2_index') }}">veterinaire</a></li>
+
+                    </ul>
+                    </div>
+                    <!--NEW elements-->
+                </li>
+                <!--gallerie-->
+
 
 
 
@@ -143,20 +155,28 @@
                 </li>
                 <!--formation-->
 
-
-                <!--Evenements-->
+<!--Reclamations/Forum-->
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" data-toggle="collapse" href="#rec-menu" aria-expanded="false" aria-controls="rec-menu">
                     <!--NEW icon-->
                     <span class="menu-icon">
-                        <i class="mdi mdi-presentation-play"></i>
+                        <i class="mdi mdi-phone-outgoing"></i>
                     </span>
                     <!--NEW icon-->
-                    <span class="menu-title">Suivi</span>
+                    <span class="menu-title">Abonnement</span>
                     <i class="menu-arrow"></i>
                     </a>
+                    <!--NEW elements-->
+                    <div class="collapse" id="rec-menu">
+                    <ul class="nav flex-column sub-menu">
+                         <li class="nav-item"> <a class="nav-link" href="{{ path('app_abonnement2_index') }}">Abonnement</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_facture2_index') }}">Facture</a></li>
+                    </ul>
+                    </div>
+                    <!--NEW elements-->
                 </li>
-                <!--Evenements-->
+                <!--Reclamation/Forum-->
+               
 
                 
                    <!--Etudes-->
@@ -173,25 +193,40 @@
                     <!--NEW elements-->
                     <div class="collapse" id="event-menu">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_expert_index', {'context': app.request.get('context')}) }}">Expert</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_etude_index', {'context': app.request.get('context')})  }}">Etudes</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_culture_index', {'context': app.request.get('context')})  }}">Culture</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_expert_index', {'context': app.request.get('context') ?: 'back'}) }}">Expert</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_etude_index', {'context': app.request.get('context') ?: 'back'}) }}">Etudes</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_culture_index', {'context': app.request.get('context') ?: 'back'}) }}">Culture</a></li>
                     </ul>
                     </div>
                     <!--NEW elements-->
                 </li>
+                 
+                    
                 
-                
+               
+    <!--formation-->
                 <li class="nav-item menu-items">
-                    <a class="nav-link"  href="pages/forms/basic_elements.html">
+                    <a class="nav-link" data-toggle="collapse" href="#formation-menu" aria-expanded="false" aria-controls="formation-menu">
+                    <!--NEW icon-->
                     <span class="menu-icon">
-                        <i class="mdi mdi-laptop"></i>
+                        <i class="mdi mdi-lead-pencil"></i>
                     </span>
+                    <!--NEW icon-->
                     <span class="menu-title">Machine</span>
                     <i class="menu-arrow"></i>
                     </a>
-                  
+                    <!--NEW elements-->
+                    <div class="collapse" id="formation-menu">
+                    <ul class="nav flex-column sub-menu">
+                           <li class="nav-item"> <a class="nav-link" href="{{ path('app_machine2_index') }}">Machine</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_maintenance2_index') }}">Maintenance</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ path('app_technicien2_index') }}">Technicien</a></li>
+                    </ul>
+                    </div>
+                    <!--NEW elements-->
                 </li>
+                <!--formation-->
+
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="pages/forms/basic_elements.html">
                     <span class="menu-icon">

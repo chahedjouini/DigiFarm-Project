@@ -1,0 +1,48 @@
+{% extends 'base_front_etude.html.twig' %}
+
+{% block title %}Technicien Index{% endblock %}
+
+
+
+{% block body %}
+    <div class="technicien-index">
+        <h1>Technicien Index</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Prenom</th>
+                    <th>Specialite</th>
+                    <th>Email</th>
+                    <th>Telephone</th>
+                    <th>Localisation</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for technicien in techniciens %}
+                <tr>
+                    <td>{{ technicien.id }}</td>
+                    <td>{{ technicien.name }}</td>
+                    <td>{{ technicien.prenom }}</td>
+                    <td>{{ technicien.specialite }}</td>
+                    <td>{{ technicien.email }}</td>
+                    <td>{{ technicien.telephone }}</td>
+                    <td>{{ technicien.localisation }}</td>
+                    <td>
+                        <a class="button" href="{{ path('app_technicien_show', {'id': technicien.id}) }}">Show Details</a>
+                        
+                        
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      <center>      <a class="button" href="{{ path('front_machine_page') }}">Back to list</a>  </center>
+
+    </div>
+{% endblock %}
