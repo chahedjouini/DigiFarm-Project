@@ -11,198 +11,106 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
-
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/produit')]
 final class ProduitController extends AbstractController
 {
-    #[Route(name: 'app_produit_index', methods: ['GET'])]
-    public function index(ProduitRepository $produitRepository): Response
+    // ✅ 1. FRONT-OFFICE : Liste des produits (accessible aux clients)
+    #[Route( name: 'app_produit_index', methods: ['GET'])]
+    public function indexFront(ProduitRepository $produitRepository): Response
     {
         return $this->render('produit/index.html.twig', [
             'produits' => $produitRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
-{
-    $produit = new Produit();
-    $form = $this->createForm(ProduitType::class, $produit);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $file = $form->get('imageFile')->getData();
-        
-        if ($file) {
-            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-
-            try {
-                $file->move(
-                    $this->getParameter('uploads_directory'), // Défini dans config/services.yaml
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                throw new \Exception("Erreur lors de l'upload du fichier");
-            }
-
-            $produit->setImage($newFilename);
-        }
-
-        $entityManager->persist($produit);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    return $this->render('produit/new.html.twig', [
-        'produit' => $produit,
-        'form' => $form,
-    ]);
-}
-
-
-    #[Route('/{id}', name: 'app_produit_show', methods: ['GET'])]
-    public function show(Produit $produit): Response
+    // ✅ 2. FRONT-OFFICE : Détails d’un produit
+    #[Route('/details/{id}', name: 'app_produit_show', methods: ['GET'])]
+    public function showFront(Produit $produit): Response
     {
         return $this->render('produit/show.html.twig', [
             'produit' => $produit,
         ]);
     }
 
+    // ✅ 3. BACK-OFFICE : Liste des produits avec actions de gestion
+    #[Route('/gestion', name: 'app_produit_gestion', methods: ['GET'])]
+    public function indexBack(ProduitRepository $produitRepository): Response
+    {
+        return $this->render('produit/index2.html.twig', [
+            'produits' => $produitRepository->findAll(),
+        ]);
+    }
 
+    // ✅ 4. BACK-OFFICE : Création d’un produit
+    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    {
+        $produit = new Produit();
+        $form = $this->createForm(ProduitType::class, $produit);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->handleImageUpload($form, $produit, $slugger);
+            $entityManager->persist($produit);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_produit_gestion');
+        }
+
+        return $this->render('produit/new.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    // ✅ 5. BACK-OFFICE : Édition d’un produit
     #[Route('/{id}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form->get('imageFile')->getData();
-            
-            if ($file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-    
-                try {
-                    $file->move(
-                        $this->getParameter('uploads_directory'), // Défini dans config/services.yaml
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    throw new \Exception("Erreur lors de l'upload du fichier");
-                }
-    
-                $produit->setImage($newFilename);
-            }
-    
+            $this->handleImageUpload($form, $produit, $slugger);
             $entityManager->flush();
-    
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+
+            return $this->redirectToRoute('app_produit_gestion');
         }
-    
+
         return $this->render('produit/edit.html.twig', [
-            'produit' => $produit,
             'form' => $form,
+            'produit' => $produit,
         ]);
     }
-    
+
+    // ✅ 6. BACK-OFFICE : Suppression d’un produit
     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $produit->getId(), $request->request->get('_token'))) {
             $entityManager->remove($produit);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_produit_gestion');
     }
 
+    // ✅ Fonction privée pour gérer l'upload des images
+    private function handleImageUpload($form, Produit $produit, SluggerInterface $slugger)
+    {
+        $file = $form->get('imageFile')->getData();
+        if ($file) {
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+            try {
+                $file->move($this->getParameter('uploads_directory'), $newFilename);
+                $produit->setImage($newFilename);
+            } catch (FileException $e) {
+                throw new \Exception("Erreur lors de l'upload de l'image");
+            }
+        }
+    }
 }
-
-
-
-// namespace App\Controller;
-
-// use App\Entity\Produit;
-// use App\Form\ProduitType;
-// use App\Repository\ProduitRepository;
-// use Doctrine\ORM\EntityManagerInterface;
-// use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-// use Symfony\Component\HttpFoundation\Request;
-// use Symfony\Component\HttpFoundation\Response;
-// use Symfony\Component\Routing\Attribute\Route;
-
-// #[Route('/produit/{context}', requirements: ['context' => 'front|back'])]
-// final class ProduitController extends AbstractController
-// {
-//     #[Route(name: 'app_produit_index', methods: ['GET'])]
-//     public function index(string $context, ProduitRepository $produitRepository): Response
-//     {
-//         return $this->render("$context" . "frontOffice/produit/index.html.twig", [
-//             'produits' => $produitRepository->findAll(),
-//         ]);
-//     }
-
-//     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-//     public function new(string $context,Request $request, EntityManagerInterface $entityManager): Response
-//     {
-//         $produit = new Produit();
-//         $form = $this->createForm(ProduitType::class, $produit);
-//         $form->handleRequest($request);
-
-//         if ($form->isSubmitted() && $form->isValid()) {
-//             $entityManager->persist($produit);
-//             $entityManager->flush();
-
-//             return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-//         }
-
-//         return $this->render("$context" ."produit/new.html.twig", [
-//             'produit' => $produit,
-//             'form' => $form,
-//         ]);
-//     }
-
-//     #[Route('/{id}', name: 'app_produit_show', methods: ['GET'])]
-//     public function show(string $context,Produit $produit): Response
-//     {
-//         return $this->render("$context" ."frontOffice/produit/show.html.twig", [
-//             'produit' => $produit,
-//         ]);
-//     }
-
-//     #[Route('/{id}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
-//     public function edit(string $context,Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
-//     {
-//         $form = $this->createForm(ProduitType::class, $produit);
-//         $form->handleRequest($request);
-
-//         if ($form->isSubmitted() && $form->isValid()) {
-//             $entityManager->flush();
-
-//             return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-//         }
-
-//         return $this->render("$context" ."frontOffice/produit/edit.html.twig", [
-//             'produit' => $produit,
-//             'form' => $form,
-//         ]);
-//     }
-
-//     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
-//     public function delete(string $context,Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
-//     {
-//         if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->getPayload()->getString('_token'))) {
-//             $entityManager->remove($produit);
-//             $entityManager->flush();
-//         }
-
-//         return $this->redirectToRoute('app_produit_index', ['context' => $context], Response::HTTP_SEE_OTHER);
-//     }
-// }

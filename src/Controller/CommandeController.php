@@ -3,79 +3,105 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\Produit;
+use App\Entity\CommandeDetail;
 use App\Form\CommandeType;
 use App\Repository\CommandeRepository;
+use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[Route('/commande')]
 final class CommandeController extends AbstractController
 {
-    #[Route(name: 'app_commande_index', methods: ['GET'])]
-    public function index(CommandeRepository $commandeRepository): Response
+    // //  AFFICHAGE DES COMMANDES EN MODE ADMIN
+     #[Route('/list', name: 'app_commande_gestion', methods: ['GET'])]
+     public function indexBack(CommandeRepository $commandeRepository): Response
+     {
+         return $this->render('commande/List.html.twig', [
+             'commandes' => $commandeRepository->findAll(),
+         ]);
+     }
+
+    
+    //*** Finalisation commande */
+    #[Route( name: 'commande_page', methods: ['GET', 'POST'])]
+    public function commander(Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('commande/index.html.twig', [
-            'commandes' => $commandeRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_commande_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $commande = new Commande();
-        $form = $this->createForm(CommandeType::class, $commande);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($commande);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
+        // Récupérer les IDs des produits sélectionnés
+        $produitIds = $request->request->all('produits'); // ✅ Utilisation de all() pour récupérer un tableau
+    
+        // Vérification si la liste est vide
+        if (empty($produitIds)) {
+            return $this->redirectToRoute('app_produit_index');
         }
-
-        return $this->render('commande/new.html.twig', [
-            'commande' => $commande,
-            'form' => $form,
+    
+        // Récupération des produits en base de données
+        $produits = $entityManager->getRepository(Produit::class)->findBy(['id' => $produitIds]);
+    
+        return $this->render('commande/commande.html.twig', [
+            'produits' => $produits,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_commande_show', methods: ['GET'])]
-    public function show(Commande $commande): Response
+    
+    #[Route('/commande/finaliser', name: 'finaliser_commande', methods: ['POST'])]
+    public function finaliserCommande(Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('commande/show.html.twig', [
-            'commande' => $commande,
-        ]);
-    }
+     $produitIds = $request->request->all('produits');
+     $quantites = $request->request->all('quantites');
+    
 
-    #[Route('/{id}/edit', name: 'app_commande_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(CommandeType::class, $commande);
-        $form->handleRequest($request);
+     if (empty($produitIds)) {
+         return $this->redirectToRoute('app_produit_index');
+     }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
 
-            return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
+     $produits = $entityManager->getRepository(Produit::class)->findBy(['id' => $produitIds]);
+
+     $commande = new Commande();
+     $commande->setDateCommande(new \DateTime());
+     $commande->setMontantTotal(0);
+     $entityManager->persist($commande);
+     $entityManager->flush();
+  
+     $total = 0;
+
+     foreach ($produits as $produit) {
+        if (!$produit) {
+            throw new \Exception("Produit non trouvé !");
         }
+        
+   // $subtotal = $produit->getPrix() * $quantite;
 
-        return $this->render('commande/edit.html.twig', [
-            'commande' => $commande,
-            'form' => $form,
-        ]);
-    }
+        $quantity = isset($quantites[$produit->getId()]) ? (int)$quantites[$produit->getId()] : 1;
+       
+        $subtotal = $produit->getPrix() * $quantity;
+      
 
-    #[Route('/{id}', name: 'app_commande_delete', methods: ['POST'])]
-    public function delete(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$commande->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($commande);
-            $entityManager->flush();
-        }
+         $commandeDetail = new CommandeDetail();
+         $commandeDetail->setCommande($commande);
+         $commandeDetail->setProduit($produit);
+         $commandeDetail->setQuantite($quantity);
+         $commandeDetail->setPrixUnitaire($produit->getPrix());
+         $commandeDetail->setMontantTotal($subtotal);
+        
+        
+         $entityManager->persist($commandeDetail);
+         $entityManager->flush();
+         $total += $subtotal;
+        //  dump($commandeDetail);
+        //  die();
+     }
 
-        return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
-    }
+     $commande->setMontantTotal($total);
+     $entityManager->flush();
+
+     return $this->redirectToRoute('app_produit_index');
+ }
+
+
 }

@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
@@ -20,25 +22,17 @@ class Commande
     // #[ORM\OneToMany(targetEntity: CommandeProduit::class, mappedBy: 'commande', cascade: ['persist', 'remove'])]
     // private Collection $commandeProduits;
 
-    #[ORM\Column(length: 100)]  
-    #[Assert\NotBlank(message: "Le type de commande est requis.")]
-    #[Assert\Choice(choices: ['Achat', 'Vente'], message: "Le type doit être 'Achat' ou 'Vente'.")]
-    private ?string $type = null;
 
     #[ORM\Column(length: 100)]  
     #[Assert\NotBlank(message: "Le statut de la commande est requis.")]
     #[Assert\Choice(choices: ['en_cours', 'validée', 'livrée', 'annulée'], message: "Statut invalide.")]
-    private ?string $statut = null;
+    private ?string $statut = 'En cours';
 
-    #[ORM\Column(nullable: true)]
-    #[Assert\NotBlank(message: "La quantité est obligatoire.")]
-    #[Assert\Positive(message: "La quantité doit être un nombre positif.")]
-    private ?float $quantite = null;
+    // #[ORM\Column(nullable: true)]
+    // #[Assert\NotBlank(message: "La quantité est obligatoire.")]
+    // #[Assert\Positive(message: "La quantité doit être un nombre positif.")]
+    // private ?float $quantite = null;
 
-    #[ORM\Column(nullable: true)]
-    #[Assert\NotBlank(message: "Le prix unitaire est obligatoire.")]
-    #[Assert\Positive(message: "Le prix unitaire doit être un nombre positif.")]
-    private ?float $prixUnitaire = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "Le montant total est obligatoire.")]
@@ -50,9 +44,18 @@ class Commande
     #[Assert\LessThanOrEqual('today', message: "La date de commande ne peut pas être dans le futur.")]
     private ?\DateTimeInterface $dateCommande = null;
 
+  
+
+    /**
+     * @var Collection<int, CommandeDetail>
+     */
+    #[ORM\OneToMany(targetEntity: CommandeDetail::class, mappedBy: 'commande')]
+    private Collection $commandeDetails;
+
     public function __construct()
     {
         $this->commandeProduits = new ArrayCollection();
+        $this->commandeDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -60,38 +63,20 @@ class Commande
         return $this->id;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
 
-    public function setType(string $type): static
-    {
-        $this->type = $type;
-        return $this;
-    }
 
-    public function getQuantite(): ?float
-    {
-        return $this->quantite;
-    }
+    // public function getQuantite(): ?float
+    // {
+    //     return $this->quantite;
+    // }
 
-    public function setQuantite(?float $quantite): static
-    {
-        $this->quantite = $quantite;
-        return $this;
-    }
+    // public function setQuantite(?float $quantite): static
+    // {
+    //     $this->quantite = $quantite;
+    //     return $this;
+    // }
 
-    public function getPrixUnitaire(): ?float
-    {
-        return $this->prixUnitaire;
-    }
 
-    public function setPrixUnitaire(?float $prixUnitaire): static
-    {
-        $this->prixUnitaire = $prixUnitaire;
-        return $this;
-    }
 
     public function getMontantTotal(): ?float
     {
@@ -149,6 +134,36 @@ class Commande
         if ($this->commandeProduits->removeElement($commandeProduit)) {
             if ($commandeProduit->getCommande() === $this) {
                 $commandeProduit->setCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommandeDetail>
+     */
+    public function getCommandeDetails(): Collection
+    {
+        return $this->commandeDetails;
+    }
+
+    public function addCommandeDetail(CommandeDetail $commandeDetail): static
+    {
+        if (!$this->commandeDetails->contains($commandeDetail)) {
+            $this->commandeDetails->add($commandeDetail);
+            $commandeDetail->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandeDetail(CommandeDetail $commandeDetail): static
+    {
+        if ($this->commandeDetails->removeElement($commandeDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($commandeDetail->getCommande() === $this) {
+                $commandeDetail->setCommande(null);
             }
         }
 

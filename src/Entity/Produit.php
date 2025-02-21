@@ -3,8 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 // use App\Enum\EnumTypeProduit;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
@@ -22,11 +26,17 @@ class Produit
     // private ?Commande $commande = null;
 
     
-    #[ORM\Column(length: 20)]  
-    #[Assert\NotBlank(message: "Le type de produit est requis.")]
-    #[Assert\Choice(choices: ['Achat', 'Vente'], message: "Le type doit être 'Achat' ou 'Vente'.")]
-    private ?string $type = null;
+    // #[ORM\Column(length: 20)]  
+    // #[Assert\NotBlank(message: "Le type de produit est requis.")]
+    // #[Assert\Choice(choices: ['Achat', 'Vente'], message: "Le type doit être 'Achat' ou 'Vente'.")]
+    // private ?string $type = null;
 
+    #[Assert\NotBlank(message: "Le type de produit est requis.")]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    private string $type='';
+    
+    
+    
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "La référence est obligatoire.")]
@@ -56,6 +66,18 @@ class Produit
     
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
+
+    /**
+     * @var Collection<int, CommandeDetail>
+     */
+    #[ORM\OneToMany(targetEntity: CommandeDetail::class, mappedBy: 'produit')]
+    private Collection $commandeDetails;
+
+
+    public function __construct()
+    {
+        $this->commandeDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,5 +159,35 @@ class Produit
     {
     $this->image = $image;
     return $this;
+    }
+
+    /**
+     * @return Collection<int, CommandeDetail>
+     */
+    public function getCommandeDetails(): Collection
+    {
+        return $this->commandeDetails;
+    }
+
+    public function addCommandeDetail(CommandeDetail $commandeDetail): static
+    {
+        if (!$this->commandeDetails->contains($commandeDetail)) {
+            $this->commandeDetails->add($commandeDetail);
+            $commandeDetail->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandeDetail(CommandeDetail $commandeDetail): static
+    {
+        if ($this->commandeDetails->removeElement($commandeDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($commandeDetail->getProduit() === $this) {
+                $commandeDetail->setProduit(null);
+            }
+        }
+
+        return $this;
     }
 }
