@@ -15,6 +15,15 @@ class MaintenanceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Maintenance::class);
     }
+    public function findMaintenanceCostOverTime(): array
+{
+    return $this->createQueryBuilder('mt')
+        ->select('mt.dateEntretien', 'SUM(mt.cout) AS total_cost')
+        ->groupBy('mt.dateEntretien')
+        ->orderBy('mt.dateEntretien')
+        ->getQuery()
+        ->getResult();
+}
 
 //    /**
 //     * @return Maintenance[] Returns an array of Maintenance objects

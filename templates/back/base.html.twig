@@ -2,10 +2,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}chahed Admin{% endblock %}</title>
+        <title>chahed Admin </title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="shortcut icon" href="{{ asset('assets/backOffice/images/favicon.png') }}" >
-        {% block stylesheets %}
+        
                 <!-- plugins:css -->
             <link rel="stylesheet" href="{{ asset('assets/backOffice/vendors/mdi/css/materialdesignicons.min.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/backOffice/vendors/css/vendor.bundle.base.css') }}">
@@ -23,7 +23,6 @@
             <!-- End layout styles -->
          
   
-        {% endblock %}
 
 
         
@@ -377,10 +376,9 @@
 
 
 <br><br><br><br><br><br><br>
-
-        {% block body %}
-        
-        {% endblock %}
+<!-- style switcher -->
+		{% block stylesheets %}{% endblock %}
+        {% block body %} {% endblock %}
 
 
         {% block javascripts %}

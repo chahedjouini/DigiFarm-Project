@@ -15,6 +15,24 @@ class MachineRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Machine::class);
     }
+    public function findTotalMaintenanceCostPerMachine(): array
+{
+    return $this->createQueryBuilder('m')
+        ->select('m.nom', 'SUM(mt.cout) AS total_cost')
+        ->leftJoin('m.Maintenance', 'mt')
+        ->groupBy('m.id')
+        ->getQuery()
+        ->getResult();
+}
+public function findMaintenanceFrequency(): array
+{
+    return $this->createQueryBuilder('m')
+        ->select('m.nom', 'COUNT(mt.id) AS maintenance_count')
+        ->leftJoin('m.Maintenance', 'mt')
+        ->groupBy('m.id')
+        ->getQuery()
+        ->getResult();
+}
 
 //    /**
 //     * @return Machine[] Returns an array of Machine objects
