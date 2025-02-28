@@ -83,11 +83,17 @@ class Technicien
     )]
     private ?string $localisation = null;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    
+    private ?float $latitude = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $longitude = null;
+
     /**
      * @var Collection<int, Maintenance>
      */
     #[ORM\OneToMany(targetEntity: Maintenance::class, mappedBy: 'idTechnicien', cascade: ['remove'])]
-
+    private Collection $Maintenance;
 
     public function __construct()
     {
@@ -178,6 +184,30 @@ class Technicien
         return $this;
     }
 
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(float $latitude): static
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(float $longitude): static
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Maintenance>
      */
@@ -205,8 +235,9 @@ class Technicien
             }
         }
 
-        return $this;;
+        return $this;
     }
+
     public function __toString(): string
     {
         return $this->name . ' ' . $this->prenom;

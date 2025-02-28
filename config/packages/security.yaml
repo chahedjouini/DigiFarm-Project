@@ -37,3 +37,13 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+
+                security:
+    firewalls:
+        main:
+            # Autres configurations...
+
+            # Sécuriser l'accès au dashboard (userback)
+            access_control:
+                - { path: ^/userback, roles: ROLE_USER } 
+   

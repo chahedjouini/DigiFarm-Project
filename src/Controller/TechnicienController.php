@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Technicien;
 use App\Form\TechnicienType;
+use App\Service\GeolocationService;
 use App\Repository\TechnicienRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,26 +24,43 @@ final class TechnicienController extends AbstractController
         ]);
     }
 
-    #[Route('/technicien/new', name: 'app_technicien_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $technicien = new Technicien();
-        $form = $this->createForm(TechnicienType::class, $technicien);
-        $form->handleRequest($request);
+    
+   #[Route('/technicien/new', name: 'app_technicien_new', methods: ['GET', 'POST'])]
+   public function new(Request $request, EntityManagerInterface $entityManager, GeolocationService $geolocationService): Response
+   {
+       $technicien = new Technicien();
+       $form = $this->createForm(TechnicienType::class, $technicien);
+       $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($technicien);
-            $entityManager->flush();
+       if ($form->isSubmitted() && $form->isValid()) {
+           // Get the localisation (address) from the form
+           $localisation = $technicien->getLocalisation();
 
-            return $this->redirectToRoute('app_technicien_index', [], Response::HTTP_SEE_OTHER);
-        }
+           // Convert the address to coordinates using OpenStreetMap Nominatim
+           $coordinates = $geolocationService->getCoordinatesFromAddress($localisation);
 
-        return $this->render('technicien/new.html.twig', [
-            'technicien' => $technicien,
-            'form' => $form,
-        ]);
-    }
+           if ($coordinates) {
+               // Set the latitude and longitude in the Technicien entity
+               $technicien->setLatitude($coordinates['latitude']);
+               $technicien->setLongitude($coordinates['longitude']);
+           } else {
+               // Handle the case where the address is invalid
+               $this->addFlash('error', 'Invalid address. Please enter a valid location.');
+               return $this->redirectToRoute('app_technicien_new');
+           }
 
+           // Persist the Technicien entity to the database
+           $entityManager->persist($technicien);
+           $entityManager->flush();
+
+           return $this->redirectToRoute('app_technicien_index', [], Response::HTTP_SEE_OTHER);
+       }
+
+       return $this->render('technicien/new.html.twig', [
+           'technicien' => $technicien,
+           'form' => $form,
+       ]);
+   }
     #[Route('/technicien/{id}', name: 'app_technicien_show', methods: ['GET'])]
     public function show(Technicien $technicien): Response
     {
@@ -144,5 +163,42 @@ final class TechnicienController extends AbstractController
 
         return $this->redirectToRoute('app_technicien2_delete', [], Response::HTTP_SEE_OTHER);
     }
-   
+    #[Route('/find-nearest-technicien', name: 'find_nearest_technicien', methods: ['POST'])]
+    public function findNearestTechnicien(Request $request, TechnicienRepository $technicienRepository): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
+
+        // Find nearest technician
+        $nearestTechnicien = $technicienRepository->findNearestTechnicien($latitude, $longitude);
+
+        if (!$nearestTechnicien) {
+            return new JsonResponse(['error' => 'No technician found.'], 404);
+        }
+
+        // Calculate distance
+        $distance = $this->calculateDistance($latitude, $longitude, $nearestTechnicien->getLatitude(), $nearestTechnicien->getLongitude());
+
+        return new JsonResponse([
+            'technicien' => [
+                'name' => $nearestTechnicien->getName(),
+                'latitude' => $nearestTechnicien->getLatitude(),
+                'longitude' => $nearestTechnicien->getLongitude(),
+            ],
+            'distance' => $distance,
+        ]);
+    }
+
+    private function calculateDistance(float $lat1, float $lon1, float $lat2, float $lon2): float
+    {
+        $earthRadius = 6371; // Earth radius in kilometers
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLon = deg2rad($lon2 - $lon1);
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        return $earthRadius * $c;
+    }
 }
+   
+

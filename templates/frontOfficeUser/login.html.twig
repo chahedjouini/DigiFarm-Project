@@ -1,0 +1,10 @@
+{% extends 'front/base.html.twig' %}
+
+{% block body %}
+<h2>Connexion</h2>
+<form method="post" action="{{ path('login') }}">
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Mot de passe" required>
+    <button type="submit">Login</button>
+</form>
+{% endblock %}

@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Machine;
+use App\Entity\User; // Ajouté pour éviter une erreur avec EntityType
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Enum\EtatEquipement;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
@@ -18,9 +20,9 @@ class MachineType extends AbstractType
             ->add('nom')
             ->add('type')
             ->add('date_achat', DateType::class, [
-                'widget' => 'single_text', // Use a single text input for the date
-                'required' => true, // Ensure the field is required
-                'empty_data' => null, // Ensure empty data is treated as null
+                'widget' => 'single_text',
+                'required' => true,
+                'empty_data' => null,
             ])
             ->add('etat', ChoiceType::class, [
                 'choices' => [
@@ -28,10 +30,14 @@ class MachineType extends AbstractType
                     'Inactif' => EtatEquipement::INACTIF,
                     'En Maintenance' => EtatEquipement::EN_MAINTENANCE,
                 ],
-                'expanded' => false, // true for radio buttons
-                'multiple' => false, // true for multiple selection
+                'expanded' => false,
+                'multiple' => false,
             ])
-            ->add('etat_pred');
+            ->add('etat_pred')
+            ->add('owner', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'nom',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

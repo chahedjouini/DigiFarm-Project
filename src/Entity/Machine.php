@@ -64,6 +64,11 @@ class Machine
     #[Assert\NotBlank(message: 'The condition cannot be empty.')]
     private ?EtatEquipement $etat = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'machines')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $owner = null;
+
+
     public function __construct()
     {
         $this->Maintenance = new ArrayCollection();
@@ -163,4 +168,24 @@ class Machine
 
         return $this;
     }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
 }
+//Represent database tables as PHP classes
+//Doctrine ORM: Manages database interactions.
+
+//EntityManager: Handles persistence (e.g., persist (preparesthe entity ), flush(writes the changes to the database.), remove).
+
+//Repository: Provides methods for querying the database (e.g., findAll, find).
+//twig est un moteur de template pour PHP
+//repository provide methed for quering(eg findAll,find)
