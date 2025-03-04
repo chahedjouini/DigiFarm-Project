@@ -1,0 +1,55 @@
+{% extends 'base_front_etude.html.twig' %}
+
+{% block title %}Edit Technicien{% endblock %}
+
+
+
+{% block body %}
+    <div class="technicien-edit">
+        <h1>Edit Technicien</h1>
+
+        <div class="form-container">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'form-horizontal'}}) }}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.name, "Name") }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.name) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.prenom, "First Name") }}
+                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.prenom) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.specialite, "Specialty") }}
+                    {{ form_widget(form.specialite, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.specialite) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.email, "Email") }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.telephone, "Telephone") }}
+                    {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.telephone) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.localisation, "Location") }}
+                    {{ form_widget(form.localisation, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.localisation) }}
+                </div>
+
+                <button class="btn btn-primary">{{ button_label|default('Update') }}</button>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="actions">
+        <center>    <a class="btn btn-secondary" href="{{ path('app_technicien_index') }}" class="button" >Back to list</a> </center>
+            {{ include('frontOfficeMachine/technicien/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
