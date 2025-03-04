@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use TCPDF;
 use App\Entity\Commande;
 use App\Entity\Produit;
 use App\Entity\CommandeDetail;
@@ -14,10 +14,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Form\StatistiquesVentesType;
+
+
 
 #[Route('/commande')]
 final class CommandeController extends AbstractController
 {
+    public function __construct(private EntityManagerInterface $entityManager)
+    {
+    }
     // //  AFFICHAGE DES COMMANDES EN MODE ADMIN
      #[Route('/list', name: 'app_commande_gestion', methods: ['GET'])]
      public function indexBack(CommandeRepository $commandeRepository): Response
@@ -27,13 +33,80 @@ final class CommandeController extends AbstractController
          ]);
      }
 
+     #[Route('/statistiques', name: 'statistiques')]
+     public function statistiques(Request $request, CommandeRepository $commandeRepository): Response
+     {
+     $form = $this->createForm(StatistiquesVentesType::class);
+     $form->handleRequest($request);
+ 
+     $commandes = [];
+     $ventesParJour = []; // Tableau pour stocker les ventes par mois
+     $dates = []; // Tableau pour stocker les mois
+     $montants = []; // Tableau pour stocker les montants
+ 
+     if ($form->isSubmitted() && $form->isValid()) {
+         // Récupérer les dates de début et de fin
+         $startDate = $form->get('start_date')->getData();
+         $endDate = $form->get('end_date')->getData();
+ 
+         // Appel du repository pour récupérer les commandes sur cette période
+         $commandes = $commandeRepository->findByPeriod($startDate, $endDate);
+ 
+         // Calculer les ventes par mois (exemple de traitement des données)
+         foreach ($commandes as $commande) {
+             $day = $commande->getDateCommande()->format('Y-m-d'); // Formater la date pour obtenir le mois
+             if (!isset($ventesParJour[$day])) {
+                 $ventesParJour[$day] = 0;
+             }
+             $ventesParJour[$day] += $commande->getMontantTotal(); // Ajouter au total des ventes pour ce mois
+         }
+ 
+         // Récupérer les clés (mois) et les valeurs (ventes)
+         $dates = array_keys($ventesParJour);
+         $montants = array_values($ventesParJour);
+     }
+ 
+     return $this->render('commande/statistiques.html.twig', [
+         'form' => $form->createView(),
+         'commandes' => $commandes,
+         'dates' => $dates, // Passer les mois
+         'montants' => $montants, // Passer les montants
+     ]);
+     }
+ 
+     #[Route('/export/pdf', name: 'export_sales_pdf')]
+     public function exportSalesPdf(Request $request): Response
+     {
+     $startDate = $request->query->get('start_date');
+     $endDate = $request->query->get('end_date');
+ 
+     // Logique pour récupérer les commandes entre startDate et endDate
+     $commandes = $this->entityManager->getRepository(Commande::class)->findByPeriod(new \DateTime($startDate), new \DateTime($endDate)); 
+ 
+     // Création du PDF avec TCPDF ou FPDF
+     $pdf = new TCPDF();
+     $pdf->AddPage();
+     $pdf->SetFont('helvetica', '', 12);
+     $pdf->Write(0, "Ventes entre $startDate et $endDate");
+ 
+     foreach ($commandes as $commande) {
+         $pdf->Write(0, "Commande ID: {$commande->getId()}, Montant: {$commande->getMontantTotal()} €");
+     }
+ 
+     $pdf->Output('sales_report.pdf', 'I');
+     
+     return new Response('PDF généré avec succès');
+ }
+
+
+
     
     //*** Finalisation commande */
     #[Route( name: 'commande_page', methods: ['GET', 'POST'])]
     public function commander(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Récupérer les IDs des produits sélectionnés
-        $produitIds = $request->request->all('produits'); // ✅ Utilisation de all() pour récupérer un tableau
+        $produitIds = $request->request->all('produits'); // Utilisation de all() pour récupérer un tableau
     
         // Vérification si la liste est vide
         if (empty($produitIds)) {
@@ -94,7 +167,7 @@ final class CommandeController extends AbstractController
          $entityManager->flush();
          $total += $subtotal;
         //  dump($commandeDetail);
-        //  die();
+        //  die(); 
      }
 
      $commande->setMontantTotal($total);

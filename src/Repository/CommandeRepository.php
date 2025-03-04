@@ -16,6 +16,17 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
+    public function findByPeriod(\DateTime $startDate, \DateTime $endDate)
+{
+    return $this->createQueryBuilder('c')
+        ->where('c.dateCommande BETWEEN :startDate AND :endDate')
+        ->setParameter('startDate', $startDate)
+        ->setParameter('endDate', $endDate)
+        ->getQuery()
+        ->getResult();
+}
+
+
 //    /**
 //     * @return Commande[] Returns an array of Commande objects
 //     */

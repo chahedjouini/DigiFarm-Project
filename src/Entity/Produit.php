@@ -19,25 +19,10 @@ class Produit
     #[ORM\Column]
     private ?int $id = null;
 
-    // #[ORM\Column(enumType: EnumTypeProduit::class)] 
-    // private ?EnumTypeProduit $type = null;
-    // #[ORM\ManyToOne(targetEntity: Commande::class, inversedBy: 'produits')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private ?Commande $commande = null;
-
-    
-    // #[ORM\Column(length: 20)]  
-    // #[Assert\NotBlank(message: "Le type de produit est requis.")]
-    // #[Assert\Choice(choices: ['Achat', 'Vente'], message: "Le type doit être 'Achat' ou 'Vente'.")]
-    // private ?string $type = null;
-
     #[Assert\NotBlank(message: "Le type de produit est requis.")]
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
     private string $type='';
     
-    
-    
-
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "La référence est obligatoire.")]
     #[Assert\Length(min: 3, max: 50, minMessage: "La référence doit faire au moins {{ limit }} caractères.")]

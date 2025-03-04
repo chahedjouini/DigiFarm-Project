@@ -18,19 +18,6 @@ class CommandeDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Commande::class,inversedBy: 'commandeDetail')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Commande $commande = null;
-
-    // #[ORM\ManyToOne(inversedBy: 'commandeDetails', cascade: ["persist"])]
-    // #[ORM\JoinColumn(nullable: false , onDelete: "CASCADE")]
-    // private ?Produit $produit=null ;
-    #[ORM\ManyToOne(targetEntity: Produit::class, inversedBy: 'commandeDetail')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Produit $produit = null;
-    
-
-
     #[ORM\Column]
     private ?float $prixUnitaire = null;
 
@@ -39,6 +26,18 @@ class CommandeDetail
 
     #[ORM\Column(type: 'integer')]
     private int $quantite; 
+    
+    //***//
+
+    #[ORM\ManyToOne(targetEntity: Commande::class,inversedBy: 'commandeDetail')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Commande $commande = null;
+
+    #[ORM\ManyToOne(targetEntity: Produit::class, inversedBy: 'commandeDetail')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Produit $produit = null;
+
+    //***//
 
     public function getId(): ?int
     {

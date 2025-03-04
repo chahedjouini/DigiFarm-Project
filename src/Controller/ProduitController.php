@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 #[Route('/produit')]
 final class ProduitController extends AbstractController
 {
-    // ✅ 1. FRONT-OFFICE : Liste des produits (accessible aux clients)
+    //  FRONT-OFFICE : Liste des produits (accessible aux clients)
     #[Route( name: 'app_produit_index', methods: ['GET'])]
     public function indexFront(ProduitRepository $produitRepository): Response
     {
@@ -25,7 +25,7 @@ final class ProduitController extends AbstractController
         ]);
     }
 
-    // ✅ 2. FRONT-OFFICE : Détails d’un produit
+    //  FRONT-OFFICE : Détails d’un produit
     #[Route('/details/{id}', name: 'app_produit_show', methods: ['GET'])]
     public function showFront(Produit $produit): Response
     {
@@ -34,7 +34,7 @@ final class ProduitController extends AbstractController
         ]);
     }
 
-    // ✅ 3. BACK-OFFICE : Liste des produits avec actions de gestion
+    // BACK-OFFICE : Liste des produits avec actions de gestion
     #[Route('/gestion', name: 'app_produit_gestion', methods: ['GET'])]
     public function indexBack(ProduitRepository $produitRepository): Response
     {
@@ -43,7 +43,7 @@ final class ProduitController extends AbstractController
         ]);
     }
 
-    // ✅ 4. BACK-OFFICE : Création d’un produit
+    // BACK-OFFICE : Création d’un produit
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -64,7 +64,7 @@ final class ProduitController extends AbstractController
         ]);
     }
 
-    // ✅ 5. BACK-OFFICE : Édition d’un produit
+    //  BACK-OFFICE :edit d’un produit
     #[Route('/{id}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -84,7 +84,7 @@ final class ProduitController extends AbstractController
         ]);
     }
 
-    // ✅ 6. BACK-OFFICE : Suppression d’un produit
+    //  BACK-OFFICE : Suppression d’un produit
     #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
@@ -96,7 +96,7 @@ final class ProduitController extends AbstractController
         return $this->redirectToRoute('app_produit_gestion');
     }
 
-    // ✅ Fonction privée pour gérer l'upload des images
+    // Fonction privée pour gérer l'upload des images
     private function handleImageUpload($form, Produit $produit, SluggerInterface $slugger)
     {
         $file = $form->get('imageFile')->getData();
