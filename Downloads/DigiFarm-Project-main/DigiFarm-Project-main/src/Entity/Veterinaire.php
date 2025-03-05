@@ -122,5 +122,57 @@ class Veterinaire
 {
     return $this->nom ?? 'Veterinaire'; // Adjust as needed
 }
+#[Route('/send-email/{id}', name: 'app_send_email_veterinaire', methods: ['GET'])]
+    public function sendEmailToVeterinaire(MailerInterface $mailer, Veterinaire $veterinaire, SuiviRepository $suiviRepository): Response
+    {
+        // Récupération des suivis du vétérinaire
+        $suivis = $suiviRepository->findBy(['veterinaire' => $veterinaire]);
+
+        // Création du fichier Excel pour le vétérinaire
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Définir les entêtes de colonnes
+        $sheet->setCellValue('A1', 'ID')
+              ->setCellValue('B1', 'Température (°C)')
+              ->setCellValue('C1', 'Rythme Cardiaque (BPM)')
+              ->setCellValue('D1', 'État')
+              ->setCellValue('E1', 'Vétérinaire')
+              ->setCellValue('F1', 'Client ID');
+
+        // Remplir les données
+        $row = 2;
+        foreach ($suivis as $suivi) {
+            $sheet->setCellValue('A' . $row, $suivi->getId())
+                  ->setCellValue('B' . $row, $suivi->getTemperature())
+                  ->setCellValue('C' . $row, $suivi->getRythmeCardiaque())
+                  ->setCellValue('D' . $row, $suivi->getEtat())
+                  ->setCellValue('E' . $row, $veterinaire->getNom())
+                  ->setCellValue('F' . $row, $suivi->getIdClient());
+            $row++;
+        }
+
+        // Créer un fichier Excel temporaire
+        $writer = new Xlsx($spreadsheet);
+        $filePath = '/tmp/' . $veterinaire->getNom() . '_suivi_export.xlsx';
+        $writer->save($filePath);
+
+        // Création de l'email
+        $email = (new Email())
+            ->from('your-email@example.com')
+            ->to($veterinaire->getEmail())
+            ->subject('Suivi Exporté - Vétérinaire: ' . $veterinaire->getNom())
+            ->html('<p>Bonjour ' . $veterinaire->getNom() . ',</p><p>Veuillez trouver en pièce jointe le fichier Excel contenant les suivis des patients.</p>')
+            ->attachFromPath($filePath, $veterinaire->getNom() . '_suivi_export.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+        // Envoi de l'email
+        $mailer->send($email);
+
+        // Suppression du fichier temporaire après l'envoi
+        unlink($filePath);
+
+        // Retourner une réponse indiquant que l'email a été envoyé
+        return new Response('Email envoyé avec succès à ' . $veterinaire->getNom());
+    }
 
 }

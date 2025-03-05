@@ -1,42 +1,58 @@
 {% extends 'basefront.html.twig' %}
 
-
 {% block body %}
-    <h1>Animal index</h1>
+    <div class="container mt-4" style="margin-bottom:20px">
+        <h1 class="text-center mb-4 text-warning">Animal Directory</h1>
+        
+        <div class="text-center mb-4">
+            <a href="{{ path('app_suivi_index') }}" class="btn btn-outline-warning btn-lg">
+                <i class="fas fa-table me-2"></i> View Monitoring Table
+            </a>
+        </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Type</th>
-                <th>Age</th>
-                <th>Poids</th>
-                <th>Race</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for animal in animals %}
-            <tr>
-                <td>{{ animal.id }}</td>
-                <td>{{ animal.nom }}</td>
-                <td>{{ animal.type }}</td>
-                <td>{{ animal.age }}</td>
-                <td>{{ animal.poids }}</td>
-                <td>{{ animal.race }}</td>
-                <td>
-                    <a href="{{ path('app_animal_show', {'id': animal.id}) }}">show</a>
-                  
-                </td>
-            </tr>
+        {% if pagination is empty %}
+            <div class="alert alert-info text-center p-4">
+                <i class="fas fa-info-circle fa-2x mb-3"></i>
+                <h4>No Animals Found</h4>
+                <p>There are currently no animals in the directory.</p>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for animal in pagination %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm hover-shadow bg-dark text-light">
+                            <div class="card-header bg-dark border-secondary">
+                                <h5 class="card-title mb-0 text-center">{{ animal.nom|title }}</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between bg-dark text-light border-secondary">
+                                        <span><i class="fas fa-paw me-2"></i>Type</span>
+                                        <span class="text-light">{{ animal.type }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between bg-dark text-light border-secondary">
+                                        <span><i class="fas fa-birthday-cake me-2"></i>Age</span>
+                                        <span class="text-light">{{ animal.age }} years</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between bg-dark text-light border-secondary">
+                                        <span><i class="fas fa-weight me-2"></i>Weight</span>
+                                        <span class="text-light">{{ animal.poids }} kg</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between bg-dark text-light border-secondary">
+                                        <span><i class="fas fa-dog me-2"></i>Breed</span>
+                                        <span class="text-light">{{ animal.race }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
 
-    <a href="{{ path('app_animal_new') }}">Create new</a>
+            {# Pagination Controls #}
+            <div class="pagination mt-4 d-flex justify-content-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

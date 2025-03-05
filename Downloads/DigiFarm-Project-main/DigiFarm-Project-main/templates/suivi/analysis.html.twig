@@ -1,0 +1,12 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}Analysis - {{ suivi.id }}{% endblock %}
+
+{% block body %}
+    <h1>Analysis for Suivi #{{ suivi.id }}</h1>
+    <p>Temperature: {{ suivi.temperature }}°C</p>
+    <p>Rythme Cardiaque: {{ suivi.rythmeCardiaque }} BPM</p>
+    <p>État: {{ suivi.etat }}</p>
+    <h2>Analysis Result:</h2>
+    <p>{{ analysis }}</p>
+{% endblock %}

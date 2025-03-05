@@ -43,10 +43,26 @@ class Suivi
     #[Assert\Positive(message: "L'ID du client doit être un nombre positif.")]
     private ?int $id_client = null;
 
-    #[ORM\ManyToOne(targetEntity: Veterinaire::class, inversedBy: 'suivis')]
+    #[ORM\ManyToOne(targetEntity: Veterinaire::class, inversedBy: 'suivis', cascade: ['persist'])]
     #[ORM\JoinColumn(name: "veterinaire_id", referencedColumnName: "id", nullable: false)]
     private ?Veterinaire $veterinaire = null; // Keep it singular
     // Getters and Setters
+
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $analysis = null;
+    
+    // Add getter and setter
+    public function getAnalysis(): ?string
+    {
+        return $this->analysis;
+    }
+    
+    public function setAnalysis(?string $analysis): self
+    {
+        $this->analysis = $analysis;
+        return $this;
+    }
 
     public function getId(): ?int
     {
