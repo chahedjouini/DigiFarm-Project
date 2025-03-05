@@ -19,9 +19,10 @@ class CommandeRepository extends ServiceEntityRepository
     public function findByPeriod(\DateTime $startDate, \DateTime $endDate)
 {
     return $this->createQueryBuilder('c')
-        ->where('c.dateCommande BETWEEN :startDate AND :endDate')
-        ->setParameter('startDate', $startDate)
-        ->setParameter('endDate', $endDate)
+        ->where('c.dateCommande BETWEEN :start AND :end')
+        ->setParameter('start', $startDate)
+        ->setParameter('end', $endDate)
+        ->orderBy('c.dateCommande', 'ASC')
         ->getQuery()
         ->getResult();
 }

@@ -43,9 +43,8 @@
 
         <!-- Lien pour exporter en PDF --> 
         <div class="text-center mb-4">
-            <a href="{{ path('export_sales_pdf', {'dates': dates}) }}" class="btn btn-primary">
-                Exporter en PDF
-            </a>
+           <a href="{{ path('export_sales_pdf', {'start_date': start_date, 'end_date': end_date}) }}">Exporter en PDF</a>
+            
         </div>
 
         <!-- Injecter les données du graphique avec Chart.js -->
@@ -75,7 +74,7 @@
             });
         </script>
 
-        {% if commandes is not empty %}
+        {% if pagination is defined and pagination|length > 0 %}
             <div class="card shadow-sm border-custom mt-4">
                 <div class="card-header bg-custom text-white">
                     <h4>Commandes Filtrées</h4>
@@ -91,7 +90,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for commande in commandes %}
+                            {% for commande in pagination %}
                                 <tr>
                                     <td>{{ commande.id }}</td>
                                     <td>{{ commande.dateCommande|date('Y-m-d') }}</td>
@@ -105,7 +104,16 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-center">
+  {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig', {
+        'start_date': start_date,
+        'end_date': end_date
+    }) }}
+
+
+
+                    </div>
             </div>
         {% else %}
             <div class="alert alert-info mt-4 text-center">Aucune commande trouvée pour cette période.</div>
