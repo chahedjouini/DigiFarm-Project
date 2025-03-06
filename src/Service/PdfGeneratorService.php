@@ -23,7 +23,19 @@ class PdfGeneratorService
          $pdf->Cell(0, 10, 'Période: ' . $startDate->format('Y-m-d') . ' à ' . $endDate->format('Y-m-d'), 0, 1, 'C');
          
          // Ajouter un logo ou une image agricole en haut
-         $pdf->Image('path/to/agriculture_logo.png', 10, 10, 30);
+        //  $pdf->Image('public/assets/images/loader.png', 10, 10, 30);
+        // Définir le chemin de l'image
+         $imagePath = 'public/assets/images/loader.png'; // Assurez-vous que ce chemin est correct
+
+
+$x = 10;  // Position horizontale (gauche)
+$y = 10;  // Position verticale (haut)
+$w = 30;  // Largeur de l'image
+$h = 0;   // Hauteur de l'image (0 signifie ajuster automatiquement)
+
+$pdf->Image($imagePath, $x, $y, $w, $h); // Utilisez la variable correcte ici
+
+       
          
          // Tableau des commandes
          $pdf->SetFillColor(229, 238, 188); // Couleur de fond pour le tableau
