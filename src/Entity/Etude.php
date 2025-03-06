@@ -76,6 +76,9 @@ class Etude
     #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $main_oeuvre = null;
 
+    #[ORM\ManyToOne(inversedBy: 'etudes')]
+    private ?User $id_user = null;
+
 
     public function getId(): ?int
     {
@@ -90,7 +93,7 @@ class Etude
         return $this->date_r;
     }
 
-    public function setDateR(\DateTimeInterface $date_r): static
+    public function setDateR(\DateTimeInterface $date_r): self
     {
         $this->date_r = $date_r;
 
@@ -213,6 +216,18 @@ class Etude
     public function setMainOeuvre(float $main_oeuvre): static
     {
         $this->main_oeuvre = $main_oeuvre;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?user
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(?user $id_user): static
+    {
+        $this->id_user = $id_user;
 
         return $this;
     }

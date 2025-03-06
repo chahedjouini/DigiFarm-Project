@@ -5,6 +5,7 @@ use App\Entity\Etude;
 use App\Entity\Culture;
 use App\Entity\Expert;
 use App\Enum\Climat;
+use App\Entity\User;
 use App\Enum\TypeSol;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -86,6 +87,13 @@ class EtudeType extends AbstractType
                 'label' => 'Main d\'œuvre',
                 'scale' => 2,
                 'required' => true,
+            ])
+            ->add('id_user', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'id', 
+                'label' => false,
+                'disabled' => false, 
+'attr' => ['style' => 'display:none;'],
             ]);
 
        

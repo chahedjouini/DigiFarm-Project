@@ -15,6 +15,14 @@ class CultureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Culture::class);
     }
+    public function findByUser($user): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.id_user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Culture[] Returns an array of Culture objects

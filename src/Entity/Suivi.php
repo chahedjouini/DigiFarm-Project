@@ -45,7 +45,11 @@ class Suivi
 
     #[ORM\ManyToOne(targetEntity: Veterinaire::class, inversedBy: 'suivis')]
     #[ORM\JoinColumn(name: "veterinaire_id", referencedColumnName: "id", nullable: false)]
-    private ?Veterinaire $veterinaire = null; // Keep it singular
+    private ?Veterinaire $veterinaire = null;
+
+    #[ORM\ManyToOne(inversedBy: 'suivis')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?user $id_user = null; // Keep it singular
     // Getters and Setters
 
     public function getId(): ?int
@@ -97,16 +101,7 @@ class Suivi
         return $this;
     }
 
-    public function getIdClient(): ?int
-    {
-        return $this->id_client;
-    }
-
-    public function setIdClient(int $id_client): self
-    {
-        $this->id_client = $id_client;
-        return $this;
-    }
+  
 
     
     // Fix getter and setter names
@@ -118,6 +113,18 @@ class Suivi
     public function setVeterinaire(?Veterinaire $veterinaire): self
     {
         $this->veterinaire = $veterinaire;
+        return $this;
+    }
+
+    public function getIdUser(): ?user
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(?user $id_user): static
+    {
+        $this->id_user = $id_user;
+
         return $this;
     }
     

@@ -18,11 +18,22 @@ final class AnimalController extends AbstractController
     {
         return $this->render('frontOfficeAnimal/frontAnimal.html.twig');
     }
-    #[Route('/animal/',name: 'app_animal_index', methods: ['GET'])]
-    public function index(AnimalRepository $animalRepository): Response
+    #[Route('/animal/', name: 'app_animal_index', methods: ['GET'])]
+    public function index(string $context, AnimalRepository $animalRepository, SessionInterface $session): Response
     {
-        return $this->render('frontOfficeAnimal/animal/index.html.twig', [
-            'animals' => $animalRepository->findAll(),
+        if ($context === 'front') {
+            $userId = $session->get('user_id');
+            if (!$userId) {
+                return $this->redirectToRoute('login');
+            }
+    
+            $animals = $animalRepository->findBy(['id_user' => $userId]);
+        } else {
+            $animals = $animalRepository->findAll();
+        }
+    
+        return $this->render("$context" . "rontOfficeAnimal/frontAnimal.html.twig", [
+            'animals' => $animals,
         ]);
     }
 

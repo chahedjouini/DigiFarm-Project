@@ -1,59 +1,59 @@
 {% extends 'base_front_etude.html.twig' %}
 
-
 {% block title %}Etude{% endblock %}
 
 {% block body %}
-    <h1>Etude</h1>
+<h1>Etude</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ etude.id }}</td>
-            </tr>
-            <tr>
-                <th>Date_r</th>
-                <td>{{ etude.dateR ? etude.dateR|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Climat</th>
-                <td>{{ etude.climat.value }}</td>
-            </tr>
-            <tr>
-                <th>Type_sol</th>
-                <td>{{ etude.typeSol.value }}</td>
-            </tr>
-            <tr>
-                <th>Irrigation</th>
-                <td>{{ etude.irrigation ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Fertilisation</th>
-                <td>{{ etude.fertilisation ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ etude.prix }}</td>
-            </tr>
-            <tr>
-                <th>Rendement</th>
-                <td>{{ etude.rendement }}</td>
-            </tr>
-            <tr>
-                <th>Precipitations</th>
-                <td>{{ etude.precipitations }}</td>
-            </tr>
-            <tr>
-                <th>Main_oeuvre</th>
-                <td>{{ etude.mainOeuvre }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ etude.id }}</td>
+        </tr>
+        <tr>
+            <th>Date_r</th>
+            <td>{{ etude.dateR ? etude.dateR|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Climat</th>
+            <td>{{ etude.climat.value }}</td>
+        </tr>
+        <tr>
+            <th>Type_sol</th>
+            <td>{{ etude.typeSol.value }}</td>
+        </tr>
+        <tr>
+            <th>Irrigation</th>
+            <td>{{ etude.irrigation ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Fertilisation</th>
+            <td>{{ etude.fertilisation ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Prix</th>
+            <td>{{ etude.prix }}</td>
+        </tr>
+        <tr>
+            <th>Rendement</th>
+            <td>{{ etude.rendement }}</td>
+        </tr>
+        <tr>
+            <th>Precipitations</th>
+            <td>{{ etude.precipitations }}</td>
+        </tr>
+        <tr>
+            <th>Main_oeuvre</th>
+            <td>{{ etude.mainOeuvre }}</td>
+        </tr>
+    </tbody>
+</table>
 
- <center>    <a href="{{ path('app_etude_index',{'context': app.request.get('context')}) }}" class="button">back to list</a></center>  
+<center>
+    <a href="{{ path('app_etude_index', {'context': app.request.get('context')}) }}" class="button">Back to list</a>
+</center>
 
-  <center>   <a href="{{ path('app_etude_edit', {'context': app.request.get('context'),'id': etude.id}) }}" class="button" >edit</a></center>  
 
-  <center>   {{ include('frontOfficeEtude/etude/_delete_form.html.twig') }}</center>  
+
 {% endblock %}

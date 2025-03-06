@@ -39,14 +39,17 @@
                 <ul class="nav">
                 <li class="nav-item profile">
                     <div class="profile-desc">
-                    <div class="profile-pic">
+                 <div class="profile-pic">
                         <div class="count-indicator">
                         <img class="img-xs rounded-circle " src="{{ asset('assets/backOffice/images/faces/face15.jpg') }}" alt="">
                         <span class="count bg-success"></span>
                         </div>
                         <div class="profile-name">
-                        <h5 class="mb-0 font-weight-normal">ADMIN</h5>
-                        <span>super admin</span>
+                        <h5 class="mb-0 font-weight-normal">{{ app.session.get('user_name') }}</h5>
+                        <span>admin</span>
+                        <div>
+                        <a href="{{ path('logout') }}">Se déconnecter</a>
+                        </div>
                         </div>
                     </div>
                     <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -94,22 +97,35 @@
                 <!--ACCUEIL-->
                 
 
-
-                <!--Utilisateur-->
-                <li class="nav-item menu-items">
-                    <a class="nav-link" >
-                    <!--NEW icon-->
-                    <span class="menu-icon">
-                        <i class="mdi mdi-account-multiple"></i>
-                    </span>
-                    <!--NEW icon-->
-                    <span class="menu-title">Utilisateurs</span>
-                    <i class="menu-arrow"></i>
-                    </a>
-                  
-                    <!--NEW elements-->
-                </li>
-                <!--utilisateur-->
+          <!-- Utilisateurs -->
+<li class="nav-item menu-items">
+    <a class="nav-link" data-toggle="collapse" href="#user-menu" aria-expanded="false" aria-controls="user-menu">
+        <!-- User icon -->
+        <span class="menu-icon">
+            <i class="mdi mdi-account"></i>
+        </span>
+        <!-- User icon -->
+        <span class="menu-title">Utilisateurs</span>
+        <i class="menu-arrow"></i>
+    </a>
+    <!-- Dropdown menu -->
+    <div class="collapse" id="user-menu">
+        <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_user_new') }}">Ajouter un utilisateur</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_user_index') }}">Afficher la liste des utilisateurs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('user_search') }}">Rechercher un utilisateur</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_user_statistics') }}">Afficher les statistiques</a>
+            </li>
+        </ul>
+    </div>
+</li>
 
 
 

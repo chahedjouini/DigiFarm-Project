@@ -10,7 +10,9 @@
             {{ include('backOfficeEtude/etude/_form.html.twig', {'button_label': 'Update'}) }}
 
       <div style="text-align: center; margin-top: 20px;">
-    <a href="{{ path('app_etude_index', {'context': context}) }}" class="button">Back to list</a>
+     <a href="{{ path('app_etude_index', {'context': app.request.get('context')}) }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
 </div>
 
       

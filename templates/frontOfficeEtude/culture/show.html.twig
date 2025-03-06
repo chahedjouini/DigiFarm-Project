@@ -1,6 +1,5 @@
 {% extends 'base_front_etude.html.twig' %}
 
-
 {% block title %}Culture{% endblock %}
 
 {% block body %}
@@ -56,20 +55,53 @@
                 <th>Cout_moyen</th>
                 <td>{{ culture.coutMoyen }}</td>
             </tr>
-            <tr>
-                <th>Id_user</th>
-                <td>{{ culture.idUser }}</td>
-            </tr>
         </tbody>
     </table>
 
-<center>  
-    <a href="{{ path('app_culture_index', {'context': app.request.get('context')}) }}" class="button">back to list</a>
-</center>
+    <!-- Button to trigger the rendement prediction -->
+    <center>
+        <button id="predictRendement" class="button" data-culture-id="{{ culture.id }}">Predire le Rendement</button>
+    </center>
 
-<center>   
-    <a href="{{ path('app_culture_edit', {'context': app.request.get('context'), 'id': culture.id}) }}" class="button">edit</a>
-</center>
+    <!-- Container for the predicted rendement -->
+    <center>
+        <div id="predictedRendement"></div>
+    </center>
 
-   <center>  {{ include('frontOfficeEtude/culture/_delete_form.html.twig') }}</center>
+    <center>
+        <a href="{{ path('app_culture_index', {'context': app.request.get('context')}) }}" class="button">Back to list</a>
+    </center>
+
+    <center>   
+        <a href="{{ path('app_culture_edit', {'context': app.request.get('context'), 'id': culture.id}) }}" class="button">Edit</a>
+    </center>
+
+    <center>  
+        {{ include('frontOfficeEtude/culture/_delete_form.html.twig') }}
+    </center>
+
+  <script>
+    document.getElementById('predictRendement').addEventListener('click', function() {
+        // Retrieve the culture.id from the button's data attribute
+        var cultureId = this.getAttribute('data-culture-id');
+        
+        // Perform an AJAX request to call the prediction endpoint
+        fetch('{{ path('predict_rendement', {'context': 'front'}) }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cultureId: cultureId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+
 {% endblock %}

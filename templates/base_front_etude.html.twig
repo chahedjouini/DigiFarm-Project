@@ -47,7 +47,9 @@
 {% if app.request.attributes.get('_route') == 'app_facture_show' %}
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 {% endif %}
-
+{% if app.request.attributes.get('_route') == 'app_user_show' %}
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endif %}
 {% if app.request.attributes.get('_route') == 'app_technicien_show' %}
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 {% endif %}
@@ -76,6 +78,9 @@
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
 {% if app.request.attributes.get('_route') == 'app_etude_new' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_user_new' %}
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
 {% endif %}
 {% if app.request.attributes.get('_route') == 'app_culture_new' %}
@@ -117,6 +122,20 @@
 {% endif %}
 {% if app.request.attributes.get('_route') == 'app_facture_edit' %}
     <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_user_edit' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'login' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.request.attributes.get('_route') == 'app_user_new_front' %}
+    <link rel="stylesheet" href="{{ asset('css/formetude.css') }}">
+{% endif %}
+{% if app.session.get('user_id') %}
+    <div class="top-bar">
+        <p> Bienvenue, {{ app.session.get('user_name') }}  </p>
+    </div>
 {% endif %}
     <link rel="stylesheet" href="{{ asset('assets/vendors/animate/custom-animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/css/all.min.css') }}">
@@ -258,7 +277,22 @@
 													<li><a href="{{ path('app_abonnement_show', {'id': 7}) }}">Show Membership Details</a></li>
 												</ul>
 											</li>
-											
+											<li class="dropdown">
+												<a href="#">Mon compte</a>
+												<ul>
+													{% if app.session.get('user_id') %}
+            <li><a href="{{ path('app_user_showmine', { 'id': app.session.get('user_id') }) }}">Afficher mes informations</a></li>
+            <li>
+                <form method="post" action="{{ path('app_user_deletemine', { 'id': app.session.get('user_id') }) }}" onsubmit="return confirm('Are you sure you want to delete your account?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.session.get('user_id')) }}">
+                    <button class="btn">Supprimer l'utilisateur</button>
+                </form>
+            </li>
+            <li><a href="{{ path('app_user_editmine', { 'id': app.session.get('user_id') }) }}">Modifier mes informations</a></li>
+        {% endif %}
+        <li><a href="{{ path('logout') }}">Se déconnecter</a></li>
+												</ul>
+											</li>
 											<li><a href="{{ path('contact_page') }}">Contact</a></li>
 
 										</ul>

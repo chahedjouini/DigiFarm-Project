@@ -48,6 +48,10 @@ class Animal
     #[ORM\OneToOne(mappedBy: "animal", targetEntity: Suivi::class, cascade: ["persist", "remove"])]
     private ?Suivi $suivi = null;
 
+    #[ORM\ManyToOne(inversedBy: 'animals')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?user $id_user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,6 +120,18 @@ class Animal
     public function setSuivi(?Suivi $suivi): static
     {
         $this->suivi = $suivi;
+        return $this;
+    }
+
+    public function getIdUser(): ?user
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(?user $id_user): static
+    {
+        $this->id_user = $id_user;
+
         return $this;
     }
 }

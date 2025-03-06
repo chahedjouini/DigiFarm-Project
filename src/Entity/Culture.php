@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use App\Entity\User;
 use App\Enum\BensoinsEngrais;
 use App\Repository\CultureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -72,10 +73,10 @@ class Culture
     #[Assert\Positive(message: ' doit être un nombre positif')]
     private ?float $cout_moyen = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull(message: 'ne peut pas être vide')]
-    #[Assert\Positive(message: ' doit être un nombre positif')]
-    private ?int $id_user = null;
+    #[ORM\ManyToOne(inversedBy: 'cultures')]
+    private ?user $id_user = null;
+
+    
 
     public function __construct()
     {
@@ -251,17 +252,19 @@ class Culture
         return $this;
     }
 
-    public function getIdUser(): ?int
+    public function getIdUser(): ?user
     {
         return $this->id_user;
     }
 
-    public function setIdUser(int $id_user): static
+    public function setIdUser(?user $id_user): static
     {
         $this->id_user = $id_user;
 
         return $this;
     }
+
+  
 
  
 }

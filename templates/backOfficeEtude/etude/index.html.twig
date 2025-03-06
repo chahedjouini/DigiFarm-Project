@@ -31,6 +31,7 @@
                     <tr>
                         <td>{{ etude.id }}</td>
                         <td>{{ etude.dateR ? etude.dateR|date('Y-m-d') : 'Non définie' }}</td>
+
                         <td>{{ etude.climat.value }}</td>
                         <td>{{ etude.typeSol.value }}</td>
                         <td>{{ etude.irrigation ? 'Oui' : 'Non' }}</td>
@@ -58,10 +59,6 @@
         </div>
     </div>
 
-    <div class="text-center mt-4">
-        <a href="{{ path('app_etude_new', {'context': app.request.get('context')}) }}" class="btn btn-success">
-            <i class="fas fa-plus"></i> Créer une nouvelle étude
-        </a>
-    </div>
+   
 </div>
 {% endblock %}

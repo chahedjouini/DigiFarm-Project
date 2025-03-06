@@ -1,6 +1,6 @@
 <?php
 namespace App\Form;
-
+use App\Entity\User;
 use App\Entity\Culture;
 use App\Enum\BensoinsEngrais;
 use Symfony\Component\Form\AbstractType;
@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class CultureType extends AbstractType
 {
@@ -80,9 +81,12 @@ class CultureType extends AbstractType
                 'scale' => 2,
                 'required' => true,
             ])
-            ->add('id_user', NumberType::class, [
-                'label' => 'ID utilisateur',
-                'required' => true,
+            ->add('id_user', EntityType::class, [
+                'class' => User::class,
+                'label' => false,
+                'choice_label' => 'id', 
+                'disabled' => false, 
+'attr' => ['style' => 'display:none;'],
             ]);
 
        

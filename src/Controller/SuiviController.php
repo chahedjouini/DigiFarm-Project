@@ -13,13 +13,25 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class SuiviController extends AbstractController
 {
-    #[Route('/suivi/',name: 'app_suivi_index', methods: ['GET'])]
-    public function index(SuiviRepository $suiviRepository): Response
-    {
-        return $this->render('frontOfficeAnimal/suivi/index.html.twig', [
-            'suivis' => $suiviRepository->findAll(),
-        ]);
+  
+    #[Route('/suivi/', name: 'app_suivi_index', methods: ['GET'])]
+public function index(string $context, SuiviRepository $suiviRepository, SessionInterface $session): Response
+{
+    if ($context === 'front') {
+        $userId = $session->get('user_id');
+        if (!$userId) {
+            return $this->redirectToRoute('login');
+        }
+
+        $suivis = $suiviRepository->findBy(['id_user' => $userId]);
+    } else {
+        $suivis = $suiviRepository->findAll();
     }
+
+    return $this->render("$context" . "frontOfficeAnimal/suivi/index.html.twig", [
+        'suivis' => $suivis,
+    ]);
+}
 
     #[Route('/suivi/new', name: 'app_suivi_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

@@ -16,6 +16,22 @@ class EtudeRepository extends ServiceEntityRepository
         parent::__construct($registry, Etude::class);
     }
 
+   // In EtudeRepository.php
+
+// In EtudeRepository.php
+
+public function findByCultureIn($cultures): array
+{
+    return $this->createQueryBuilder('e')
+        ->innerJoin('e.culture', 'c')  // Join with the Culture entity
+        ->andWhere('c IN (:cultures)') 
+        ->setParameter('cultures', $cultures)
+        ->getQuery()
+        ->getResult();
+}
+
+
+
     //    /**
     //     * @return Etude[] Returns an array of Etude objects
     //     */

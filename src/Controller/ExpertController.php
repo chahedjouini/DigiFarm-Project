@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class ExpertController extends AbstractController
 {
@@ -44,7 +45,6 @@ return $this->render('frontOfficeEtude/home.html.twig');
        return $this->render('frontOfficeEtude/allservices.html.twig');
     }
 
-    // Route for /expert/{context} (front or back)
     #[Route('/expert/{context}', requirements: ['context' => 'front|back'], name: 'app_expert_index', methods: ['GET'])]
     public function index(string $context, ExpertRepository $expertRepository): Response
     {
@@ -80,24 +80,30 @@ return $this->render('frontOfficeEtude/home.html.twig');
             'expert' => $expert,
         ]);
     }
-
     #[Route('/expert/{context}/{id}/edit', name: 'app_expert_edit', methods: ['GET', 'POST'])]
     public function edit(string $context, Request $request, Expert $expert, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ExpertType::class, $expert);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_expert_index', ['context' => $context], Response::HTTP_SEE_OTHER);
         }
-
+    
+        $errors = [];
+        foreach ($form->getErrors(true) as $error) {
+            $errors[] = $error->getMessage();
+        }
+    
         return $this->render("$context" . "OfficeEtude/expert/edit.html.twig", [
             'expert' => $expert,
             'form' => $form,
+            'errors' => $errors,  
         ]);
     }
+    
 
     #[Route('/expert/{context}/{id}', name: 'app_expert_delete', methods: ['POST'])]
     public function delete(string $context, Request $request, Expert $expert, EntityManagerInterface $entityManager): Response
