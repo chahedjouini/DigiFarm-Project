@@ -57,7 +57,7 @@
                 data: {
                     labels: {{ dates|json_encode()|raw  }}, // Mois/années des ventes
                     datasets: [{
-                        label: 'Ventes (en €)',
+                        label: 'Ventes (  en usd)',
                         data: {{ montants|json_encode()|raw  }}, // Montants des ventes
                         backgroundColor: 'rgba(55, 161, 61, 0.5)',
                         borderColor: 'rgba(55, 161, 61, 1)',
@@ -96,7 +96,7 @@
                                 <tr>
                                     <td>{{ commande.id }}</td>
                                     <td>{{ commande.dateCommande|date('Y-m-d') }}</td>
-                                    <td>{{ commande.montantTotal|number_format(2, ',', ' ') }} €</td>
+                                    <td>{{ commande.montantTotal|number_format(2, ',', ' ') }} usd</td>
                                     <td>
                                         <span class="badge 
                                             {% if commande.statut == 'en_cours' %}badge-warning{% elseif commande.statut == 'validée' %}badge-success{% elseif commande.statut == 'livrée' %}badge-info{% else %}badge-danger{% endif %}"

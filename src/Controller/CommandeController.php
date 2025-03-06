@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Form\StatistiquesVentesType;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Service\PdfGeneratorService;
+
 
 
 #[Route('/commande')]
@@ -94,25 +96,22 @@ final class CommandeController extends AbstractController
   }
 
     #[Route('/export/pdf', name: 'export_sales_pdf')]
-    public function exportSalesPdf(Request $request, CommandeRepository $commandeRepository): Response
+    public function exportSalesPdf(Request $request, CommandeRepository $commandeRepository,PdfGeneratorService $pdfGeneratorService): Response
     {
-        $startDate = new \DateTime($request->query->get('start_date'));
-        $endDate = new \DateTime($request->query->get('end_date'));
-
-        $commandes = $commandeRepository->findByPeriod($startDate, $endDate);
-
-        $pdf = new TCPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('helvetica', '', 12);
-        $pdf->Write(0, "Ventes entre " . $startDate->format('Y-m-d') . " et " . $endDate->format('Y-m-d'));
-
-        foreach ($commandes as $commande) {
-            $pdf->Write(0, "Commande ID: {$commande->getId()}, Montant: {$commande->getMontantTotal()} €");
-        }
-
-        $pdf->Output('sales_report.pdf', 'I');
+        {
+            $startDate = new \DateTime($request->query->get('start_date'));
+            $endDate = new \DateTime($request->query->get('end_date'));
         
-        return new Response('PDF généré avec succès');
+            $commandes = $commandeRepository->findByPeriod($startDate, $endDate);
+        
+            // Utilisation du service pour générer le PDF
+            $pdf = $pdfGeneratorService->generateSalesReport($commandes, $startDate, $endDate);
+        
+            // Génération du PDF et sortie
+            $pdf->Output('sales_report.pdf', 'I');
+            
+            return new Response('PDF généré avec succès');
+        }
     }
 
     #[Route(name: 'commande_page', methods: ['GET', 'POST'])]
