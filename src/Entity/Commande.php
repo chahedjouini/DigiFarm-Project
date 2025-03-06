@@ -41,14 +41,20 @@ class Commande
     #[ORM\OneToMany(targetEntity: CommandeDetail::class, mappedBy: 'commande')]
     private Collection $commandeDetails;
 
-
+    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: Paiement::class, orphanRemoval: true)]
+    private Collection $paiements;
 
 
     public function __construct()
     {
         $this->commandeProduits = new ArrayCollection();
         $this->commandeDetails = new ArrayCollection();
+        $this->paiements = new ArrayCollection();
     }
+
+
+    
+
 
     public function getId(): ?int
     {
@@ -124,6 +130,11 @@ class Commande
     public function getCommandeDetails(): Collection
     {
         return $this->commandeDetails;
+    }
+
+    public function getPaiements(): Collection
+    {
+    return $this->paiements;
     }
 
     public function addCommandeDetail(CommandeDetail $commandeDetail): static

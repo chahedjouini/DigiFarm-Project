@@ -55,16 +55,18 @@
             var salesChart = new Chart(ctx, {
                 type: 'bar', // Type de graphique (bar, line, pie, etc.)
                 data: {
-                    labels: {{ dates|json_encode() }}, // Mois/années des ventes
+                    labels: {{ dates|json_encode()|raw  }}, // Mois/années des ventes
                     datasets: [{
                         label: 'Ventes (en €)',
-                        data: {{ montants|json_encode() }}, // Montants des ventes
+                        data: {{ montants|json_encode()|raw  }}, // Montants des ventes
                         backgroundColor: 'rgba(55, 161, 61, 0.5)',
                         borderColor: 'rgba(55, 161, 61, 1)',
                         borderWidth: 1
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true

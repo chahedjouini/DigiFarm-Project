@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Form\StatistiquesVentesType;
 use Knp\Component\Pager\PaginatorInterface;
 
+
 #[Route('/commande')]
 final class CommandeController extends AbstractController
 {
@@ -70,6 +71,7 @@ final class CommandeController extends AbstractController
             $ventesParJour[$day] = ($ventesParJour[$day] ?? 0) + $commande->getMontantTotal();
         }
     }
+    dump(array_keys($ventesParJour), array_values($ventesParJour));
 
     // Affichage de la vue avec les données
     return $this->render('commande/statistiques.html.twig', [
@@ -126,6 +128,7 @@ final class CommandeController extends AbstractController
         
         return $this->render('commande/commande.html.twig', [
             'produits' => $produits,
+            // 'commande' => new Commande(),
         ]);
     }
 
@@ -170,6 +173,20 @@ final class CommandeController extends AbstractController
         $commande->setMontantTotal($total);
         $entityManager->flush();
     
-        return $this->redirectToRoute('app_produit_index');
+        return $this->redirectToRoute('checkout',['id' => $commande->getId()]);
+        // return $this->render('commande/commande.html.twig', [
+        //     'commande' => $commande,  // Passez la commande avec son ID
+        // ]);
     }
+
+    #[Route('/commande/{id}/payer', name: 'commande_payer')]
+     public function payer(Commande $commande, PaiementController $paiementController): Response
+    {
+        if (!$commande) {
+             throw $this->createNotFoundException('Commande non trouvée');
+        }
+       
+        return $paiementController->checkout($commande);
+    }
+
 }
