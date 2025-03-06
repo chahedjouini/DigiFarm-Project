@@ -8,6 +8,7 @@ use App\Repository\MachineRepository;
 use App\Repository\MaintenanceRepository;
 
 
+
 class ReportController extends AbstractController
 {
     #[Route('/reports/maintenance-cost', name: 'reports_maintenance_cost')]

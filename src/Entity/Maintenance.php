@@ -21,6 +21,7 @@ class Maintenance
     #[Assert\LessThanOrEqual('today', message: 'The maintenance date cannot be in the future.')]
     private ?\DateTimeInterface $dateEntretien = null;
 
+
     #[ORM\Column]
     #[Assert\NotBlank(message: 'The cost cannot be empty.')]
     #[Assert\Positive(message: 'The cost must be a positive number.')]
@@ -75,7 +76,9 @@ class Maintenance
 #[ORM\ManyToOne(targetEntity: Technicien::class, inversedBy: 'maintenances')]
 #[ORM\JoinColumn(name: 'id_technicien_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 private ?Technicien $idTechnicien = null;
-
+// src/Entity/Maintenance.php
+#[ORM\Column(type: Types::STRING, nullable: true)]
+private ?string $etatPred = null; // Add this line
    
 
     public function getId(): ?int
@@ -197,4 +200,16 @@ private ?Technicien $idTechnicien = null;
 
         return $this;
     }
+    // src/Entity/Maintenance.php
+public function getEtatPred(): ?string
+{
+    return $this->etatPred;
+}
+
+public function setEtatPred(?string $etatPred): static
+{
+    $this->etatPred = $etatPred;
+
+    return $this;
+}
 }

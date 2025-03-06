@@ -10,7 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Security\Core\Attribute\IsGranted;
+// src/Controller/MaintenanceController.php
+use Psr\Log\LoggerInterface;
 
 
 final class MaintenanceController extends AbstractController
@@ -31,19 +36,102 @@ final class MaintenanceController extends AbstractController
         $maintenance = new Maintenance();
         $form = $this->createForm(MaintenanceType::class, $maintenance);
         $form->handleRequest($request);
+    
+     // src/Controller/MaintenanceController.php
+if ($form->isSubmitted() && $form->isValid()) {
+    // Get form data for prediction
+    $data = [
+        'cout' => $maintenance->getCout(),
+        'temperature' => $maintenance->getTemperature(),
+        'humidite' => $maintenance->getHumidite(),
+        'consoCarburant' => $maintenance->getConsoCarburant(),
+        'consoEnergie' => $maintenance->getConsoEnergie(),
+    ];
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($maintenance);
-            $entityManager->flush();
+    // Call Flask API to get prediction
+    $httpClient = HttpClient::create();
+    $response = $httpClient->request('POST', 'http://127.0.0.1:5000/predict', [
+        'json' => $data,
+    ]);
 
-            return $this->redirectToRoute('app_maintenance_index', [], Response::HTTP_SEE_OTHER);
-        }
+    // Get the prediction result
+    $prediction = $response->toArray()['prediction'];
+
+    // Save the prediction to the new etatPred field
+    $maintenance->setEtatPred($prediction); // Save prediction in etatPred
+
+    // Persist and flush the maintenance entity
+    $entityManager->persist($maintenance);
+    $entityManager->flush();
+
+    // Redirect to the result page with the prediction
+    return $this->redirectToRoute('app_maintenance_result', [
+        'id' => $maintenance->getId(),
+        'prediction' => $prediction,
+    ]);
+}
 
         return $this->render('maintenance/new.html.twig', [
             'maintenance' => $maintenance,
             'form' => $form,
         ]);
     }
+    
+    #[Route('/maintenance/result/{id}/{prediction}', name: 'app_maintenance_result', methods: ['GET'])]
+    public function result(Maintenance $maintenance, string $prediction): Response
+    {
+        return $this->render('maintenance/result.html.twig', [
+            'maintenance' => $maintenance,
+            'prediction' => $prediction,
+        ]);
+    }
+
+    // src/Controller/MaintenanceController.php
+#[Route('/maintenance/send-email/{id}', name: 'app_maintenance_send_email', methods: ['GET'])]
+public function sendEmail(Maintenance $maintenance, MailerInterface $mailer, LoggerInterface $logger): Response
+{
+    // Get the technician associated with the maintenance
+    $technicien = $maintenance->getIdTechnicien();
+
+    // Ensure the technician exists and has an email
+    if (!$technicien || !$technicien->getEmail()) {
+        $this->addFlash('error', 'Technician email not found.');
+        return $this->redirectToRoute('app_maintenance_result', [
+            'id' => $maintenance->getId(),
+            'prediction' => $maintenance->getEtatPred(),
+        ]);
+    }
+
+    // Create the email
+    $email = (new Email())
+        ->from('chahedchacha84@gmail.com') // Replace with your email
+        ->to($technicien->getEmail()) // Send to the technician's email
+        ->subject('Maintenance Prediction Status')
+        ->text(sprintf(
+            'The predicted status for maintenance "%s" is: %s',
+            $maintenance->getIdMachine()->getNom(), // Assuming the machine has a name field
+            $maintenance->getEtatPred() // Use etatPred for the prediction
+        ));
+
+    // Log the email content for debugging
+    $logger->info('Sending email to: ' . $technicien->getEmail());
+    $logger->info('Email content: ' . $email->getTextBody());
+
+    // Send the email
+    try {
+        $mailer->send($email);
+        $this->addFlash('success', 'Email sent successfully to ' . $technicien->getEmail() . '!');
+    } catch (\Exception $e) {
+        $logger->error('Failed to send email: ' . $e->getMessage());
+        $this->addFlash('error', 'Failed to send email. Please try again.');
+    }
+
+    // Redirect back to the result page
+    return $this->redirectToRoute('app_maintenance_result', [
+        'id' => $maintenance->getId(),
+        'prediction' => $maintenance->getEtatPred(),
+    ]);
+}
 
     #[Route('maintenance/{id}', name: 'app_maintenance_show', methods: ['GET'])]
     #[IsGranted('ROLE_CLIENT')]
@@ -154,4 +242,5 @@ final class MaintenanceController extends AbstractController
 
         return $this->redirectToRoute('app_maintenance2_index', [], Response::HTTP_SEE_OTHER);
     }
+   
 }
