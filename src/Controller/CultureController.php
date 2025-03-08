@@ -22,24 +22,22 @@ final class CultureController extends AbstractController
     #[Route('/culture/statistiques/rendement', name: 'statistiques_rendement')]
     public function statistiquesRendement(): Response
     {
-        $scriptPath = $this->getParameter('kernel.project_dir') . '/public/analyse_rendement.py'; // ✅ Correct absolute path
+        $scriptPath = $this->getParameter('kernel.project_dir') . '/public/analyse_rendement.py'; 
     
-        // 🚨 Vérifier si le script existe
         if (!file_exists($scriptPath)) {
             throw new \Exception("Erreur : Le fichier analyse_rendement.py est introuvable à : " . $scriptPath);
         }
     
-        // 📌 Vérifier si le dossier 'public/' existe
         $publicPath = $this->getParameter('kernel.project_dir') . '/public';
         $imagePath = $publicPath . '/rendement.png';
     
         if (!is_dir($publicPath)) {
-            mkdir($publicPath, 0777, true); // ✅ Création du dossier public si absent
+            mkdir($publicPath, 0777, true); 
         }
     
-        // 🔥 Exécuter le script Python
+      
         $process = new Process(['python', $scriptPath]);
-        $process->setEnv(['PYTHONIOENCODING' => 'utf-8']); // ✅ Force UTF-8 encoding
+        $process->setEnv(['PYTHONIOENCODING' => 'utf-8']); 
         $process->run();
     
         if (!$process->isSuccessful()) {
@@ -59,10 +57,8 @@ final class CultureController extends AbstractController
     
     private function estimerRendement(Culture $culture): ?float
     {
-        // ✅ Récupération du chemin absolu du script Python
         $scriptPath = $this->getParameter('kernel.project_dir') . '/public/analyse_rendement.py';
     
-        // ✅ Appel du script Python avec les paramètres nécessaires
         $process = new Process([
             'python', $scriptPath,
             '--densite', (string) $culture->getDensitePlantation(),
@@ -76,7 +72,6 @@ final class CultureController extends AbstractController
             throw new ProcessFailedException($process);
         }
     
-        // ✅ Récupération et conversion du résultat
         $output = trim($process->getOutput());
     
         return is_numeric($output) ? (float) $output : null;
@@ -90,7 +85,6 @@ public function predireRendement(CultureRepository $cultureRepository, int $id):
         return new JsonResponse(['error' => 'Culture non trouvée'], Response::HTTP_NOT_FOUND);
     }
 
-    // ✅ Exécute le script Python pour estimer le rendement
     $rendement_estime = $this->estimerRendement($culture);
 
     return new JsonResponse(['rendement_estime' => $rendement_estime]);

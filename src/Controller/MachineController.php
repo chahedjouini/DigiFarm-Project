@@ -3,46 +3,68 @@
 namespace App\Controller;
 
 use App\Entity\Machine;
-use App\Form\MachineType;// creating/editing 
-use App\Repository\MachineRepository;//querying
-use Doctrine\ORM\EntityManagerInterface;//managing database operations.
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;//helper methods for rendering templates
-use Symfony\Component\HttpFoundation\Request;//HTTP requests and responses.
+use App\Form\MachineType;
+use App\Repository\MachineRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;//defining routes
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Annotation\Route;
 
 final class MachineController extends AbstractController
-{    #[Route('/machine/front_machine', name: 'front_machine_page')]
+{
+    private $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
+    private function getSession()
+    {
+        return $this->requestStack->getSession();
+    }
+
+    #[Route('/machine/front_machine', name: 'front_machine_page')]
     public function index2(): Response
     {
         return $this->render('frontMachine.html.twig');
     }
+
     #[Route('/contact_machine', name: 'contact_machine_page')]
     public function index3(): Response
     {
         return $this->render('contact.html.twig');
     }
+
     #[Route('/home', name: 'home')]
     public function home(): Response
     {
         return $this->render('home.html.twig');
     }
 
-
-    #[Route('/machine/', name: 'app_machine_index', methods: ['GET'])]//only get request
-    #[IsGranted('ROLE_CLIENT')]
-    public function index(MachineRepository $machineRepository): Response//ll machines from the database using using repisotory
+    #[Route('/machine/', name: 'app_machine_index', methods: ['GET'])]
+    public function index(MachineRepository $machineRepository): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_CLIENT)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_CLIENT')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         return $this->render('machine/index.html.twig', [
             'machines' => $machineRepository->findAll(),
         ]);
     }
 
     #[Route('/machine/new', name: 'app_machine_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_AGRICULTEUR')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_AGRICULTEUR)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_AGRICULTEUR')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         $machine = new Machine();
         $form = $this->createForm(MachineType::class, $machine);
         $form->handleRequest($request);
@@ -61,18 +83,26 @@ final class MachineController extends AbstractController
     }
 
     #[Route('/machine/{id}', name: 'app_machine_show', methods: ['GET'])]
-    #[IsGranted('ROLE_AGRICULTEUR')]
     public function show(Machine $machine): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_AGRICULTEUR)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_AGRICULTEUR')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         return $this->render('machine/show.html.twig', [
             'machine' => $machine,
         ]);
     }
 
     #[Route('/machine/{id}/edit', name: 'app_machine_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_AGRICULTEUR')]
     public function edit(Request $request, Machine $machine, EntityManagerInterface $entityManager): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_AGRICULTEUR)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_AGRICULTEUR')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         $form = $this->createForm(MachineType::class, $machine);
         $form->handleRequest($request);
 
@@ -89,9 +119,13 @@ final class MachineController extends AbstractController
     }
 
     #[Route('/machine/{id}', name: 'app_machine_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_AGRICULTEUR')]
     public function delete(Request $request, Machine $machine, EntityManagerInterface $entityManager): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_AGRICULTEUR)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_AGRICULTEUR')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         $entityManager->remove($machine);
         $entityManager->flush();
 
@@ -100,18 +134,26 @@ final class MachineController extends AbstractController
 
     // New routes for machine2 directory
     #[Route('/machine2', name: 'app_machine2_index', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function indexMachine2(MachineRepository $machineRepository): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_ADMIN)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         return $this->render('machine2/index.html.twig', [
             'machines' => $machineRepository->findAll(),
         ]);
     }
 
     #[Route('/machine2/new', name: 'app_machine2_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function newMachine2(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_ADMIN)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         $machine = new Machine();
         $form = $this->createForm(MachineType::class, $machine);
         $form->handleRequest($request);
@@ -130,18 +172,26 @@ final class MachineController extends AbstractController
     }
 
     #[Route('/machine2/{id}', name: 'app_machine2_show', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function showMachine2(Machine $machine): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_ADMIN)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         return $this->render('machine2/show.html.twig', [
             'machine' => $machine,
         ]);
     }
 
     #[Route('/machine2/{id}/edit', name: 'app_machine2_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function editMachine2(Request $request, Machine $machine, EntityManagerInterface $entityManager): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_ADMIN)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         $form = $this->createForm(MachineType::class, $machine);
         $form->handleRequest($request);
 
@@ -158,12 +208,36 @@ final class MachineController extends AbstractController
     }
 
     #[Route('/machine2/{id}', name: 'app_machine2_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function deleteMachine2(Request $request, Machine $machine, EntityManagerInterface $entityManager): Response
     {
+        // Check if the user is logged in and has the required role (ROLE_ADMIN)
+        if ($this->isUserLoggedIn() || $this->isUserGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home'); // Redirect to home or an "access denied" page
+        }
+
         $entityManager->remove($machine);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_machine2_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * Helper method to check if the user is logged in.
+     */
+    private function isUserLoggedIn(): bool
+    {
+        return $this->getSession()->has('user_id'); // Check if the user ID is stored in the session
+    }
+
+    /**
+     * Helper method to check if the user has a specific role.
+     */
+    private function isUserGranted(string $role): bool
+    {
+        // Retrieve the user's role from the session
+        $userRole = $this->getSession()->get('user_role');
+
+        // Check if the user's role matches the required role
+        return $userRole === $role;
     }
 }

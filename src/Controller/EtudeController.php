@@ -63,10 +63,8 @@ final class EtudeController extends AbstractController
         ]);
         
 
-        // Générer le PDF via le service
         $pdfContent = $pdfGenerator->generatePdf($htmlContent);
 
-        // Créer une réponse avec le PDF
         return new Response(
             $pdfContent,
             Response::HTTP_OK,
