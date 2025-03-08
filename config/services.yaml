@@ -20,9 +20,11 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    # Explicitly allow SessionInterface to be autowired
+    Symfony\Component\HttpFoundation\Session\SessionInterface: ~
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
     App\Service\GeolocationService:
         arguments:
             $httpClient: '@http_client'
